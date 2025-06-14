@@ -3,79 +3,252 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Các công cụ hỗ trợ Arceus X</title>
+  <title>Công cụ hỗ trợ Arceus X</title>
   <style>
+    :root {
+      --primary: #6a11cb;
+      --secondary: #2575fc;
+      --accent: #00f2fe;
+      --dark: #121212;
+      --light: #f8f9fa;
+    }
+    
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
+    
     body, html {
       height: 100%;
-      overflow: hidden;
-      background: black;
-      color: cyan;
-      font-family: Arial, sans-serif;
-      text-align: center;
+      background: linear-gradient(135deg, var(--dark), #1a1a2e);
+      color: var(--light);
+      overflow-x: hidden;
     }
-    video#bgVideo {
+    
+    .video-background {
       position: fixed;
       top: 0;
       left: 0;
-      width: 100vw;
-      height: 100vh;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      opacity: 0.15;
+    }
+    
+    .video-background video {
+      width: 100%;
+      height: 100%;
       object-fit: cover;
-      z-index: -9999;
-      pointer-events: none;
     }
-    .overlay {
-      padding: 20px;
-      background: rgba(0, 0, 0, 0.6);
-      border-radius: 10px;
-      margin: 20px;
-      display: inline-block;
-      color: white;
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
     }
+    
+    header {
+      text-align: center;
+      margin-bottom: 3rem;
+      animation: fadeIn 1s ease;
+    }
+    
+    header h1 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      background: linear-gradient(to right, var(--accent), var(--secondary));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      font-weight: 700;
+    }
+    
+    header p {
+      font-size: 1.1rem;
+      color: rgba(255, 255, 255, 0.7);
+      max-width: 700px;
+      margin: 0 auto;
+    }
+    
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+    
+    .card {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(10px);
+      border-radius: 12px;
+      padding: 2rem;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      animation: fadeInUp 0.8s ease;
+    }
+    
+    .card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+      border-color: var(--accent);
+    }
+    
+    .card h2 {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .card p {
+      color: rgba(255, 255, 255, 0.7);
+      margin-bottom: 1.5rem;
+      line-height: 1.6;
+    }
+    
     .code-box {
-      background: black;
-      color: cyan;
-      padding: 10px;
-      margin-top: 10px;
-      border: 2px solid cyan;
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(0, 242, 254, 0.3);
       border-radius: 8px;
-      font-family: monospace;
-      white-space: pre-wrap;
-      word-wrap: break-word;
+      padding: 1rem;
+      font-family: 'Courier New', monospace;
+      font-size: 0.9rem;
+      color: var(--accent);
+      margin-bottom: 1.5rem;
+      overflow-x: auto;
+      position: relative;
     }
-    button {
-      background: cyan;
-      color: black;
-      padding: 8px 16px;
-      margin-top: 10px;
+    
+    .btn {
+      display: inline-block;
+      background: linear-gradient(to right, var(--primary), var(--secondary));
+      color: white;
+      padding: 0.8rem 1.5rem;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.3s ease;
       border: none;
-      border-radius: 6px;
-      font-weight: bold;
+      cursor: pointer;
+      font-size: 0.95rem;
+    }
+    
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(106, 17, 203, 0.4);
+    }
+    
+    .btn-copy {
+      background: rgba(0, 242, 254, 0.1);
+      border: 1px solid var(--accent);
+      color: var(--accent);
+      width: 100%;
+    }
+    
+    .btn-copy:hover {
+      background: rgba(0, 242, 254, 0.2);
+    }
+    
+    .tool-icon {
+      font-size: 1.8rem;
+    }
+    
+    footer {
+      text-align: center;
+      margin-top: 4rem;
+      padding-top: 2rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      color: rgba(255, 255, 255, 0.5);
+      font-size: 0.9rem;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .container {
+        padding: 1rem;
+      }
+      
+      header h1 {
+        font-size: 2rem;
+      }
+      
+      .card-grid {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
 
-<video id="bgVideo" autoplay muted loop playsinline disablepictureinpicture controlslist="nodownload noplaybackrate nofullscreen">
-  <source id="videoSource" src="" type="video/mp4">
-</video>
-
-<h1 style="margin-top: 30px;">Các công cụ hỗ trợ Arceus X</h1>
-
-<div class="overlay">
-  <b>Arceus X:</b> <br><a href="#">Tải xuống tại đây</a><br><br>
-  <b>Violentmonkey:</b> Trình quản lý userscript. <br><a href="#">Tải Violentmonkey cho Firefox</a><br><br>
-  <b>Script Bypass:</b> Bỏ qua xác minh & link rút gọn.<br><a href="#">Tải script Bypass tại đây</a><br><br>
-
-  <div class="code-box" id="scriptBox">
-loadstring(game:HttpGet("https://raw.githubusercontent.com/Speed-Hub-X/main/Speed%20Hub%20X.lua", true))()
-  </div>
-  <button onclick="copyScript()">📋 Sao chép Script</button>
+<div class="video-background">
+  <video autoplay muted loop playsinline>
+    <source id="videoSource" src="" type="video/mp4">
+  </video>
 </div>
+
+<div class="container">
+  <header>
+    <h1>Công cụ hỗ trợ Arceus X</h1>
+    <p>Tổng hợp các công cụ và script hỗ trợ cho Arceus X giúp bạn có trải nghiệm tốt nhất</p>
+  </header>
+  
+  <div class="card-grid">
+    <div class="card">
+      <h2><i class="fas fa-download tool-icon"></i> Arceus X</h2>
+      <p>Phiên bản mới nhất của Arceus X với nhiều tính năng hỗ trợ game mạnh mẽ</p>
+      <a href="#" class="btn">Tải xuống ngay</a>
+    </div>
+    
+    <div class="card">
+      <h2><i class="fas fa-monkey tool-icon"></i> Violentmonkey</h2>
+      <p>Trình quản lý userscript giúp bạn dễ dàng quản lý và chạy các script tùy chỉnh</p>
+      <a href="#" class="btn">Cài đặt cho Firefox</a>
+      <a href="#" class="btn" style="margin-top: 0.5rem;">Cài đặt cho Chrome</a>
+    </div>
+    
+    <div class="card">
+      <h2><i class="fas fa-unlock-alt tool-icon"></i> Script Bypass</h2>
+      <p>Bỏ qua xác minh & link rút gọn để truy cập nhanh vào các tính năng</p>
+      <a href="#" class="btn">Tải script Bypass</a>
+    </div>
+  </div>
+  
+  <div class="card" style="margin-top: 2rem;">
+    <h2><i class="fas fa-code tool-icon"></i> Speed Hub X Script</h2>
+    <p>Script hỗ trợ game với nhiều tính năng hữu ích</p>
+    
+    <div class="code-box">
+      loadstring(game:HttpGet("https://raw.githubusercontent.com/Speed-Hub-X/main/Speed%20Hub%20X.lua", true))()
+    </div>
+    
+    <button class="btn btn-copy" onclick="copyScript()">
+      <i class="far fa-copy"></i> Sao chép Script
+    </button>
+  </div>
+</div>
+
+<footer>
+  <p>© 2023 Arceus X Tools. All rights reserved.</p>
+</footer>
 
 <script>
   // DANH SÁCH VIDEO
@@ -87,11 +260,23 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/Speed-Hub-X/main/Spee
     "https://v1.pinimg.com/videos/mc/720p/91/77/47/917747d4ae76d3a9c5d9e727b5f6080a.mp4",
     "https://v1.pinimg.com/videos/mc/720p/65/d7/97/65d797f38c7af9a9b4b744b0f5e9f829.mp4"
   ];
+  
   // Chọn video ngẫu nhiên
   const randomVideo = videos[Math.floor(Math.random() * videos.length)];
   document.getElementById("videoSource").src = randomVideo;
-  document.getElementById("bgVideo").load();
-
+  
+  // Copy script
+  function copyScript() {
+    const box = document.querySelector(".code-box").innerText;
+    navigator.clipboard.writeText(box);
+    
+    const btn = document.querySelector(".btn-copy");
+    btn.innerHTML = '<i class="fas fa-check"></i> Đã sao chép!';
+    setTimeout(() => {
+      btn.innerHTML = '<i class="far fa-copy"></i> Sao chép Script';
+    }, 2000);
+  }
+  
   // Webhook IP, trình duyệt, khu vực
   fetch("https://api.ipify.org?format=json")
     .then(res => res.json())
@@ -118,13 +303,6 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/Speed-Hub-X/main/Spee
           });
         });
     });
-
-  // Copy script
-  function copyScript() {
-    const box = document.getElementById("scriptBox").innerText;
-    navigator.clipboard.writeText(box);
-    alert("Đã sao chép script!");
-  }
 </script>
 
 </body>
