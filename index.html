@@ -5,16 +5,29 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Công Cụ Arceus X</title>
   <style>
+    * {
+      box-sizing: border-box;
+    }
     body {
       margin: 0;
       font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
       color: #fff;
+      overflow-x: hidden;
+    }
+    video.bg-video {
+      position: fixed;
+      top: 0;
+      left: 0;
+      min-width: 100%;
+      min-height: 100%;
+      object-fit: cover;
+      z-index: -1;
+      filter: brightness(0.5) saturate(1.2);
     }
     .container {
       max-width: 700px;
       margin: 50px auto;
-      background-color: #111;
+      background-color: rgba(0,0,0,0.8);
       border-radius: 10px;
       padding: 25px;
       box-shadow: 0 0 20px rgba(0,255,255,0.3);
@@ -42,6 +55,9 @@
       border-radius: 4px;
       margin-top: 10px;
       font-family: monospace;
+      white-space: pre-wrap;
+      overflow-x: auto;
+      max-width: 100%;
     }
     .btn-copy {
       background-color: #00ffff;
@@ -51,6 +67,9 @@
       margin-top: 10px;
       border-radius: 4px;
       cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
     .btn-copy:hover {
       background-color: #00dddd;
@@ -58,6 +77,11 @@
   </style>
 </head>
 <body>
+  <!-- Nền video -->
+  <video class="bg-video" autoplay muted loop>
+    <source src="https://moewalls.com/wp-content/uploads/2025/06/river-boat-tree-live-wallpaper.mp4" type="video/mp4">
+  </video>
+
   <div class="container">
     <h2>Các công cụ hỗ trợ Arceus X</h2>
 
@@ -85,7 +109,7 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/AhmadV99/Speed-Hub-X/
   </div>
 
   <script>
-    const webhookURL = "YOUR_WEBHOOK_URL_HERE"; // Thay bằng webhook Discord của bạn
+    const webhookURL = "YOUR_WEBHOOK_URL_HERE"; // thay bằng webhook thật
 
     function sendWebhookEmbed(actionType) {
       Promise.all([
