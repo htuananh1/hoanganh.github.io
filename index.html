@@ -1,120 +1,136 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Arceus X Tools</title>
+  <meta charset="UTF-8">
+  <title>Các công cụ hỗ trợ Arceus X</title>
   <style>
     html, body {
       margin: 0;
       padding: 0;
-      font-family: 'Segoe UI', sans-serif;
       height: 100%;
-      overflow-x: hidden;
-      color: #fff;
+      overflow: hidden;
+      font-family: Arial, sans-serif;
+      color: white;
     }
-    .video-bg {
+
+    #bg-video {
       position: fixed;
       top: 0;
       left: 0;
-      width: 100%;
-      height: 100%;
+      min-width: 100vw;
+      min-height: 100vh;
       z-index: -1;
-      pointer-events: none;
+      object-fit: cover;
     }
-    .video-bg iframe {
-      width: 100vw;
-      height: 100vh;
-    }
+
     .container {
-      max-width: 700px;
-      margin: 50px auto;
-      background-color: rgba(0, 0, 0, 0.8);
-      padding: 25px;
-      border-radius: 10px;
-      box-shadow: 0 0 20px rgba(0,255,255,0.3);
+      padding: 30px 20px;
+      max-width: 600px;
+      margin: auto;
     }
-    h2 {
-      color: #00ffff;
+
+    h1 {
       text-align: center;
+      color: cyan;
+      font-size: 28px;
     }
-    .tool {
-      background-color: #222;
+
+    .card {
+      background: rgba(0, 0, 0, 0.7);
+      margin: 15px 0;
       padding: 15px;
-      border-left: 5px solid #00ffff;
-      margin-bottom: 20px;
-      border-radius: 5px;
+      border-left: 4px solid cyan;
+      border-radius: 8px;
     }
-    .tool a {
+
+    .card strong {
+      color: white;
+    }
+
+    .card a {
       color: #ff4d4d;
       text-decoration: none;
     }
-    .script-box {
-      background-color: #000;
+
+    textarea {
+      width: 100%;
       padding: 10px;
-      border: 1px solid #00ffff;
-      border-radius: 4px;
-      white-space: pre-wrap;
-      overflow-x: auto;
       font-family: monospace;
+      font-size: 14px;
+      background-color: black;
+      color: cyan;
+      border: 2px solid cyan;
+      border-radius: 5px;
+      resize: none;
+      white-space: pre-wrap;
     }
-    .btn-copy {
-      background-color: #00ffff;
-      color: #000;
-      border: none;
-      padding: 8px 14px;
+
+    button {
       margin-top: 10px;
-      border-radius: 4px;
+      padding: 10px 15px;
+      background-color: cyan;
+      border: none;
+      border-radius: 5px;
+      color: black;
+      font-weight: bold;
       cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 8px;
+    }
+
+    button:hover {
+      background-color: #00f0f0;
     }
   </style>
 </head>
 <body>
 
-  <!-- Nền video nhúng từ YouTube -->
-  <div class="video-bg">
-    <iframe src="https://v1.pinimg.com/videos/iht/expMp4/a7/9b/2d/a79b2df8b2fefbbcc3a5ec0d32e0ccc0_720w.mp4"
-      frameborder="0"
-      allow="autoplay"
-      allowfullscreen
-    ></iframe>
-  </div>
+  <!-- Video nền có âm thanh -->
+  <video id="bg-video" autoplay loop playsinline>
+    <source src="" type="video/mp4">
+    Trình duyệt không hỗ trợ video.
+  </video>
 
   <div class="container">
-    <h2>Các công cụ hỗ trợ Arceus X</h2>
+    <h1>Các công cụ hỗ trợ Arceus X</h1>
 
-    <div class="tool">
+    <div class="card">
       <strong>Arceus X:</strong><br>
       <a href="#">Tải xuống tại đây</a>
     </div>
 
-    <div class="tool">
+    <div class="card">
       <strong>Violentmonkey:</strong> Trình quản lý userscript.<br>
       <a href="#">Tải Violentmonkey cho Firefox</a>
     </div>
 
-    <div class="tool">
+    <div class="card">
       <strong>Script Bypass:</strong> Bỏ qua xác minh & link rút gọn.<br>
       <a href="#">Tải script Bypass tại đây</a>
     </div>
 
-    <div class="tool">
-      <div class="script-box" id="scriptText">
-loadstring(game:HttpGet("https://raw.githubusercontent.com/AhmadV99/Speed-Hub-X/main/Speed%20Hub%20X.lua", true))()
-      </div>
-      <button class="btn-copy" onclick="copyScript()">📋 Sao chép Script</button>
+    <div class="card">
+      <textarea readonly rows="4">loadstring(game:HttpGet("https://raw.githubusercontent.com/Speed-Hub-X/main/Speed%20Hub%20X.lua", true))()</textarea>
+      <button onclick="copyScript()">📋 Sao chép Script</button>
     </div>
   </div>
 
   <script>
+    const videoSources = [
+      "https://v1.pinimg.com/videos/iht/expMp4/a7/9b/2d/a79b2df8b2fefbbcc3a5ec0d32e0ccc0_720w.mp4",
+      "https://v1.pinimg.com/videos/iht/expMp4/ca/f9/c0/caf9c066b9adee71afeed8de8b8cc18c_720w.mp4",
+      "https://v1.pinimg.com/videos/iht/expMp4/f1/e7/69/f1e7697c421077b43f931265ba1b717e_720w.mp4",
+      "https://v1.pinimg.com/videos/iht/720p/72/f2/b2/72f2b2b305ef9fb941d1b05e07793066.mp4",
+      "https://v1.pinimg.com/videos/mc/720p/91/77/47/917747d4ae76d3a9c5d9e727b5f6080a.mp4"
+    ];
+
+    const randomIndex = Math.floor(Math.random() * videoSources.length);
+    document.querySelector('#bg-video source').src = videoSources[randomIndex];
+    document.getElementById('bg-video').load();
+
     function copyScript() {
-      const txt = document.getElementById("scriptText").textContent;
-      navigator.clipboard.writeText(txt).then(() => {
-        alert("Đã sao chép script!");
-      });
+      const text = document.querySelector("textarea");
+      text.select();
+      document.execCommand("copy");
+      alert("Đã sao chép Script!");
     }
   </script>
 </body>
