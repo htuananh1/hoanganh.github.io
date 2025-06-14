@@ -2,40 +2,41 @@
 <html lang="vi">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Công Cụ Arceus X</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Arceus X Tools</title>
   <style>
-    * {
-      box-sizing: border-box;
-    }
-    body {
+    html, body {
       margin: 0;
+      padding: 0;
       font-family: 'Segoe UI', sans-serif;
-      color: #fff;
+      height: 100%;
       overflow-x: hidden;
+      color: #fff;
     }
-    video.bg-video {
+    .video-bg {
       position: fixed;
       top: 0;
       left: 0;
-      min-width: 100%;
-      min-height: 100%;
-      object-fit: cover;
+      width: 100%;
+      height: 100%;
       z-index: -1;
-      filter: brightness(0.5) saturate(1.2);
+      pointer-events: none;
+    }
+    .video-bg iframe {
+      width: 100vw;
+      height: 100vh;
     }
     .container {
       max-width: 700px;
       margin: 50px auto;
-      background-color: rgba(0,0,0,0.8);
-      border-radius: 10px;
+      background-color: rgba(0, 0, 0, 0.8);
       padding: 25px;
+      border-radius: 10px;
       box-shadow: 0 0 20px rgba(0,255,255,0.3);
     }
     h2 {
       color: #00ffff;
       text-align: center;
-      margin-bottom: 25px;
     }
     .tool {
       background-color: #222;
@@ -53,11 +54,9 @@
       padding: 10px;
       border: 1px solid #00ffff;
       border-radius: 4px;
-      margin-top: 10px;
-      font-family: monospace;
       white-space: pre-wrap;
       overflow-x: auto;
-      max-width: 100%;
+      font-family: monospace;
     }
     .btn-copy {
       background-color: #00ffff;
@@ -71,16 +70,18 @@
       align-items: center;
       gap: 8px;
     }
-    .btn-copy:hover {
-      background-color: #00dddd;
-    }
   </style>
 </head>
 <body>
-  <!-- Nền video -->
-  <video class="bg-video" autoplay muted loop>
-    <source src="https://moewalls.com/wp-content/uploads/2025/06/river-boat-tree-live-wallpaper.mp4" type="video/mp4">
-  </video>
+
+  <!-- Nền video nhúng từ YouTube -->
+  <div class="video-bg">
+    <iframe src="https://v1.pinimg.com/videos/iht/expMp4/a7/9b/2d/a79b2df8b2fefbbcc3a5ec0d32e0ccc0_720w.mp4"
+      frameborder="0"
+      allow="autoplay"
+      allowfullscreen
+    ></iframe>
+  </div>
 
   <div class="container">
     <h2>Các công cụ hỗ trợ Arceus X</h2>
@@ -109,39 +110,12 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/AhmadV99/Speed-Hub-X/
   </div>
 
   <script>
-    const webhookURL = "YOUR_WEBHOOK_URL_HERE"; // thay bằng webhook thật
-
-    function sendWebhookEmbed(actionType) {
-      Promise.all([
-        fetch("https://api.ipify.org?format=json").then(r => r.json()),
-        fetch("https://ipapi.co/json/").then(r => r.json())
-      ]).then(([ipData, locData]) => {
-        const now = new Date().toLocaleString("vi-VN", {
-          weekday:'short', year:'numeric', month:'short', day:'numeric',
-          hour:'2-digit', minute:'2-digit', second:'2-digit'
-        });
-        const payload = {
-          embeds: [{
-            title: "Speed Hub X | Debugger",
-            color: 14177041,
-            description: `**-> Trạng thái:** ${actionType==='copy'?'Copied':'Clicked'}\n🕒 ${now}\n🌐 IP: ${ipData.ip}\n📍 ${locData.city}, ${locData.region}, ${locData.country_name}\n🧠 ${navigator.userAgent}`
-          }]
-        };
-        fetch(webhookURL, { method: "POST", headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload) });
-      });
-    }
-
     function copyScript() {
       const txt = document.getElementById("scriptText").textContent;
       navigator.clipboard.writeText(txt).then(() => {
         alert("Đã sao chép script!");
-        sendWebhookEmbed("copy");
       });
     }
-
-    document.querySelectorAll('a').forEach(a => {
-      a.addEventListener('click', () => sendWebhookEmbed("click"));
-    });
   </script>
 </body>
 </html>
