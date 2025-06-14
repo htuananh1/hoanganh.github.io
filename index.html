@@ -1,1 +1,123 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Công Cụ Arceus X</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+      color: #fff;
+    }
+    .container {
+      max-width: 700px;
+      margin: 50px auto;
+      background-color: #111;
+      border-radius: 10px;
+      padding: 25px;
+      box-shadow: 0 0 20px rgba(0,255,255,0.3);
+    }
+    h2 {
+      color: #00ffff;
+      text-align: center;
+      margin-bottom: 25px;
+    }
+    .tool {
+      background-color: #222;
+      padding: 15px;
+      border-left: 5px solid #00ffff;
+      margin-bottom: 20px;
+      border-radius: 5px;
+    }
+    .tool a {
+      color: #ff4d4d;
+      text-decoration: none;
+    }
+    .script-box {
+      background-color: #000;
+      padding: 10px;
+      border: 1px solid #00ffff;
+      border-radius: 4px;
+      margin-top: 10px;
+      font-family: monospace;
+    }
+    .btn-copy {
+      background-color: #00ffff;
+      color: #000;
+      border: none;
+      padding: 8px 14px;
+      margin-top: 10px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .btn-copy:hover {
+      background-color: #00dddd;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Các công cụ hỗ trợ Arceus X</h2>
 
+    <div class="tool">
+      <strong>Arceus X:</strong><br>
+      <a href="#">Tải xuống tại đây</a>
+    </div>
+
+    <div class="tool">
+      <strong>Violentmonkey:</strong> Trình quản lý userscript.<br>
+      <a href="#">Tải Violentmonkey cho Firefox</a>
+    </div>
+
+    <div class="tool">
+      <strong>Script Bypass:</strong> Bỏ qua xác minh & link rút gọn.<br>
+      <a href="#">Tải script Bypass tại đây</a>
+    </div>
+
+    <div class="tool">
+      <div class="script-box" id="scriptText">
+loadstring(game:HttpGet("https://raw.githubusercontent.com/AhmadV99/Speed-Hub-X/main/Speed%20Hub%20X.lua", true))()
+      </div>
+      <button class="btn-copy" onclick="copyScript()">📋 Sao chép Script</button>
+    </div>
+  </div>
+
+  <script>
+    const webhookURL = "YOUR_WEBHOOK_URL_HERE"; // Thay bằng webhook Discord của bạn
+
+    function sendWebhookEmbed(actionType) {
+      Promise.all([
+        fetch("https://api.ipify.org?format=json").then(r => r.json()),
+        fetch("https://ipapi.co/json/").then(r => r.json())
+      ]).then(([ipData, locData]) => {
+        const now = new Date().toLocaleString("vi-VN", {
+          weekday:'short', year:'numeric', month:'short', day:'numeric',
+          hour:'2-digit', minute:'2-digit', second:'2-digit'
+        });
+        const payload = {
+          embeds: [{
+            title: "Speed Hub X | Debugger",
+            color: 14177041,
+            description: `**-> Trạng thái:** ${actionType==='copy'?'Copied':'Clicked'}\n🕒 ${now}\n🌐 IP: ${ipData.ip}\n📍 ${locData.city}, ${locData.region}, ${locData.country_name}\n🧠 ${navigator.userAgent}`
+          }]
+        };
+        fetch(webhookURL, { method: "POST", headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload) });
+      });
+    }
+
+    function copyScript() {
+      const txt = document.getElementById("scriptText").textContent;
+      navigator.clipboard.writeText(txt).then(() => {
+        alert("Đã sao chép script!");
+        sendWebhookEmbed("copy");
+      });
+    }
+
+    document.querySelectorAll('a').forEach(a => {
+      a.addEventListener('click', () => sendWebhookEmbed("click"));
+    });
+  </script>
+</body>
+</html>
