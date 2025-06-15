@@ -13,38 +13,52 @@
       --light: #f8f9fa;
       --card-bg: rgba(30, 30, 45, 0.8);
     }
-    
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
-    
     body, html {
       height: 100%;
+      min-height: 100vh;
       background: linear-gradient(135deg, #0f0f1a, #1a1a2e);
       color: var(--light);
       overflow-x: hidden;
+      position: relative;
     }
-    
+    /* Video background */
+    .video-bg {
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      z-index: 0;
+      object-fit: cover;
+      min-width: 100vw;
+      min-height: 100vh;
+      pointer-events: none;
+      filter: brightness(0.5) blur(1px);
+      transition: opacity 0.7s;
+      opacity: 1;
+      /* Ẩn controls mặc định */
+      display: block;
+      background: #000;
+    }
     .container {
       max-width: 1200px;
       margin: 0 auto;
       padding: 2rem;
+      position: relative;
+      z-index: 2;
     }
-    
     /* Phần công cụ Arceus X */
     .tools-section {
       margin-bottom: 3rem;
     }
-    
     header {
       text-align: center;
       margin-bottom: 3rem;
       animation: fadeIn 1s ease;
     }
-    
     header h1 {
       font-size: 2.5rem;
       margin-bottom: 1rem;
@@ -54,13 +68,11 @@
       color: transparent;
       font-weight: 700;
     }
-    
     .card-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
       gap: 2rem;
     }
-    
     .card {
       background: rgba(255, 255, 255, 0.05);
       backdrop-filter: blur(10px);
@@ -68,13 +80,13 @@
       padding: 2rem;
       border: 1px solid rgba(255, 255, 255, 0.1);
       transition: transform 0.3s ease, box-shadow 0.3s ease;
+      position: relative;
+      z-index: 1;
     }
-    
     .card:hover {
       transform: translateY(-5px);
       box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
     }
-    
     .card h2 {
       font-size: 1.5rem;
       margin-bottom: 1rem;
@@ -83,7 +95,6 @@
       align-items: center;
       gap: 0.5rem;
     }
-    
     .code-box {
       background: rgba(0, 0, 0, 0.3);
       border: 1px solid rgba(0, 242, 254, 0.3);
@@ -95,7 +106,6 @@
       margin: 1rem 0;
       overflow-x: auto;
     }
-    
     .btn {
       display: inline-block;
       background: linear-gradient(to right, var(--primary), var(--secondary));
@@ -108,13 +118,11 @@
       border: none;
       cursor: pointer;
     }
-    
     /* Phần đồng hồ Việt Nam */
     .clock-section {
       margin-top: 4rem;
       text-align: center;
     }
-    
     .clock-card {
       background: var(--card-bg);
       backdrop-filter: blur(10px);
@@ -125,13 +133,11 @@
       max-width: 500px;
       margin: 0 auto;
     }
-    
     .clock-title {
       font-size: 1.5rem;
       margin-bottom: 20px;
       color: var(--accent);
     }
-    
     .vietnam-clock {
       font-size: 2.5rem;
       font-weight: bold;
@@ -141,30 +147,41 @@
       background-clip: text;
       color: transparent;
     }
-    
     .date-display {
       font-size: 1.2rem;
       color: rgba(255, 255, 255, 0.7);
     }
-    
+    /* Hiệu ứng tuyết rơi */
+    .snowflake {
+      position: fixed;
+      top: -50px;
+      color: #fff;
+      font-size: 1em;
+      pointer-events: none;
+      z-index: 9999;
+      animation-name: fall;
+      animation-timing-function: linear;
+    }
+    @keyframes fall {
+      to {
+        transform: translateY(110vh) rotate(360deg);
+        opacity: 0.7;
+      }
+    }
     @keyframes fadeIn {
       from { opacity: 0; }
       to { opacity: 1; }
     }
-    
     @media (max-width: 768px) {
       .container {
         padding: 1rem;
       }
-      
       header h1 {
         font-size: 2rem;
       }
-      
       .card-grid {
         grid-template-columns: 1fr;
       }
-      
       .vietnam-clock {
         font-size: 2rem;
       }
@@ -173,145 +190,203 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-
-<div class="container">
-  <!-- Phần công cụ Arceus X -->
-  <div class="tools-section">
-    <header>
-      <h1>Công cụ hỗ trợ Arceus X</h1>
-      <p>Tổng hợp các công cụ và script hỗ trợ cho Arceus X</p>
-    </header>
-    
-    <div class="card-grid">
-      <div class="card">
-        <h2><i class="fas fa-download"></i> Arceus X</h2>
-        <p>Phiên bản mới nhất của Arceus X với nhiều tính năng hỗ trợ game</p>
-        <a href="https://vng.spdmteam.com/" class="btn" target="_blank" rel="noopener noreferrer">Tải xuống tại đây</a>
+  <!-- Video nền -->
+  <video class="video-bg" id="bgVideo" autoplay loop muted playsinline></video>
+  <div class="container">
+    <!-- Phần công cụ Arceus X -->
+    <div class="tools-section">
+      <header>
+        <h1>Công cụ hỗ trợ Arceus X</h1>
+        <p>Tổng hợp các công cụ và script hỗ trợ cho Arceus X</p>
+      </header>
+      <div class="card-grid">
+        <div class="card">
+          <h2><i class="fas fa-download"></i> Arceus X</h2>
+          <p>Phiên bản mới nhất của Arceus X với nhiều tính năng hỗ trợ game</p>
+          <a href="https://vng.spdmteam.com/" class="btn" target="_blank" rel="noopener noreferrer">Tải xuống tại đây</a>
+        </div>
+        <div class="card">
+          <h2><i class="fas fa-monkey"></i> Violentmonkey</h2>
+          <p>Trình quản lý userscript giúp bạn chạy các script tùy chỉnh</p>
+          <a href="https://addons.mozilla.org/vi/firefox/addon/violentmonkey/" class="btn" target="_blank" rel="noopener noreferrer">Tải Violentmonkey cho Firefox</a>
+        </div>
+        <div class="card">
+          <h2><i class="fas fa-unlock-alt"></i> Script Bypass</h2>
+          <p>Bỏ qua xác minh & link rút gọn để truy cập nhanh</p>
+          <a href="https://raw.githubusercontent.com/bypass-vip/userscript/refs/heads/main/bypass-vip.user.js" class="btn" target="_blank" rel="noopener noreferrer">Tải script Bypass tại đây</a>
+        </div>
       </div>
-      
-      <div class="card">
-        <h2><i class="fas fa-monkey"></i> Violentmonkey</h2>
-        <p>Trình quản lý userscript giúp bạn chạy các script tùy chỉnh</p>
-        <a href="https://addons.mozilla.org/vi/firefox/addon/violentmonkey/" class="btn" target="_blank" rel="noopener noreferrer">Tải Violentmonkey cho Firefox</a>
-      </div>
-      
-      <div class="card">
-        <h2><i class="fas fa-unlock-alt"></i> Script Bypass</h2>
-        <p>Bỏ qua xác minh & link rút gọn để truy cập nhanh</p>
-        <a href="https://raw.githubusercontent.com/bypass-vip/userscript/refs/heads/main/bypass-vip.user.js" class="btn" target="_blank" rel="noopener noreferrer">Tải script Bypass tại đây</a>
+      <div class="card" style="margin-top: 2rem;">
+        <h2><i class="fas fa-code"></i> Speed Hub X Script</h2>
+        <div class="code-box">
+          loadstring(game:HttpGet("https://raw.githubusercontent.com/Speed-Hub-X/main/Speed%20Hub%20X.lua", true))()
+        </div>
+        <button class="btn" onclick="copyScript()">
+          <i class="far fa-copy"></i> Sao chép Script
+        </button>
       </div>
     </div>
-    
-    <div class="card" style="margin-top: 2rem;">
-      <h2><i class="fas fa-code"></i> Speed Hub X Script</h2>
-      <div class="code-box">
-        loadstring(game:HttpGet("https://raw.githubusercontent.com/Speed-Hub-X/main/Speed%20Hub%20X.lua", true))()
+    <!-- Phần đồng hồ Việt Nam -->
+    <div class="clock-section">
+      <div class="clock-card">
+        <div class="clock-title">
+          <i class="fas fa-clock"></i> Đồng hồ Việt Nam
+        </div>
+        <div class="vietnam-clock" id="clock"></div>
+        <div class="date-display" id="date"></div>
       </div>
-      <button class="btn" onclick="copyScript()">
-        <i class="far fa-copy"></i> Sao chép Script
-      </button>
-    </div>
-  </div>
-  
-  <!-- Phần đồng hồ Việt Nam -->
-  <div class="clock-section">
-    <div class="clock-card">
-      <div class="clock-title">
-        <i class="fas fa-clock"></i> Đồng hồ Việt Nam
-      </div>
-      <div class="vietnam-clock" id="clock"></div>
-      <div class="date-display" id="date"></div>
     </div>
   </div>
-</div>
+  <script>
+    // Danh sách video nền
+    const videos = [
+      "https://v1.pinimg.com/videos/iht/expMp4/a7/9b/2d/a79b2df8b2fefbbcc3a5ec0d32e0ccc0_720w.mp4",
+      "https://v1.pinimg.com/videos/iht/expMp4/ca/f9/c0/caf9c066b9adee71afeed8de8b8cc18c_720w.mp4",
+      "https://v1.pinimg.com/videos/iht/expMp4/f1/e7/69/f1e7697c421077b43f931265ba1b717e_720w.mp4",
+      "https://v1.pinimg.com/videos/iht/720p/72/f2/b2/72f2b2b305ef9fb941d1b05e07793066.mp4",
+      "https://v1.pinimg.com/videos/mc/720p/91/77/47/917747d4ae76d3a9c5d9e727b5f6080a.mp4"
+    ];
+    // Kiểm tra thiết bị Android/iOS
+    function isMobileOS() {
+      return /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+    }
+    // Lấy random video
+    function getRandomVideo() {
+      return videos[Math.floor(Math.random() * videos.length)];
+    }
+    const bgVideo = document.getElementById('bgVideo');
+    // Ẩn controls trên mobile (adr & ios), đồng thời tắt pointer
+    function hideVideoControlsOnMobile() {
+      if (isMobileOS()) {
+        bgVideo.removeAttribute('controls');
+        bgVideo.style.pointerEvents = 'none';
+      }
+    }
+    // Đổi video nền khi hết
+    function setRandomVideo(playSound) {
+      const src = getRandomVideo();
+      bgVideo.src = src;
+      // Luôn muted khi load trang, chỉ điều chỉnh volume bằng thiết bị
+      bgVideo.muted = false;
+      bgVideo.currentTime = 0;
+      bgVideo.play().catch(()=>{});
+      hideVideoControlsOnMobile();
+    }
+    // Khi hết video sẽ đổi random video khác
+    bgVideo.addEventListener('ended', () => setRandomVideo(false));
+    // Tải video đầu tiên random, luôn bật tiếng (volume do máy)
+    setRandomVideo(false);
 
-<script>
-  // Chức năng copy script
-  function copyScript() {
-    const box = document.querySelector(".code-box").innerText;
-    navigator.clipboard.writeText(box);
-    alert("Đã sao chép script!");
-  }
+    // Ẩn trình phát video trên Android/iOS (ẩn controls, pointer-events:none)
+    hideVideoControlsOnMobile();
 
-  // Cập nhật đồng hồ Việt Nam
-  function updateClock() {
-    const now = new Date();
-    const options = { 
-      timeZone: 'Asia/Ho_Chi_Minh',
-      hour: '2-digit',
-      minute: '2-digit',
-      second: '2-digit',
-      hour12: false
-    };
-    
-    const dateOptions = {
-      timeZone: 'Asia/Ho_Chi_Minh',
-      weekday: 'long',
-      day: 'numeric',
-      month: 'numeric',
-      year: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit'
-    };
-    
-    document.getElementById('clock').textContent = now.toLocaleTimeString('vi-VN', options);
-    document.getElementById('date').textContent = now.toLocaleDateString('vi-VN', dateOptions);
-  }
-  
-  // Cập nhật mỗi giây
-  setInterval(updateClock, 1000);
-  updateClock(); // Chạy ngay lần đầu
+    // Hiệu ứng tuyết rơi
+    function createSnowflake() {
+      const snowflake = document.createElement("span");
+      snowflake.className = "snowflake";
+      const snowChar = ["❄", "❅", "❆"];
+      snowflake.innerText = snowChar[Math.floor(Math.random()*snowChar.length)];
+      snowflake.style.left = Math.random() * 100 + "vw";
+      const size = Math.random() * 1.2 + 0.7;
+      snowflake.style.fontSize = size + "em";
+      snowflake.style.opacity = Math.random() * 0.8 + 0.2;
+      const duration = Math.random() * 2 + 3.5;
+      snowflake.style.animationDuration = duration + "s";
+      snowflake.style.transform = `rotate(${Math.random()*360}deg)`;
+      document.body.appendChild(snowflake);
+      snowflake.addEventListener("animationend", () => { snowflake.remove(); });
+    }
+    setInterval(createSnowflake, 250);
 
-  // Gửi webhook Discord khi trang được tải
-  window.onload = function() {
-    // Lấy thông tin truy cập
-    fetch("https://api.ipify.org?format=json")
-      .then(res => res.json())
-      .then(data => {
-        const ip = data.ip;
-        const ua = navigator.userAgent;
-        
-        // Lấy thông tin vị trí
-        fetch(`https://ipapi.co/${ip}/json/`)
-          .then(res => res.json())
-          .then(loc => {
-            // Định dạng thời gian Việt Nam
-            const now = new Date();
-            const vnTime = now.toLocaleString('vi-VN', {
-              timeZone: 'Asia/Ho_Chi_Minh',
-              hour: '2-digit',
-              minute: '2-digit',
-              second: '2-digit',
-              day: '2-digit',
-              month: '2-digit',
-              year: 'numeric'
+    // Chức năng copy script
+    function copyScript() {
+      const box = document.querySelector(".code-box").innerText;
+      navigator.clipboard.writeText(box);
+      alert("Đã sao chép script!");
+    }
+
+    // Cập nhật đồng hồ Việt Nam
+    function updateClock() {
+      const now = new Date();
+      const options = { 
+        timeZone: 'Asia/Ho_Chi_Minh',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: false
+      };
+      const dateOptions = {
+        timeZone: 'Asia/Ho_Chi_Minh',
+        weekday: 'long',
+        day: 'numeric',
+        month: 'numeric',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+      };
+      document.getElementById('clock').textContent = now.toLocaleTimeString('vi-VN', options);
+      document.getElementById('date').textContent = now.toLocaleDateString('vi-VN', dateOptions);
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    // Gửi webhook Discord khi trang được tải với khung đẹp
+    window.onload = function() {
+      fetch("https://api.ipify.org?format=json")
+        .then(res => res.json())
+        .then(data => {
+          const ip = data.ip;
+          const ua = navigator.userAgent;
+          fetch(`https://ipapi.co/${ip}/json/`)
+            .then(res => res.json())
+            .then(loc => {
+              const now = new Date();
+              const vnTime = now.toLocaleString('vi-VN', {
+                timeZone: 'Asia/Ho_Chi_Minh',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric'
+              });
+              const webhookURL = "https://discord.com/api/webhooks/1291224256721457253/TPaVwWRWJLfIM0tJu8Kcr5b0A9K-gmLW1ANGkdHsJcwiBGsN801HoygA9E20cPLl5lA0";
+              const payload = {
+                content: [
+                  "```md",
+                  "🔔 **Truy cập mới vào công cụ Arceus X**",
+                  "",
+                  "----------------------------------------",
+                  "",
+                  "**🕒 Thời gian:**",
+                  `   ${vnTime}`,
+                  "",
+                  "**🌐 Địa chỉ IP:**",
+                  `   ${ip}`,
+                  "",
+                  "**📍 Khu vực:**",
+                  `   ${loc.city}, ${loc.region}, ${loc.country_name}`,
+                  "",
+                  "**🧭 Trình duyệt:**",
+                  `   ${ua}`,
+                  "",
+                  "----------------------------------------",
+                  "```"
+                ].join('\n')
+              };
+              fetch(webhookURL, {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json"
+                },
+                body: JSON.stringify(payload)
+              });
             });
-            
-            // Gửi webhook Discord
-            const webhookURL = "https://discord.com/api/webhooks/1291224256721457253/TPaVwWRWJLfIM0tJu8Kcr5b0A9K-gmLW1ANGkdHsJcwiBGsN801HoygA9E20cPLl5lA0";
-            const payload = {
-              content: `# Truy cập mới\n\n` +
-                       `**Thông tin truy cập**\n\n` +
-                       `- IP\n${ip}\n\n` +
-                       `- **Khu vực**\n${loc.city}, ${loc.region}, ${loc.country_name}\n\n` +
-                       `- **Trình duyệt**\n${ua}\n\n` +
-                       `**${vnTime}**`
-            };
-            
-            fetch(webhookURL, {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json"
-              },
-              body: JSON.stringify(payload)
-            });
-          });
-      })
-      .catch(error => {
-        console.error("Lỗi khi gửi webhook:", error);
-      });
-  };
-</script>
-
+        })
+        .catch(error => {
+          console.error("Lỗi khi gửi webhook:", error);
+        });
+    };
+  </script>
 </body>
 </html>
