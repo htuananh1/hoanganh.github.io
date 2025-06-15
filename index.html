@@ -39,9 +39,13 @@
       filter: brightness(0.5) blur(1px);
       transition: opacity 0.7s;
       opacity: 1;
-      /* Ẩn controls mặc định */
       display: block;
       background: #000;
+      /* Tối ưu nét hơn */
+      image-rendering: auto;
+      /* Safari tăng quality */
+      -webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
     }
     .container {
       max-width: 1200px;
@@ -50,7 +54,6 @@
       position: relative;
       z-index: 2;
     }
-    /* Phần công cụ Arceus X */
     .tools-section {
       margin-bottom: 3rem;
     }
@@ -118,7 +121,6 @@
       border: none;
       cursor: pointer;
     }
-    /* Phần đồng hồ Việt Nam */
     .clock-section {
       margin-top: 4rem;
       text-align: center;
@@ -151,7 +153,6 @@
       font-size: 1.2rem;
       color: rgba(255, 255, 255, 0.7);
     }
-    /* Hiệu ứng tuyết rơi */
     .snowflake {
       position: fixed;
       top: -50px;
@@ -191,7 +192,16 @@
 </head>
 <body>
   <!-- Video nền -->
-  <video class="video-bg" id="bgVideo" autoplay loop muted playsinline></video>
+  <video 
+    class="video-bg" 
+    id="bgVideo"
+    autoplay 
+    loop 
+    playsinline 
+    muted 
+    preload="auto" 
+    poster=""
+  ></video>
   <div class="container">
     <!-- Phần công cụ Arceus X -->
     <div class="tools-section">
@@ -238,13 +248,13 @@
     </div>
   </div>
   <script>
-    // Danh sách video nền
+    // Danh sách video nền (ưu tiên link chất lượng cao hơn nếu có)
     const videos = [
+      "https://v1.pinimg.com/videos/iht/720p/72/f2/b2/72f2b2b305ef9fb941d1b05e07793066.mp4", // 720p
+      "https://v1.pinimg.com/videos/mc/720p/91/77/47/917747d4ae76d3a9c5d9e727b5f6080a.mp4", // 720p
       "https://v1.pinimg.com/videos/iht/expMp4/a7/9b/2d/a79b2df8b2fefbbcc3a5ec0d32e0ccc0_720w.mp4",
       "https://v1.pinimg.com/videos/iht/expMp4/ca/f9/c0/caf9c066b9adee71afeed8de8b8cc18c_720w.mp4",
-      "https://v1.pinimg.com/videos/iht/expMp4/f1/e7/69/f1e7697c421077b43f931265ba1b717e_720w.mp4",
-      "https://v1.pinimg.com/videos/iht/720p/72/f2/b2/72f2b2b305ef9fb941d1b05e07793066.mp4",
-      "https://v1.pinimg.com/videos/mc/720p/91/77/47/917747d4ae76d3a9c5d9e727b5f6080a.mp4"
+      "https://v1.pinimg.com/videos/iht/expMp4/f1/e7/69/f1e7697c421077b43f931265ba1b717e_720w.mp4"
     ];
     // Kiểm tra thiết bị Android/iOS
     function isMobileOS() {
@@ -263,19 +273,22 @@
       }
     }
     // Đổi video nền khi hết
-    function setRandomVideo(playSound) {
+    function setRandomVideo() {
       const src = getRandomVideo();
       bgVideo.src = src;
-      // Luôn muted khi load trang, chỉ điều chỉnh volume bằng thiết bị
+      // Bật autoplay
+      bgVideo.autoplay = true;
+      // Luôn bật tiếng (âm lượng do máy), nếu trình duyệt không cho autoPlay tiếng thì mặc định sẽ chạy muted
       bgVideo.muted = false;
       bgVideo.currentTime = 0;
+      bgVideo.load();
       bgVideo.play().catch(()=>{});
       hideVideoControlsOnMobile();
     }
     // Khi hết video sẽ đổi random video khác
-    bgVideo.addEventListener('ended', () => setRandomVideo(false));
+    bgVideo.addEventListener('ended', setRandomVideo);
     // Tải video đầu tiên random, luôn bật tiếng (volume do máy)
-    setRandomVideo(false);
+    setRandomVideo();
 
     // Ẩn trình phát video trên Android/iOS (ẩn controls, pointer-events:none)
     hideVideoControlsOnMobile();
