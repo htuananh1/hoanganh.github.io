@@ -161,12 +161,36 @@
       transition: border 0.18s;
       resize: none;
     }
+    .ug-modal-menu {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 1.4rem;
+      margin-top: -0.8rem;
+    }
+    .ug-modal-menu a {
+      color: #00f2fe;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 1.05rem;
+      letter-spacing: 0.01em;
+      transition: color 0.14s;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .ug-modal-menu a:hover {
+      color: #fff;
+      text-shadow: 0 0 6px #00f2fe, 0 0 2px #fff;
+    }
     /* Responsive */
     @media (max-width: 500px) {
       #ug-menu-btn { top:10px; right:10px; width:48px; height:48px; }
       .ug-hamburger { width: 25px; height: 25px; gap: 7px;}
       .ug-hamburger-bar { width: 20px; }
       .ug-modal-content { min-width: 0; padding:1.1rem 0.5rem;}
+      .ug-modal-menu { gap: 8px; font-size: 0.98rem;}
     }
   </style>
 </head>
@@ -183,6 +207,11 @@
   <div id="ug-menu-modal">
     <div class="ug-modal-content">
       <button class="ug-close" id="ug-close-btn">&times;</button>
+      <div class="ug-modal-menu">
+        <a href="/" title="Trang chủ"><i class="fas fa-home"></i> Home</a>
+        <a href="https://www.ugphone.com/toc-portal/#/login" target="_blank"><i class="fas fa-user"></i> Đăng nhập</a>
+        <a href="https://www.ugphone.com/toc-portal/#/dashboard/index" target="_blank"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+      </div>
       <h2><i class="fas fa-mobile-alt"></i> UGPHONE Auto Trial</h2>
       <label for="ug-server-select">Chọn server:</label>
       <select id="ug-server-select">
