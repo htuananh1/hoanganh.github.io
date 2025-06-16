@@ -160,6 +160,86 @@
       animation-name: fall;
       animation-timing-function: linear;
     }
+    /* MENU góc phải trên */
+    .menu-top-right {
+      position: fixed;
+      top: 16px;
+      right: 24px;
+      z-index: 10001;
+      background: rgba(30, 31, 44, 0.97);
+      border-radius: 14px;
+      box-shadow: 0 4px 16px #0005;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 8px 18px;
+      font-size: 17px;
+      font-weight: 600;
+      color: var(--accent);
+      border: 1.5px solid #333b;
+      transition: background 0.2s;
+      user-select: none;
+    }
+    .menu-top-right a {
+      color: var(--accent);
+      text-decoration: none;
+      margin: 0 8px;
+      font-weight: 600;
+      transition: color 0.18s;
+      font-size: 17px;
+    }
+    .menu-top-right a:hover {
+      color: #fff;
+      text-shadow: 0 0 6px var(--accent);
+    }
+    .ugphone-trial-card {
+      background: rgba(0,242,254,0.09);
+      border: 1.5px solid #00f2fe55;
+      border-radius: 13px;
+      padding: 2rem 1.5rem 1.5rem 1.5rem;
+      margin: 2.2rem auto 0 auto;
+      box-shadow: 0 6px 26px #00f2fe22;
+      max-width: 520px;
+      backdrop-filter: blur(3px);
+      color: #00f2fe;
+      text-align: center;
+    }
+    .ugphone-trial-card h2 {
+      font-size: 1.45rem;
+      margin-bottom: 1.1rem;
+      color: #00f2fe;
+      background: linear-gradient(to right, #00f2fe, #2575fc);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      display: inline-block;
+    }
+    .ugphone-trial-card .desc {
+      font-size: 1.08rem;
+      color: #d6fafd;
+      margin-bottom: 1.1rem;
+      line-height: 1.56;
+    }
+    .ugphone-trial-card .btn-ugphone {
+      display: inline-block;
+      background: linear-gradient(to right, #5f85fa, #2575fc);
+      color: #fff;
+      padding: 0.82rem 2.1rem;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 1.1rem;
+      margin-top: 1rem;
+      border: 0;
+      cursor: pointer;
+      box-shadow: 0 2px 12px #00f2fe33;
+      transition: background 0.22s, box-shadow 0.19s;
+    }
+    .ugphone-trial-card .btn-ugphone:hover {
+      background: linear-gradient(to right, #2575fc, #00f2fe);
+      box-shadow: 0 4px 20px #00f2fe66;
+      filter: brightness(1.13);
+    }
     @keyframes fall {
       to {
         transform: translateY(110vh) rotate(360deg);
@@ -183,11 +263,31 @@
       .vietnam-clock {
         font-size: 2rem;
       }
+      .ugphone-trial-card {
+        padding: 1.2rem 0.7rem 1.1rem 0.7rem;
+        font-size: 1rem;
+      }
+      .menu-top-right {
+        padding: 7px 10px;
+        font-size: 15px;
+        right: 6px;
+        top: 8px;
+      }
+      .menu-top-right a {
+        font-size: 15px;
+      }
     }
   </style>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
+  <!-- MENU góc phải trên -->
+  <div class="menu-top-right">
+    <a href="https://vng.spdmteam.com/" target="_blank"><i class="fas fa-download"></i> Tải Arceus X</a>
+    <a href="https://discord.gg/arceusx" target="_blank"><i class="fab fa-discord"></i> Discord</a>
+    <a href="#ugphone-trial"><i class="fas fa-mobile-alt"></i> Mua máy trial UGPhone</a>
+  </div>
+
   <!-- Video nền -->
   <video 
     class="video-bg" 
@@ -231,6 +331,21 @@
           <i class="far fa-copy"></i> Sao chép Script
         </button>
       </div>
+    </div>
+    <!-- PHẦN MUA MÁY TRIAL UGPHONE -->
+    <div id="ugphone-trial" class="ugphone-trial-card">
+      <h2><i class="fas fa-mobile-alt"></i> Mua máy trial UGPhone</h2>
+      <div class="desc">
+        <b>Auto mua máy trial UGPhone</b> (cloudphone) không cần trả phí, dùng thử 4 tiếng.<br>
+        <b>Bước 1:</b> <a href="https://www.ugphone.com/toc-portal/#/login" target="_blank" style="color:#28e;">Đăng nhập tài khoản UGPhone</a>.<br>
+        <b>Bước 2:</b> Tải và cài <a href="https://addons.mozilla.org/vi/firefox/addon/violentmonkey/" target="_blank" style="color:#28e;">Violentmonkey</a>.<br>
+        <b>Bước 3:</b> <a href="https://raw.githubusercontent.com/Sksoxoxk/UGPHONE-VIP-TOOL/main/ugphone.user.js" target="_blank" style="color:#28e;">Cài đặt script Auto UGPhone tại đây</a>.<br>
+        <b>Bước 4:</b> Truy cập <a href="https://www.ugphone.com/toc-portal/#/dashboard/index" target="_blank" style="color:#28e;">dashboard UGPhone</a> sẽ hiện nút auto mua máy ở góc phải.<br>
+        <br>
+        <b>Hướng dẫn nhanh:</b> Script sẽ tự động chọn server và mua máy trial free 4 tiếng.<br>
+        <b>Lưu ý:</b> Tài khoản UGPhone phải đăng nhập, còn điểm thưởng và có thể dùng máy trial.<br>
+      </div>
+      <a class="btn-ugphone" href="https://raw.githubusercontent.com/Sksoxoxk/UGPHONE-VIP-TOOL/main/ugphone.user.js" target="_blank"><i class="fas fa-bolt"></i> Tải script Auto UGPhone</a>
     </div>
     <!-- Phần đồng hồ Việt Nam -->
     <div class="clock-section">
