@@ -3,17 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Proxy Telegram & Gaming (Ping thấp VN)</title>
+  <title>Proxy Telegram & Gaming (SG, 5 proxy)</title>
   <style>
-    :root {
-      --primary: #6a11cb;
-      --secondary: #2575fc;
-      --accent: #00f2fe;
-      --dark: #121212;
-      --light: #f8f9fa;
-      --card-bg: rgba(30, 30, 45, 0.97);
-      --table-border: #00f2fe55;
-    }
     body, html {
       min-height: 100vh;
       background: linear-gradient(135deg, #191a2e 0%, #23273b 50%, #0c0d1a 100%);
@@ -31,19 +22,18 @@
     header {
       text-align: center;
       margin-bottom: 2rem;
-      animation: fadeIn 1s ease;
     }
     header h1 {
       font-size: 2.1rem;
       margin-bottom: 1rem;
-      background: linear-gradient(to right, var(--accent), var(--secondary));
+      background: linear-gradient(to right, #00f2fe, #2575fc);
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
       font-weight: 700;
     }
     .proxy-section {
-      background: var(--card-bg);
+      background: rgba(30, 30, 45, 0.97);
       border-radius: 18px;
       padding: 2rem 1.2rem;
       box-shadow: 0 8px 32px #0002;
@@ -51,7 +41,7 @@
       overflow-x: auto;
     }
     .proxy-section h2 {
-      color: var(--accent);
+      color: #00f2fe;
       font-size: 1.25rem;
       margin-bottom: 1.2rem;
     }
@@ -68,7 +58,7 @@
     }
     .proxy-table th, .proxy-table td {
       padding: 0.5em 1em;
-      border-bottom: 1px solid var(--table-border);
+      border-bottom: 1px solid #00f2fe55;
       text-align: left;
     }
     .proxy-table th {
@@ -76,7 +66,7 @@
       color: #fff;
       font-weight: bold;
       letter-spacing: 0.04em;
-      border-bottom: 2px solid var(--table-border);
+      border-bottom: 2px solid #00f2fe55;
     }
     .proxy-table tr {
       background: #23273b;
@@ -88,12 +78,12 @@
       background: #1a202c;
     }
     .proxy-table a {
-      color: var(--accent);
+      color: #00f2fe;
       text-decoration: underline;
       font-size: 1.02rem;
     }
     .proxy-table .copy-btn {
-      background: var(--secondary);
+      background: #2575fc;
       color: #fff;
       border: none;
       border-radius: 6px;
@@ -106,10 +96,6 @@
     .proxy-table .copy-btn:hover {
       background: #00f2fe;
       color: #18181f;
-    }
-    .ping {
-      font-weight: 700;
-      color: #31f7b0;
     }
     .proxy-section .proxy-add-link {
       margin: 1.1rem 0 0.6rem 0;
@@ -132,11 +118,11 @@
 <body>
   <div class="container">
     <header>
-      <h1>Proxy Telegram Ping Thấp Hợp VN</h1>
-      <p>Chỉ hiện 5 proxy có ping thấp nhất, hợp cho IP Việt Nam.<br>Chọn <b>Thêm vào Telegram</b> hoặc <b>Copy</b> để sử dụng ngay!</p>
+      <h1>Proxy Telegram SG (Top 5, hợp VN)</h1>
+      <p>Hiện 5 proxy Singapore (MTProto & Socks5) miễn phí, chọn <b>Thêm vào Telegram</b> hoặc <b>Copy</b> để sử dụng!</p>
     </header>
     <div class="proxy-section">
-      <h2><i class="fas fa-plug"></i> Proxy MTProto & Socks5 (Singapore/Asia, ping thấp)</h2>
+      <h2><i class="fas fa-plug"></i> Proxy MTProto & Socks5 (Singapore)</h2>
       <div class="proxy-add-link">
         <span><i class="fab fa-telegram-plane"></i> Thêm proxy vào Telegram: </span>
         <a href="https://t.me/proxy?server=IP&port=PORT&secret=SECRET" target="_blank">MTProto mẫu</a> | 
@@ -149,121 +135,50 @@
               <th>IP</th>
               <th>Port</th>
               <th>Loại</th>
-              <th>Ping <i class="fas fa-signal"></i></th>
               <th>Thêm vào Telegram</th>
               <th>Sao chép</th>
             </tr>
           </thead>
           <tbody>
-            <tr><td colspan="6" style="text-align:center;color:#aaa;">Đang kiểm tra proxy nhanh nhất...</td></tr>
+            <tr><td colspan="5" style="text-align:center;color:#aaa;">Đang tải proxy Singapore...</td></tr>
           </tbody>
         </table>
       </div>
     </div>
   </div>
   <script>
-    // Nguồn dữ liệu
+    // Data sources
     const mtprotoUrl = 'https://raw.githubusercontent.com/hookzof/socks5_list/master/tg/mtproto.json';
     const socks5Url  = 'https://raw.githubusercontent.com/hookzof/socks5_list/master/tg/socks.json';
     const proxyTable = document.getElementById('proxyTable').getElementsByTagName('tbody')[0];
 
-    // Ping một IP:Port sử dụng WebSocket (MTProto), hoặc TCP ping Socks5 (dùng Image hack)
-    // Chỉ test port 443, 80, 1080, 8080, 3128, hoặc port chỉ định (ưu tiên 443, 1080, 80)
-    function pingHost(ip, port, timeout = 2000) {
-      // Dùng WebSocket nếu port 443, 80, 8080. Nếu fail thì luôn trả về Infinity.
-      return new Promise(resolve => {
-        let ws;
-        let finished = false;
-        let ports = [443, 1080, 80, 8080, 3128];
-        if (port && !ports.includes(Number(port))) ports.unshift(Number(port));
-        let idx = 0;
-        let start = Date.now();
-        function tryNext() {
-          if (idx >= ports.length) return resolve(Infinity);
-          let p = ports[idx++];
-          let timer;
-          // Dùng ws:// cho port 80, còn lại wss://
-          let url = (p === 80 ? `ws://${ip}:${p}` : `wss://${ip}:${p}`);
-          try {
-            ws = new WebSocket(url);
-            timer = setTimeout(() => {
-              if (!finished) {
-                finished = true;
-                ws && ws.close();
-                tryNext();
-              }
-            }, timeout);
-            ws.onerror = ws.onclose = function() {
-              if (!finished) {
-                finished = true;
-                clearTimeout(timer);
-                ws && ws.close();
-                finished = false;
-                tryNext();
-              }
-            }
-            ws.onopen = function() {
-              if (!finished) {
-                finished = true;
-                clearTimeout(timer);
-                ws && ws.close();
-                resolve(Date.now() - start);
-              }
-            }
-          } catch (e) {
-            tryNext();
-          }
-        }
-        tryNext();
-      });
-    }
-
-    // Chỉ lấy proxy Singapore/Asia hoặc các proxy hợp lý cho VN
+    // Chỉ lấy proxy Singapore (SG) hoặc region hợp cho VN
     function isSGorAsia(c) {
       if (!c) return false;
       c = c.toLowerCase();
       return c.includes('sg') || c.includes('singapore') || c.includes('asia') || c.includes('vn');
     }
 
-    // Load và tìm 5 proxy ping thấp nhất
     async function loadProxies() {
-      proxyTable.innerHTML = `<tr><td colspan="6" style="text-align:center;color:#aaa;">Đang kiểm tra proxy nhanh nhất...</td></tr>`;
+      proxyTable.innerHTML = `<tr><td colspan="5" style="text-align:center;color:#aaa;">Đang tải proxy Singapore...</td></tr>`;
       let [mt, so] = await Promise.all([
         fetch(mtprotoUrl).then(r=>r.json()).catch(()=>[]),
         fetch(socks5Url).then(r=>r.json()).catch(()=>[])
       ]);
-      // Chỉ lấy proxy Singapore/Asia hoặc country không rõ (ưu tiên SG)
       let mtSG = mt.filter(x => isSGorAsia(x.country));
       let soSG = so.filter(x => isSGorAsia(x.country));
-      // Ưu tiên 10 proxy đầu mỗi loại để test nhanh
-      mtSG = mtSG.slice(0, 10);
-      soSG = soSG.slice(0, 10);
-
-      // Ping song song, lấy ra 5 proxy ping thấp nhất tổng hợp từ cả hai loại
-      let allProxies = [
-        ...mtSG.map(x => ({...x, type: 'MTProto'})),
-        ...soSG.map(x => ({...x, type: 'Socks5'}))
-      ];
-      if (allProxies.length === 0) {
-        proxyTable.innerHTML = `<tr><td colspan="6" style="text-align:center;color:#ff3d7a;">Không có proxy phù hợp!</td></tr>`;
-        return;
+      // Lấy 5 proxy đầu tiên ưu tiên MTProto, sau đó Socks5 nếu thiếu
+      let proxies = [];
+      mtSG.slice(0,5).forEach(x => proxies.push({...x, type: 'MTProto'}));
+      if (proxies.length < 5) {
+        soSG.slice(0, 5 - proxies.length).forEach(x => proxies.push({...x, type: 'Socks5'}));
       }
-      // Ping song song tối đa 10 proxy đầu mỗi loại
-      let results = await Promise.all(allProxies.map(async (proxy) => {
-        let ping = await pingHost(proxy.ip, proxy.port, 2000);
-        return {...proxy, ping};
-      }));
-      // Lọc proxy có ping hợp lý (< 1700ms), sắp xếp tăng dần
-      results = results.filter(x => x.ping !== Infinity && x.ping < 1700);
-      results.sort((a,b) => a.ping - b.ping);
-      results = results.slice(0,5);
-
-      if (results.length === 0) {
-        proxyTable.innerHTML = `<tr><td colspan="6" style="text-align:center;color:#ff3d7a;">Không có proxy ping thấp khả dụng tại thời điểm này!</td></tr>`;
+      if (proxies.length === 0) {
+        proxyTable.innerHTML = `<tr><td colspan="5" style="text-align:center;color:#ff3d7a;">Không có proxy Singapore nào tại thời điểm này!</td></tr>`;
         return;
       }
       proxyTable.innerHTML = '';
-      for (let proxy of results) {
+      for (let proxy of proxies) {
         let tgLink = '';
         if (proxy.type === 'MTProto') {
           tgLink = `https://t.me/proxy?server=${proxy.ip}&port=${proxy.port}&secret=${proxy.secret}`;
@@ -278,7 +193,6 @@
             <td>${proxy.ip}</td>
             <td>${proxy.port}</td>
             <td>${proxy.type}</td>
-            <td class="ping">${proxy.ping}ms</td>
             <td><a href="${tgLink}" target="_blank">Thêm vào Telegram</a></td>
             <td>
               <button class="copy-btn" onclick="navigator.clipboard.writeText('${copyContent.replace(/'/g, "\\'")}');this.innerText='Đã copy';setTimeout(()=>this.innerText='Copy',1200)">Copy</button>
