@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Công cụ hỗ trợ Arceus X + Kết nối API mua UGPHONE</title>
+  <title>Công cụ proxy Telegram & Gaming</title>
   <style>
     :root {
       --primary: #6a11cb;
@@ -11,45 +11,46 @@
       --accent: #00f2fe;
       --dark: #121212;
       --light: #f8f9fa;
-      --card-bg: rgba(30, 30, 45, 0.8);
+      --card-bg: rgba(30, 30, 45, 0.9);
+      --table-bg: rgba(33, 36, 58, 0.97);
+      --table-border: #00f2fe55;
+      --table-head: #0fc0f0;
+      --table-row: #23273b;
+    }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
     body, html {
+      height: 100%;
       min-height: 100vh;
-      background: linear-gradient(135deg, #0f0f1a, #1a1a2e);
       color: var(--light);
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      position: relative;
-      margin: 0;
       overflow-x: hidden;
+      position: relative;
+      background: linear-gradient(135deg, #191a2e 0%, #23273b 50%, #0c0d1a 100%);
+      /* Gaming background effect */
     }
-    .video-bg {
+    .gaming-bg {
       position: fixed;
       top: 0; left: 0; width: 100vw; height: 100vh;
       z-index: 0;
-      object-fit: cover;
+      background: radial-gradient(ellipse at 70% 40%, #3a4cd3bb 0%, #1d233a 70%, #12121f 100%);
       pointer-events: none;
-      filter: brightness(0.5) blur(1px);
-      transition: opacity 0.7s;
-      opacity: 1;
-      display: block;
-      background: #000;
-      image-rendering: auto;
-      -webkit-backface-visibility: hidden;
-      backface-visibility: hidden;
+      opacity: 0.8;
+      filter: blur(1.5px);
     }
     .container {
       max-width: 1200px;
       margin: 0 auto;
-      padding: 2rem;
+      padding: 2.2rem 1rem 1rem 1rem;
       position: relative;
       z-index: 2;
     }
-    .tools-section {
-      margin-bottom: 3rem;
-    }
     header {
       text-align: center;
-      margin-bottom: 3rem;
+      margin-bottom: 2rem;
       animation: fadeIn 1s ease;
     }
     header h1 {
@@ -61,413 +62,340 @@
       color: transparent;
       font-weight: 700;
     }
-    .card-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 2rem;
+    .pc-img-section {
+      text-align: center;
+      margin-bottom: 1.5rem;
     }
-    .card {
-      background: rgba(255, 255, 255, 0.05);
-      backdrop-filter: blur(10px);
-      border-radius: 12px;
-      padding: 2rem;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    .pc-img-section img {
+      max-width: 320px;
+      width: 90%;
+      border-radius: 20px;
+      box-shadow: 0 8px 32px #00f2fe33, 0 2px 10px #0009;
+      margin: 0 auto;
+      display: block;
+      border: 2px solid #2575fc66;
+      background: #10101c;
+    }
+    .proxy-section {
+      background: var(--card-bg);
+      border-radius: 18px;
+      padding: 2rem 1.2rem;
+      margin-bottom: 2.2rem;
+      box-shadow: 0 8px 32px #0002;
+      border: 1.5px solid #00f2fe22;
       position: relative;
-      z-index: 1;
-    }
-    .card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-    }
-    .card h2 {
-      font-size: 1.5rem;
-      margin-bottom: 1rem;
-      color: var(--accent);
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-    .code-box {
-      background: rgba(0, 0, 0, 0.3);
-      border: 1px solid rgba(0, 242, 254, 0.3);
-      border-radius: 8px;
-      padding: 1rem;
-      font-family: 'Courier New', monospace;
-      font-size: 0.9rem;
-      color: var(--accent);
-      margin: 1rem 0;
       overflow-x: auto;
     }
-    .btn {
-      display: inline-block;
-      background: linear-gradient(to right, var(--primary), var(--secondary));
-      color: white;
-      padding: 0.8rem 1.5rem;
-      border-radius: 50px;
-      text-decoration: none;
-      font-weight: 600;
-      transition: all 0.3s ease;
-      border: none;
-      cursor: pointer;
-    }
-    .clock-section {
-      margin-top: 4rem;
-      text-align: center;
-    }
-    .clock-card {
-      background: var(--card-bg);
-      backdrop-filter: blur(10px);
-      border-radius: 16px;
-      padding: 30px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      max-width: 500px;
-      margin: 0 auto;
-    }
-    .clock-title {
-      font-size: 1.5rem;
-      margin-bottom: 20px;
+    .proxy-section h2 {
       color: var(--accent);
+      font-size: 1.45rem;
+      margin-bottom: 1.2rem;
     }
-    .vietnam-clock {
-      font-size: 2.5rem;
-      font-weight: bold;
-      margin-bottom: 15px;
-      background: linear-gradient(to right, var(--accent), var(--secondary));
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
+    .proxy-section .filter-row {
+      display: flex;
+      gap: 1.2rem;
+      align-items: center;
+      margin-bottom: 1.1rem;
+      flex-wrap: wrap;
     }
-    .date-display {
-      font-size: 1.2rem;
-      color: rgba(255, 255, 255, 0.7);
+    .proxy-section label {
+      font-weight: 600;
+      color: #aeefff;
     }
-    .snowflake {
-      position: fixed;
-      top: -50px;
+    .proxy-section input[type="text"] {
+      padding: 0.5rem 1.1rem;
+      border-radius: 7px;
+      border: 1.5px solid #485571;
+      background: #23293b;
+      color: #f4f7fa;
+      font-size: 1rem;
+      outline: none;
+      width: 200px;
+      margin-right: 1.2rem;
+      transition: border 0.18s;
+    }
+    .proxy-section input[type="text"]:focus {
+      border-color: var(--accent);
+    }
+    .proxy-section select {
+      padding: 0.48rem 1.1rem;
+      border-radius: 7px;
+      border: 1.5px solid #485571;
+      background: #23293b;
+      color: #e2e7ef;
+      font-size: 1rem;
+      outline: none;
+      transition: border 0.18s;
+    }
+    .proxy-table {
+      width: 100%;
+      background: var(--table-bg);
+      border-collapse: collapse;
+      border-radius: 13px;
+      overflow: hidden;
+      margin-top: 1rem;
+      min-width: 500px;
+      box-shadow: 0 2px 14px #00f2fe33;
+    }
+    .proxy-table th, .proxy-table td {
+      padding: 0.6em 1.1em;
+      border-bottom: 1px solid var(--table-border);
+      text-align: left;
+      font-size: 1rem;
+    }
+    .proxy-table th {
+      background: linear-gradient(90deg, #0fc0f0 0%, #2575fc 100%);
       color: #fff;
-      font-size: 1em;
-      pointer-events: none;
-      z-index: 9999;
-      animation-name: fall;
-      animation-timing-function: linear;
+      font-weight: bold;
+      letter-spacing: 0.04em;
+      border-bottom: 2px solid var(--table-border);
+    }
+    .proxy-table tr {
+      background: var(--table-row);
+    }
+    .proxy-table tr:nth-child(even) {
+      background: #212447;
+    }
+    .proxy-table tr:hover {
+      background: #1a202c;
+    }
+    .proxy-table a {
+      color: var(--accent);
+      text-decoration: underline;
+      font-size: 1.06rem;
+    }
+    .proxy-table .copy-btn {
+      background: var(--secondary);
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      padding: 4px 11px;
+      font-size: 0.98rem;
+      cursor: pointer;
+      transition: background 0.16s;
+      margin-left: 6px;
+    }
+    .proxy-table .copy-btn:hover {
+      background: #00f2fe;
+      color: #18181f;
+    }
+    .proxy-section .proxy-type-toggle {
+      display: flex;
+      gap: 1.2rem;
+      align-items: center;
+      margin-bottom: 0.7rem;
+    }
+    .proxy-section .proxy-type-toggle label {
+      margin-right: 0.3em;
+      color: #00f2fe;
+      font-weight: 700;
+    }
+    .proxy-section .proxy-type-toggle .proxy-type-btn {
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      border-radius: 24px;
+      padding: 0.47em 1.5em;
+      font-weight: 600;
+      font-size: 1rem;
+      margin-right: 0.3em;
+      cursor: pointer;
+      outline: none;
+      transition: background 0.13s, color 0.13s;
+      box-shadow: 0 2px 7px #0003;
+    }
+    .proxy-section .proxy-type-toggle .proxy-type-btn.active {
+      background: var(--accent);
+      color: #222;
+      filter: brightness(1.18);
+    }
+    .proxy-section .proxy-add-link {
+      margin-top: 1.1rem;
+      font-size: 1.08rem;
+      color: #aeefff;
+      text-align: left;
+    }
+    .proxy-section .proxy-add-link a {
+      color: #00f2fe;
+      font-weight: 600;
+      text-decoration: underline;
+      margin-left: 8px;
     }
     @keyframes fadeIn {
-      from { opacity: 0;}
-      to { opacity: 1;}
+      from { opacity: 0; }
+      to { opacity: 1; }
     }
-    /* API demo style */
-    .api-demo-card {
-      background: #23223a;
-      border-radius: 12px;
-      padding: 22px 18px;
-      max-width: 430px;
-      margin: 30px auto 32px auto;
-      box-shadow: 0 4px 36px #00ffe766, 0 0 0 2px #a400ff55 inset;
+    @media (max-width: 900px) {
+      .proxy-table { min-width: 380px; font-size: 0.97rem;}
+      .container { padding: 1.2rem 0.3rem;}
+      .pc-img-section img { max-width: 98vw; }
     }
-    .api-demo-card h2 { color: #00ffe7; font-size: 1.4rem; margin-bottom: 18px; text-align: center;}
-    .api-demo-card label { display: block; margin-top: 14px; color: #aeefff;}
-    .api-demo-card input, .api-demo-card select {
-      width: 100%; background: #191933; color: #fff; border: 1.3px solid #00ffe7;
-      padding: 7px 9px; border-radius: 6px; margin-top: 7px; margin-bottom: 7px; font-size: 1rem;
+    @media (max-width: 600px) {
+      .proxy-section { padding: 1.2rem 0.4rem;}
+      .proxy-table { min-width: 310px; font-size: 0.92rem;}
+      .proxy-section .filter-row { flex-direction: column; align-items: flex-start; gap: 0.7rem;}
+      .proxy-section .proxy-type-toggle { flex-direction: column; align-items: flex-start; gap: 0.7rem;}
     }
-    .api-demo-card button {
-      width: 100%; margin-top: 18px; padding: 12px 0; background: linear-gradient(90deg,#00ffe7 20%,#a400ff 90%);
-      color: #23272f; font-size: 1.18rem; font-weight: 700; border: none; border-radius: 7px; cursor: pointer;
-      box-shadow: 0 2px 12px #00ffe7aa;
-      transition: all 0.18s;
-    }
-    .api-demo-card button:hover { background: linear-gradient(90deg,#a400ff 10%,#00ffe7 80%); color:#fff;}
-    .api-demo-card .result { margin-top: 22px; padding: 13px 10px; border-radius: 6px; background: #191933; border: 1.4px solid #00ffe7; color: #fff;}
-    .api-demo-card .result.success { border-color: #1fff9f; color: #1fff9f;}
-    .api-demo-card .result.error { border-color: #ff487a; color: #ff487a;}
-    .api-demo-card .small { font-size: 0.98em; color: #aaa;}
   </style>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-  <!-- Video nền -->
-  <video 
-    class="video-bg" 
-    id="bgVideo"
-    autoplay 
-    loop 
-    muted 
-    playsinline 
-    preload="auto"
-  ></video>
-
-  <!-- API DEMO MUA UGPHONE -->
-  <div class="api-demo-card">
-    <h2><span style="color:#a400ff">DEMO</span> API MUA UGPHONE</h2>
-    <form id="buy-form" autocomplete="off">
-      <label>Token Hanami
-        <input type="text" id="tokenHanami" value="d1ad5e85be7b1fab94fd15c9102a69dd827c02c7fb434e" />
-      </label>
-      <label>UGPHONE ID
-        <input type="text" id="ugphoneId" placeholder="Nhập UGPHONE-ID trong localStorage" />
-      </label>
-      <label>UGPHONE Token
-        <input type="text" id="ugphoneToken" placeholder="Nhập UGPHONE-Token trong localStorage" />
-      </label>
-      <label>Server
-        <select id="server">
-          <option value="">Random</option>
-          <option>Singapore</option>
-          <option>Hong Kong</option>
-          <option>Japan</option>
-          <option>America</option>
-          <option>Germany</option>
-        </select>
-      </label>
-      <button type="submit">Gửi yêu cầu mua máy</button>
-    </form>
-    <div class="result" id="result" style="display:none"></div>
-    <div class="small" style="margin-top:12px;">
-      <strong>Endpoint:</strong> <br>
-      <code>POST https://api.nikata.fun/buy_device_ugphone</code><br>
-      <strong>Body:</strong>
-      <pre>{
-  "token": "tokenHanami",
-  "ugphone_id": "UGPHONE-ID",
-  "ugphone_token": "UGPHONE-Token",
-  "server": "Singapore"
-}</pre>
-    </div>
-  </div>
-
+  <div class="gaming-bg"></div>
   <div class="container">
-    <!-- Phần công cụ Arceus X -->
-    <div class="tools-section">
-      <header>
-        <h1>Công cụ hỗ trợ Arceus X</h1>
-        <p>Tổng hợp các công cụ và script hỗ trợ cho Arceus X</p>
-      </header>
-      <div class="card-grid">
-        <div class="card">
-          <h2><i class="fas fa-download"></i> Arceus X</h2>
-          <p>Phiên bản mới nhất của Arceus X với nhiều tính năng hỗ trợ game</p>
-          <a href="https://vng.spdmteam.com/" class="btn" target="_blank" rel="noopener noreferrer">Tải xuống tại đây</a>
-        </div>
-        <div class="card">
-          <h2><i class="fas fa-monkey"></i> Violentmonkey</h2>
-          <p>Trình quản lý userscript giúp bạn chạy các script tùy chỉnh</p>
-          <a href="https://addons.mozilla.org/vi/firefox/addon/violentmonkey/" class="btn" target="_blank" rel="noopener noreferrer">Tải Violentmonkey cho Firefox</a>
-        </div>
-        <div class="card">
-          <h2><i class="fas fa-unlock-alt"></i> Script Bypass</h2>
-          <p>Bỏ qua xác minh & link rút gọn để truy cập nhanh</p>
-          <a href="https://raw.githubusercontent.com/bypass-vip/userscript/refs/heads/main/bypass-vip.user.js" class="btn" target="_blank" rel="noopener noreferrer">Tải script Bypass tại đây</a>
-        </div>
-      </div>
-      <div class="card" style="margin-top: 2rem;">
-        <h2><i class="fas fa-code"></i> Speed Hub X Script</h2>
-        <div class="code-box">
-          loadstring(game:HttpGet("https://raw.githubusercontent.com/Speed-Hub-X/main/Speed%20Hub%20X.lua", true))()
-        </div>
-        <button class="btn" onclick="copyScript()">
-          <i class="far fa-copy"></i> Sao chép Script
-        </button>
-      </div>
+    <header>
+      <h1>Proxy Telegram & Gaming</h1>
+      <p>Bảng proxy miễn phí cho Telegram, chọn server Singapore để tối ưu tốc độ!</p>
+    </header>
+    <div class="pc-img-section">
+      <img src="https://i.imgur.com/VqJ0dVI.jpg" alt="Gaming PC" loading="lazy">
+      <!-- Bạn có thể thay đổi link ảnh theo ý thích -->
     </div>
-    <!-- Phần đồng hồ Việt Nam -->
-    <div class="clock-section">
-      <div class="clock-card">
-        <div class="clock-title">
-          <i class="fas fa-clock"></i> Đồng hồ Việt Nam
-        </div>
-        <div class="vietnam-clock" id="clock"></div>
-        <div class="date-display" id="date"></div>
+    <div class="proxy-section">
+      <h2><i class="fas fa-plug"></i> Danh sách Proxy Telegram (lọc Singapore)</h2>
+      <div class="proxy-type-toggle">
+        <label>Chọn loại proxy:</label>
+        <button class="proxy-type-btn active" id="btn-mtproto">MTProto</button>
+        <button class="proxy-type-btn" id="btn-socks5">Socks5</button>
+      </div>
+      <div class="filter-row">
+        <label for="searchInput"><i class="fas fa-search"></i> Tìm IP/Port:</label>
+        <input type="text" id="searchInput" placeholder="Nhập IP hoặc Port...">
+        <label for="countrySelect">Chỉ hiển thị quốc gia:</label>
+        <select id="countrySelect">
+          <option value="all">Tất cả</option>
+          <option value="sg">Singapore</option>
+        </select>
+      </div>
+      <div class="proxy-add-link">
+        <span><i class="fab fa-telegram-plane"></i> Thêm nhanh vào Telegram:</span>
+        <span id="proxy-add-link"></span>
+      </div>
+      <div style="overflow-x:auto;">
+        <table class="proxy-table" id="proxyTable">
+          <thead>
+            <tr>
+              <th>IP</th>
+              <th>Port</th>
+              <th>Country</th>
+              <th>Thêm vào Telegram</th>
+              <th>Sao chép</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td colspan="5" style="text-align:center;color:#aaa;">Đang tải proxy...</td></tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </div>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
   <script>
-    // API DEMO
-    document.getElementById('buy-form').onsubmit = async function(e) {
-      e.preventDefault();
-      const tokenHanami = document.getElementById('tokenHanami').value.trim();
-      const ugphoneId = document.getElementById('ugphoneId').value.trim();
-      const ugphoneToken = document.getElementById('ugphoneToken').value.trim();
-      const server = document.getElementById('server').value;
-      const resultDiv = document.getElementById('result');
-      resultDiv.style.display = 'block';
-      resultDiv.className = 'result';
-      resultDiv.textContent = "Đang gửi yêu cầu...";
+    // Elements
+    const btnMtproto = document.getElementById('btn-mtproto');
+    const btnSocks5 = document.getElementById('btn-socks5');
+    const searchInput = document.getElementById('searchInput');
+    const countrySelect = document.getElementById('countrySelect');
+    const proxyTable = document.getElementById('proxyTable').getElementsByTagName('tbody')[0];
+    const proxyAddLink = document.getElementById('proxy-add-link');
+
+    // URLs
+    const mtprotoUrl = 'https://raw.githubusercontent.com/hookzof/socks5_list/master/tg/mtproto.json';
+    const socks5Url  = 'https://raw.githubusercontent.com/hookzof/socks5_list/master/tg/socks.json';
+
+    let proxyType = 'mtproto';
+    let proxyData = [];
+
+    // UI Toggle
+    function setProxyType(type) {
+      proxyType = type;
+      btnMtproto.classList.toggle('active', type === 'mtproto');
+      btnSocks5.classList.toggle('active', type === 'socks5');
+      loadProxy();
+    }
+    btnMtproto.onclick = () => setProxyType('mtproto');
+    btnSocks5.onclick = () => setProxyType('socks5');
+
+    // Proxy Add Link
+    function updateProxyAddLink() {
+      if (proxyType === 'mtproto') {
+        proxyAddLink.innerHTML = `<a href="https://t.me/proxy?server=IP&port=PORT&secret=SECRET" target="_blank">mtproto (chọn server để lấy link)</a>`;
+      } else {
+        proxyAddLink.innerHTML = `<a href="https://t.me/socks?server=IP&port=PORT" target="_blank">socks5 (chọn server để lấy link)</a>`;
+      }
+    }
+    updateProxyAddLink();
+
+    // Load Proxy Data
+    async function loadProxy() {
+      proxyTable.innerHTML = `<tr><td colspan="5" style="text-align:center;color:#aaa;">Đang tải proxy...</td></tr>`;
+      updateProxyAddLink();
+      let url = proxyType === 'mtproto' ? mtprotoUrl : socks5Url;
       try {
-        const res = await fetch('https://api.nikata.fun/buy_device_ugphone', {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            token: tokenHanami,
-            ugphone_id: ugphoneId,
-            ugphone_token: ugphoneToken,
-            server: server
-          })
-        });
-        const json = await res.json();
-        if(json && json.message) {
-          resultDiv.textContent = json.message;
-          if(json.message.includes("thành công") || json.success) resultDiv.classList.add('success');
-          else resultDiv.classList.add('error');
-        } else {
-          resultDiv.textContent = "Lỗi: Không nhận được phản hồi hợp lệ.";
-          resultDiv.classList.add('error');
+        const res = await fetch(url);
+        let json = await res.json();
+        if (!Array.isArray(json)) json = [];
+        proxyData = json;
+        renderTable();
+      } catch (e) {
+        proxyTable.innerHTML = `<tr><td colspan="5" style="text-align:center;color:#ff3d7a;">Lỗi tải proxy!</td></tr>`;
+      }
+    }
+
+    // Filter and render
+    function renderTable() {
+      let countryVal = countrySelect.value;
+      let searchVal = searchInput.value.trim().toLowerCase();
+      let filtered = proxyData.filter(proxy => {
+        // Country filter (only sg if selected)
+        if (countryVal === 'sg' && proxy.country?.toLowerCase() !== 'sg') return false;
+        // Search filter
+        if (searchVal) {
+          if (
+            !(proxy.ip && proxy.ip.toLowerCase().includes(searchVal)) &&
+            !(proxy.port && String(proxy.port).includes(searchVal))
+          ) return false;
         }
-      } catch (err) {
-        resultDiv.textContent = "Lỗi kết nối tới API: " + err.message;
-        resultDiv.classList.add('error');
+        return true;
+      });
+
+      if (!filtered.length) {
+        proxyTable.innerHTML = `<tr><td colspan="5" style="text-align:center;color:#aaa;">Không tìm thấy proxy phù hợp.</td></tr>`;
+        return;
       }
-    };
+      proxyTable.innerHTML = '';
+      filtered.forEach((proxy, idx) => {
+        // Build link
+        let tgLink = '';
+        if (proxyType === 'mtproto') {
+          tgLink = `https://t.me/proxy?server=${proxy.ip}&port=${proxy.port}&secret=${proxy.secret}`;
+        } else {
+          tgLink = `https://t.me/socks?server=${proxy.ip}&port=${proxy.port}`;
+        }
+        const countryShow = proxy.country ? proxy.country.toUpperCase() : '';
+        // Copy content
+        let copyContent = proxyType === 'mtproto'
+          ? `${proxy.ip}:${proxy.port}:${proxy.secret}`
+          : `${proxy.ip}:${proxy.port}`;
 
-    // Nền video, snow, đồng hồ, copy script, ... giữ nguyên như bản trước
-    const videos = [
-      "https://v1.pinimg.com/videos/iht/720p/72/f2/b2/72f2b2b305ef9fb941d1b05e07793066.mp4",
-      "https://v1.pinimg.com/videos/mc/720p/91/77/47/917747d4ae76d3a9c5d9e727b5f6080a.mp4",
-      "https://v1.pinimg.com/videos/iht/expMp4/a7/9b/2d/a79b2df8b2fefbbcc3a5ec0d32e0ccc0_720w.mp4",
-      "https://v1.pinimg.com/videos/iht/expMp4/ca/f9/c0/caf9c066b9adee71afeed8de8b8cc18c_720w.mp4",
-      "https://v1.pinimg.com/videos/iht/expMp4/f1/e7/69/f1e7697c421077b43f931265ba1b717e_720w.mp4"
-    ];
-    function isMobileOS() {
-      return /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-    }
-    function getRandomVideo() {
-      return videos[Math.floor(Math.random() * videos.length)];
-    }
-    const bgVideo = document.getElementById('bgVideo');
-    function hideVideoControlsOnMobile() {
-      if (isMobileOS()) {
-        bgVideo.removeAttribute('controls');
-        bgVideo.style.pointerEvents = 'none';
-      }
-    }
-    function setRandomVideo() {
-      bgVideo.src = getRandomVideo();
-      bgVideo.autoplay = true;
-      bgVideo.muted = true;
-      bgVideo.currentTime = 0;
-      bgVideo.load();
-      bgVideo.play().catch(()=>{});
-      hideVideoControlsOnMobile();
-    }
-    bgVideo.addEventListener('ended', setRandomVideo);
-    setRandomVideo();
-
-    document.body.addEventListener('click', function enableSound(){
-      bgVideo.muted = false;
-      bgVideo.volume = 1.0;
-      bgVideo.play().catch(()=>{});
-      document.body.removeEventListener('click', enableSound);
-    });
-
-    // Hiệu ứng tuyết rơi
-    function createSnowflake() {
-      const snowflake = document.createElement("span");
-      snowflake.className = "snowflake";
-      const snowChar = ["❄", "❅", "❆"];
-      snowflake.innerText = snowChar[Math.floor(Math.random()*snowChar.length)];
-      snowflake.style.left = Math.random() * 100 + "vw";
-      const size = Math.random() * 1.2 + 0.7;
-      snowflake.style.fontSize = size + "em";
-      snowflake.style.opacity = Math.random() * 0.8 + 0.2;
-      const duration = Math.random() * 2 + 3.5;
-      snowflake.style.animationDuration = duration + "s";
-      snowflake.style.transform = `rotate(${Math.random()*360}deg)`;
-      document.body.appendChild(snowflake);
-      snowflake.addEventListener("animationend", () => { snowflake.remove(); });
-    }
-    setInterval(createSnowflake, 250);
-
-    // Chức năng copy script
-    function copyScript() {
-      const box = document.querySelector(".code-box").innerText;
-      navigator.clipboard.writeText(box);
-      alert("Đã sao chép script!");
+        proxyTable.innerHTML += `
+          <tr>
+            <td>${proxy.ip || ''}</td>
+            <td>${proxy.port || ''}</td>
+            <td>${countryShow}</td>
+            <td><a href="${tgLink}" target="_blank">Thêm vào Telegram</a></td>
+            <td>
+              <button class="copy-btn" onclick="navigator.clipboard.writeText('${copyContent.replace(/'/g, "\\'")}');this.innerText='Đã copy';setTimeout(()=>this.innerText='Copy',1300)">Copy</button>
+            </td>
+          </tr>
+        `;
+      });
     }
 
-    // Cập nhật đồng hồ Việt Nam
-    function updateClock() {
-      const now = new Date();
-      const options = { 
-        timeZone: 'Asia/Ho_Chi_Minh',
-        hour: '2-digit',
-        minute: '2-digit',
-        second: '2-digit',
-        hour12: false
-      };
-      const dateOptions = {
-        timeZone: 'Asia/Ho_Chi_Minh',
-        weekday: 'long',
-        day: 'numeric',
-        month: 'numeric',
-        year: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit'
-      };
-      document.getElementById('clock').textContent = now.toLocaleTimeString('vi-VN', options);
-      document.getElementById('date').textContent = now.toLocaleDateString('vi-VN', dateOptions);
-    }
-    setInterval(updateClock, 1000);
-    updateClock();
+    // Listeners
+    searchInput.oninput = renderTable;
+    countrySelect.onchange = renderTable;
 
-    // Gửi webhook Discord khi trang được tải
-    window.onload = function() {
-      fetch("https://api.ipify.org?format=json")
-        .then(res => res.json())
-        .then(data => {
-          const ip = data.ip;
-          const ua = navigator.userAgent;
-          fetch(`https://ipapi.co/${ip}/json/`)
-            .then(res => res.json())
-            .then(loc => {
-              const now = new Date();
-              const vnTime = now.toLocaleString('vi-VN', {
-                timeZone: 'Asia/Ho_Chi_Minh',
-                hour: '2-digit',
-                minute: '2-digit',
-                second: '2-digit',
-                day: '2-digit',
-                month: '2-digit',
-                year: 'numeric'
-              });
-              const webhookURL = "https://discord.com/api/webhooks/1291224256721457253/TPaVwWRWJLfIM0tJu8Kcr5b0A9K-gmLW1ANGkdHsJcwiBGsN801HoygA9E20cPLl5lA0";
-              const payload = {
-                content: [
-                  "```md",
-                  "🔔 **Truy cập mới vào công cụ Arceus X**",
-                  "",
-                  "----------------------------------------",
-                  "",
-                  "**🕒 Thời gian:**",
-                  `   ${vnTime}`,
-                  "",
-                  "**🌐 Địa chỉ IP:**",
-                  `   ${ip}`,
-                  "",
-                  "**📍 Khu vực:**",
-                  `   ${loc.city}, ${loc.region}, ${loc.country_name}`,
-                  "",
-                  "**🧭 Trình duyệt:**",
-                  `   ${ua}`,
-                  "",
-                  "----------------------------------------",
-                  "```"
-                ].join('\n')
-              };
-              fetch(webhookURL, {
-                method: "POST",
-                headers: {
-                  "Content-Type": "application/json"
-                },
-                body: JSON.stringify(payload)
-              });
-            });
-        })
-        .catch(error => {
-          console.error("Lỗi khi gửi webhook:", error);
-        });
-    };
+    // First load
+    loadProxy();
   </script>
 </body>
 </html>
