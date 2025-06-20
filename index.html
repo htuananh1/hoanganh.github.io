@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Công cụ proxy Telegram & Gaming</title>
+  <title>Proxy Telegram & Gaming (Ping thấp VN)</title>
   <style>
     :root {
       --primary: #6a11cb;
@@ -11,38 +11,18 @@
       --accent: #00f2fe;
       --dark: #121212;
       --light: #f8f9fa;
-      --card-bg: rgba(30, 30, 45, 0.9);
-      --table-bg: rgba(33, 36, 58, 0.97);
+      --card-bg: rgba(30, 30, 45, 0.97);
       --table-border: #00f2fe55;
-      --table-head: #0fc0f0;
-      --table-row: #23273b;
-    }
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
     body, html {
-      height: 100%;
       min-height: 100vh;
-      color: var(--light);
-      overflow-x: hidden;
-      position: relative;
       background: linear-gradient(135deg, #191a2e 0%, #23273b 50%, #0c0d1a 100%);
-      /* Gaming background effect */
-    }
-    .gaming-bg {
-      position: fixed;
-      top: 0; left: 0; width: 100vw; height: 100vh;
-      z-index: 0;
-      background: radial-gradient(ellipse at 70% 40%, #3a4cd3bb 0%, #1d233a 70%, #12121f 100%);
-      pointer-events: none;
-      opacity: 0.8;
-      filter: blur(1.5px);
+      color: #f8f9fa;
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
     .container {
-      max-width: 1200px;
+      max-width: 700px;
       margin: 0 auto;
       padding: 2.2rem 1rem 1rem 1rem;
       position: relative;
@@ -54,7 +34,7 @@
       animation: fadeIn 1s ease;
     }
     header h1 {
-      font-size: 2.5rem;
+      font-size: 2.1rem;
       margin-bottom: 1rem;
       background: linear-gradient(to right, var(--accent), var(--secondary));
       -webkit-background-clip: text;
@@ -62,86 +42,34 @@
       color: transparent;
       font-weight: 700;
     }
-    .pc-img-section {
-      text-align: center;
-      margin-bottom: 1.5rem;
-    }
-    .pc-img-section img {
-      max-width: 320px;
-      width: 90%;
-      border-radius: 20px;
-      box-shadow: 0 8px 32px #00f2fe33, 0 2px 10px #0009;
-      margin: 0 auto;
-      display: block;
-      border: 2px solid #2575fc66;
-      background: #10101c;
-    }
     .proxy-section {
       background: var(--card-bg);
       border-radius: 18px;
       padding: 2rem 1.2rem;
-      margin-bottom: 2.2rem;
       box-shadow: 0 8px 32px #0002;
       border: 1.5px solid #00f2fe22;
-      position: relative;
       overflow-x: auto;
     }
     .proxy-section h2 {
       color: var(--accent);
-      font-size: 1.45rem;
+      font-size: 1.25rem;
       margin-bottom: 1.2rem;
-    }
-    .proxy-section .filter-row {
-      display: flex;
-      gap: 1.2rem;
-      align-items: center;
-      margin-bottom: 1.1rem;
-      flex-wrap: wrap;
-    }
-    .proxy-section label {
-      font-weight: 600;
-      color: #aeefff;
-    }
-    .proxy-section input[type="text"] {
-      padding: 0.5rem 1.1rem;
-      border-radius: 7px;
-      border: 1.5px solid #485571;
-      background: #23293b;
-      color: #f4f7fa;
-      font-size: 1rem;
-      outline: none;
-      width: 200px;
-      margin-right: 1.2rem;
-      transition: border 0.18s;
-    }
-    .proxy-section input[type="text"]:focus {
-      border-color: var(--accent);
-    }
-    .proxy-section select {
-      padding: 0.48rem 1.1rem;
-      border-radius: 7px;
-      border: 1.5px solid #485571;
-      background: #23293b;
-      color: #e2e7ef;
-      font-size: 1rem;
-      outline: none;
-      transition: border 0.18s;
     }
     .proxy-table {
       width: 100%;
-      background: var(--table-bg);
+      background: #23273b;
       border-collapse: collapse;
       border-radius: 13px;
       overflow: hidden;
       margin-top: 1rem;
-      min-width: 500px;
+      min-width: 350px;
       box-shadow: 0 2px 14px #00f2fe33;
+      font-size: 1rem;
     }
     .proxy-table th, .proxy-table td {
-      padding: 0.6em 1.1em;
+      padding: 0.5em 1em;
       border-bottom: 1px solid var(--table-border);
       text-align: left;
-      font-size: 1rem;
     }
     .proxy-table th {
       background: linear-gradient(90deg, #0fc0f0 0%, #2575fc 100%);
@@ -151,7 +79,7 @@
       border-bottom: 2px solid var(--table-border);
     }
     .proxy-table tr {
-      background: var(--table-row);
+      background: #23273b;
     }
     .proxy-table tr:nth-child(even) {
       background: #212447;
@@ -162,113 +90,57 @@
     .proxy-table a {
       color: var(--accent);
       text-decoration: underline;
-      font-size: 1.06rem;
+      font-size: 1.02rem;
     }
     .proxy-table .copy-btn {
       background: var(--secondary);
       color: #fff;
       border: none;
       border-radius: 6px;
-      padding: 4px 11px;
-      font-size: 0.98rem;
+      padding: 4px 10px;
+      font-size: 0.97rem;
       cursor: pointer;
       transition: background 0.16s;
-      margin-left: 6px;
+      margin-left: 4px;
     }
     .proxy-table .copy-btn:hover {
       background: #00f2fe;
       color: #18181f;
     }
-    .proxy-section .proxy-type-toggle {
-      display: flex;
-      gap: 1.2rem;
-      align-items: center;
-      margin-bottom: 0.7rem;
-    }
-    .proxy-section .proxy-type-toggle label {
-      margin-right: 0.3em;
-      color: #00f2fe;
+    .ping {
       font-weight: 700;
-    }
-    .proxy-section .proxy-type-toggle .proxy-type-btn {
-      background: var(--primary);
-      color: #fff;
-      border: none;
-      border-radius: 24px;
-      padding: 0.47em 1.5em;
-      font-weight: 600;
-      font-size: 1rem;
-      margin-right: 0.3em;
-      cursor: pointer;
-      outline: none;
-      transition: background 0.13s, color 0.13s;
-      box-shadow: 0 2px 7px #0003;
-    }
-    .proxy-section .proxy-type-toggle .proxy-type-btn.active {
-      background: var(--accent);
-      color: #222;
-      filter: brightness(1.18);
+      color: #31f7b0;
     }
     .proxy-section .proxy-add-link {
-      margin-top: 1.1rem;
+      margin: 1.1rem 0 0.6rem 0;
       font-size: 1.08rem;
       color: #aeefff;
-      text-align: left;
     }
     .proxy-section .proxy-add-link a {
       color: #00f2fe;
       font-weight: 600;
       text-decoration: underline;
-      margin-left: 8px;
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-    @media (max-width: 900px) {
-      .proxy-table { min-width: 380px; font-size: 0.97rem;}
-      .container { padding: 1.2rem 0.3rem;}
-      .pc-img-section img { max-width: 98vw; }
+      margin-left: 6px;
     }
     @media (max-width: 600px) {
       .proxy-section { padding: 1.2rem 0.4rem;}
       .proxy-table { min-width: 310px; font-size: 0.92rem;}
-      .proxy-section .filter-row { flex-direction: column; align-items: flex-start; gap: 0.7rem;}
-      .proxy-section .proxy-type-toggle { flex-direction: column; align-items: flex-start; gap: 0.7rem;}
     }
   </style>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-  <div class="gaming-bg"></div>
   <div class="container">
     <header>
-      <h1>Proxy Telegram & Gaming</h1>
-      <p>Bảng proxy miễn phí cho Telegram, chọn server Singapore để tối ưu tốc độ!</p>
+      <h1>Proxy Telegram Ping Thấp Hợp VN</h1>
+      <p>Chỉ hiện 5 proxy có ping thấp nhất, hợp cho IP Việt Nam.<br>Chọn <b>Thêm vào Telegram</b> hoặc <b>Copy</b> để sử dụng ngay!</p>
     </header>
-    <div class="pc-img-section">
-      <img src="https://i.imgur.com/VqJ0dVI.jpg" alt="Gaming PC" loading="lazy">
-      <!-- Bạn có thể thay đổi link ảnh theo ý thích -->
-    </div>
     <div class="proxy-section">
-      <h2><i class="fas fa-plug"></i> Danh sách Proxy Telegram (lọc Singapore)</h2>
-      <div class="proxy-type-toggle">
-        <label>Chọn loại proxy:</label>
-        <button class="proxy-type-btn active" id="btn-mtproto">MTProto</button>
-        <button class="proxy-type-btn" id="btn-socks5">Socks5</button>
-      </div>
-      <div class="filter-row">
-        <label for="searchInput"><i class="fas fa-search"></i> Tìm IP/Port:</label>
-        <input type="text" id="searchInput" placeholder="Nhập IP hoặc Port...">
-        <label for="countrySelect">Chỉ hiển thị quốc gia:</label>
-        <select id="countrySelect">
-          <option value="all">Tất cả</option>
-          <option value="sg">Singapore</option>
-        </select>
-      </div>
+      <h2><i class="fas fa-plug"></i> Proxy MTProto & Socks5 (Singapore/Asia, ping thấp)</h2>
       <div class="proxy-add-link">
-        <span><i class="fab fa-telegram-plane"></i> Thêm nhanh vào Telegram:</span>
-        <span id="proxy-add-link"></span>
+        <span><i class="fab fa-telegram-plane"></i> Thêm proxy vào Telegram: </span>
+        <a href="https://t.me/proxy?server=IP&port=PORT&secret=SECRET" target="_blank">MTProto mẫu</a> | 
+        <a href="https://t.me/socks?server=IP&port=PORT" target="_blank">Socks5 mẫu</a>
       </div>
       <div style="overflow-x:auto;">
         <table class="proxy-table" id="proxyTable">
@@ -276,126 +148,147 @@
             <tr>
               <th>IP</th>
               <th>Port</th>
-              <th>Country</th>
+              <th>Loại</th>
+              <th>Ping <i class="fas fa-signal"></i></th>
               <th>Thêm vào Telegram</th>
               <th>Sao chép</th>
             </tr>
           </thead>
           <tbody>
-            <tr><td colspan="5" style="text-align:center;color:#aaa;">Đang tải proxy...</td></tr>
+            <tr><td colspan="6" style="text-align:center;color:#aaa;">Đang kiểm tra proxy nhanh nhất...</td></tr>
           </tbody>
         </table>
       </div>
     </div>
   </div>
   <script>
-    // Elements
-    const btnMtproto = document.getElementById('btn-mtproto');
-    const btnSocks5 = document.getElementById('btn-socks5');
-    const searchInput = document.getElementById('searchInput');
-    const countrySelect = document.getElementById('countrySelect');
-    const proxyTable = document.getElementById('proxyTable').getElementsByTagName('tbody')[0];
-    const proxyAddLink = document.getElementById('proxy-add-link');
-
-    // URLs
+    // Nguồn dữ liệu
     const mtprotoUrl = 'https://raw.githubusercontent.com/hookzof/socks5_list/master/tg/mtproto.json';
     const socks5Url  = 'https://raw.githubusercontent.com/hookzof/socks5_list/master/tg/socks.json';
+    const proxyTable = document.getElementById('proxyTable').getElementsByTagName('tbody')[0];
 
-    let proxyType = 'mtproto';
-    let proxyData = [];
-
-    // UI Toggle
-    function setProxyType(type) {
-      proxyType = type;
-      btnMtproto.classList.toggle('active', type === 'mtproto');
-      btnSocks5.classList.toggle('active', type === 'socks5');
-      loadProxy();
-    }
-    btnMtproto.onclick = () => setProxyType('mtproto');
-    btnSocks5.onclick = () => setProxyType('socks5');
-
-    // Proxy Add Link
-    function updateProxyAddLink() {
-      if (proxyType === 'mtproto') {
-        proxyAddLink.innerHTML = `<a href="https://t.me/proxy?server=IP&port=PORT&secret=SECRET" target="_blank">mtproto (chọn server để lấy link)</a>`;
-      } else {
-        proxyAddLink.innerHTML = `<a href="https://t.me/socks?server=IP&port=PORT" target="_blank">socks5 (chọn server để lấy link)</a>`;
-      }
-    }
-    updateProxyAddLink();
-
-    // Load Proxy Data
-    async function loadProxy() {
-      proxyTable.innerHTML = `<tr><td colspan="5" style="text-align:center;color:#aaa;">Đang tải proxy...</td></tr>`;
-      updateProxyAddLink();
-      let url = proxyType === 'mtproto' ? mtprotoUrl : socks5Url;
-      try {
-        const res = await fetch(url);
-        let json = await res.json();
-        if (!Array.isArray(json)) json = [];
-        proxyData = json;
-        renderTable();
-      } catch (e) {
-        proxyTable.innerHTML = `<tr><td colspan="5" style="text-align:center;color:#ff3d7a;">Lỗi tải proxy!</td></tr>`;
-      }
-    }
-
-    // Filter and render
-    function renderTable() {
-      let countryVal = countrySelect.value;
-      let searchVal = searchInput.value.trim().toLowerCase();
-      let filtered = proxyData.filter(proxy => {
-        // Country filter (only sg if selected)
-        if (countryVal === 'sg' && proxy.country?.toLowerCase() !== 'sg') return false;
-        // Search filter
-        if (searchVal) {
-          if (
-            !(proxy.ip && proxy.ip.toLowerCase().includes(searchVal)) &&
-            !(proxy.port && String(proxy.port).includes(searchVal))
-          ) return false;
+    // Ping một IP:Port sử dụng WebSocket (MTProto), hoặc TCP ping Socks5 (dùng Image hack)
+    // Chỉ test port 443, 80, 1080, 8080, 3128, hoặc port chỉ định (ưu tiên 443, 1080, 80)
+    function pingHost(ip, port, timeout = 2000) {
+      // Dùng WebSocket nếu port 443, 80, 8080. Nếu fail thì luôn trả về Infinity.
+      return new Promise(resolve => {
+        let ws;
+        let finished = false;
+        let ports = [443, 1080, 80, 8080, 3128];
+        if (port && !ports.includes(Number(port))) ports.unshift(Number(port));
+        let idx = 0;
+        let start = Date.now();
+        function tryNext() {
+          if (idx >= ports.length) return resolve(Infinity);
+          let p = ports[idx++];
+          let timer;
+          // Dùng ws:// cho port 80, còn lại wss://
+          let url = (p === 80 ? `ws://${ip}:${p}` : `wss://${ip}:${p}`);
+          try {
+            ws = new WebSocket(url);
+            timer = setTimeout(() => {
+              if (!finished) {
+                finished = true;
+                ws && ws.close();
+                tryNext();
+              }
+            }, timeout);
+            ws.onerror = ws.onclose = function() {
+              if (!finished) {
+                finished = true;
+                clearTimeout(timer);
+                ws && ws.close();
+                finished = false;
+                tryNext();
+              }
+            }
+            ws.onopen = function() {
+              if (!finished) {
+                finished = true;
+                clearTimeout(timer);
+                ws && ws.close();
+                resolve(Date.now() - start);
+              }
+            }
+          } catch (e) {
+            tryNext();
+          }
         }
-        return true;
+        tryNext();
       });
+    }
 
-      if (!filtered.length) {
-        proxyTable.innerHTML = `<tr><td colspan="5" style="text-align:center;color:#aaa;">Không tìm thấy proxy phù hợp.</td></tr>`;
+    // Chỉ lấy proxy Singapore/Asia hoặc các proxy hợp lý cho VN
+    function isSGorAsia(c) {
+      if (!c) return false;
+      c = c.toLowerCase();
+      return c.includes('sg') || c.includes('singapore') || c.includes('asia') || c.includes('vn');
+    }
+
+    // Load và tìm 5 proxy ping thấp nhất
+    async function loadProxies() {
+      proxyTable.innerHTML = `<tr><td colspan="6" style="text-align:center;color:#aaa;">Đang kiểm tra proxy nhanh nhất...</td></tr>`;
+      let [mt, so] = await Promise.all([
+        fetch(mtprotoUrl).then(r=>r.json()).catch(()=>[]),
+        fetch(socks5Url).then(r=>r.json()).catch(()=>[])
+      ]);
+      // Chỉ lấy proxy Singapore/Asia hoặc country không rõ (ưu tiên SG)
+      let mtSG = mt.filter(x => isSGorAsia(x.country));
+      let soSG = so.filter(x => isSGorAsia(x.country));
+      // Ưu tiên 10 proxy đầu mỗi loại để test nhanh
+      mtSG = mtSG.slice(0, 10);
+      soSG = soSG.slice(0, 10);
+
+      // Ping song song, lấy ra 5 proxy ping thấp nhất tổng hợp từ cả hai loại
+      let allProxies = [
+        ...mtSG.map(x => ({...x, type: 'MTProto'})),
+        ...soSG.map(x => ({...x, type: 'Socks5'}))
+      ];
+      if (allProxies.length === 0) {
+        proxyTable.innerHTML = `<tr><td colspan="6" style="text-align:center;color:#ff3d7a;">Không có proxy phù hợp!</td></tr>`;
+        return;
+      }
+      // Ping song song tối đa 10 proxy đầu mỗi loại
+      let results = await Promise.all(allProxies.map(async (proxy) => {
+        let ping = await pingHost(proxy.ip, proxy.port, 2000);
+        return {...proxy, ping};
+      }));
+      // Lọc proxy có ping hợp lý (< 1700ms), sắp xếp tăng dần
+      results = results.filter(x => x.ping !== Infinity && x.ping < 1700);
+      results.sort((a,b) => a.ping - b.ping);
+      results = results.slice(0,5);
+
+      if (results.length === 0) {
+        proxyTable.innerHTML = `<tr><td colspan="6" style="text-align:center;color:#ff3d7a;">Không có proxy ping thấp khả dụng tại thời điểm này!</td></tr>`;
         return;
       }
       proxyTable.innerHTML = '';
-      filtered.forEach((proxy, idx) => {
-        // Build link
+      for (let proxy of results) {
         let tgLink = '';
-        if (proxyType === 'mtproto') {
+        if (proxy.type === 'MTProto') {
           tgLink = `https://t.me/proxy?server=${proxy.ip}&port=${proxy.port}&secret=${proxy.secret}`;
         } else {
           tgLink = `https://t.me/socks?server=${proxy.ip}&port=${proxy.port}`;
         }
-        const countryShow = proxy.country ? proxy.country.toUpperCase() : '';
-        // Copy content
-        let copyContent = proxyType === 'mtproto'
+        let copyContent = proxy.type === 'MTProto'
           ? `${proxy.ip}:${proxy.port}:${proxy.secret}`
           : `${proxy.ip}:${proxy.port}`;
-
         proxyTable.innerHTML += `
           <tr>
-            <td>${proxy.ip || ''}</td>
-            <td>${proxy.port || ''}</td>
-            <td>${countryShow}</td>
+            <td>${proxy.ip}</td>
+            <td>${proxy.port}</td>
+            <td>${proxy.type}</td>
+            <td class="ping">${proxy.ping}ms</td>
             <td><a href="${tgLink}" target="_blank">Thêm vào Telegram</a></td>
             <td>
-              <button class="copy-btn" onclick="navigator.clipboard.writeText('${copyContent.replace(/'/g, "\\'")}');this.innerText='Đã copy';setTimeout(()=>this.innerText='Copy',1300)">Copy</button>
+              <button class="copy-btn" onclick="navigator.clipboard.writeText('${copyContent.replace(/'/g, "\\'")}');this.innerText='Đã copy';setTimeout(()=>this.innerText='Copy',1200)">Copy</button>
             </td>
           </tr>
         `;
-      });
+      }
     }
-
-    // Listeners
-    searchInput.oninput = renderTable;
-    countrySelect.onchange = renderTable;
-
-    // First load
-    loadProxy();
+    // Load khi vào trang
+    loadProxies();
   </script>
 </body>
 </html>
