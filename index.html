@@ -189,6 +189,67 @@
       color: var(--accent);
       font-size: 1.25em;
     }
+    /* Popup sửa card */
+    .popup-bg {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      background: rgba(0,0,0,0.45);
+      z-index: 10000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: fadeIn .2s;
+    }
+    @keyframes fadeIn { 0% {opacity: 0;} 100% {opacity: 1;} }
+    .popup-card {
+      background: #23263a;
+      color: #f8f9fa;
+      border-radius: 14px;
+      padding: 2rem 1.5rem 1.5rem 1.5rem;
+      min-width: 320px;
+      max-width: 94vw;
+      box-shadow: 0 8px 40px #0007;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: 1.1em;
+    }
+    .popup-card label {
+      font-weight: 500;
+      margin-bottom: 0.3em;
+      display: block;
+    }
+    .popup-card input, .popup-card select {
+      width: 100%;
+      padding: 0.6em 0.7em;
+      border-radius: 7px;
+      border: 1px solid #555a;
+      background: #252740;
+      color: #fafbfc;
+      font-size: 1em;
+      margin-bottom: 0.8em;
+      margin-top: 0.13em;
+    }
+    .popup-actions {
+      display: flex;
+      gap: 1em;
+      margin-top: 0.2em;
+      justify-content: flex-end;
+    }
+    .popup-actions button {
+      border: none;
+      border-radius: 7px;
+      font-size: 1.08em;
+      padding: 0.5em 1.1em;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background .16s;
+    }
+    .btn-cancel { background: #333; color: #ccc;}
+    .btn-save { background: var(--accent); color: #222;}
+    .btn-save:hover { background: #57f6ff;}
+    .btn-cancel:hover { background: #444;}
     @media (max-width: 900px) {
       .container { padding: 1rem 0.3rem; }
       .section-title { font-size: 1.3rem; }
@@ -198,6 +259,7 @@
       .executor-header { gap: 0.7rem;}
       .executor-logo { width: 34px; height: 34px;}
       .edit-btn { top: 6px; right: 7px; width: 30px; height: 30px;}
+      .popup-card { min-width: 90vw; }
     }
   </style>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"/>
@@ -212,7 +274,7 @@
 
       <!-- Arceus X -->
       <div class="executor-card" data-exec="arceusx">
-        <button class="edit-btn" title="Đẩy thông tin này lên Github"><i class="fas fa-pen"></i></button>
+        <button class="edit-btn" title="Sửa thông tin"><i class="fas fa-pen"></i></button>
         <div class="executor-header">
           <img src="https://i.ibb.co/khKK7PC/arceus.png" alt="Arceus X" class="executor-logo"/>
           <span class="executor-name">Arceus X NEO</span>
@@ -239,7 +301,7 @@
 
       <!-- Codex -->
       <div class="executor-card" data-exec="codex">
-        <button class="edit-btn" title="Đẩy thông tin này lên Github"><i class="fas fa-pen"></i></button>
+        <button class="edit-btn" title="Sửa thông tin"><i class="fas fa-pen"></i></button>
         <div class="executor-header">
           <img src="https://files.catbox.moe/mmjwwd.png" alt="Codex" class="executor-logo"/>
           <span class="executor-name">Codex</span>
@@ -266,7 +328,7 @@
 
       <!-- Delta -->
       <div class="executor-card" data-exec="delta">
-        <button class="edit-btn" title="Đẩy thông tin này lên Github"><i class="fas fa-pen"></i></button>
+        <button class="edit-btn" title="Sửa thông tin"><i class="fas fa-pen"></i></button>
         <div class="executor-header">
           <img src="https://i.ibb.co/nbDv3Lx/delta.png" alt="Delta" class="executor-logo"/>
           <span class="executor-name">Delta</span>
@@ -293,7 +355,7 @@
 
       <!-- Cryptic -->
       <div class="executor-card" data-exec="cryptic">
-        <button class="edit-btn" title="Đẩy thông tin này lên Github"><i class="fas fa-pen"></i></button>
+        <button class="edit-btn" title="Sửa thông tin"><i class="fas fa-pen"></i></button>
         <div class="executor-header">
           <img src="https://getcryptic.net/assets/moonglow-HcoSKqMr.png" alt="Cryptic" class="executor-logo"/>
           <span class="executor-name">Cryptic</span>
@@ -317,22 +379,23 @@
           </div>
         </div>
       </div>
-
     </div>
   </div>
   <script>
-    // === Cấu hình SỬA lại cho bạn ===
-    const GITHUB_TOKEN_BASE64 = "YOUR_TOKEN_BASE64";
+    // ==== Popup sửa card và gửi lên github với token nhập tay ====
     const GITHUB_REPO = "htuananh1/hoanganh.github.io";
     const GITHUB_PATH = "data/executor-card.json";
-    // ================================
-
     function decodeTokenBase64(tokenBase64) {
-      return atob(tokenBase64);
+      try {
+        return atob(tokenBase64.trim());
+      } catch (e) { return ""; }
     }
-
     async function pushToGitHub(tokenBase64, repo, path, content) {
       const token = decodeTokenBase64(tokenBase64);
+      if (!token) {
+        alert("Token base64 không hợp lệ!");
+        return false;
+      }
       const apiUrl = `https://api.github.com/repos/${repo}/contents/${path}`;
       let sha = null;
       try {
@@ -347,13 +410,11 @@
           sha = json.sha;
         }
       } catch (e) {}
-
       const payload = {
         message: "Update executor card data",
         content: btoa(unescape(encodeURIComponent(content))),
         ...(sha && { sha }),
       };
-
       const response = await fetch(apiUrl, {
         method: "PUT",
         headers: {
@@ -363,34 +424,90 @@
         },
         body: JSON.stringify(payload),
       });
-
       if (response.ok) {
         alert("Đã gửi dữ liệu lên GitHub thành công!");
+        return true;
       } else {
         alert("Lỗi gửi lên GitHub: " + await response.text());
+        return false;
       }
     }
-
-    // Lấy info từng card
-    function getExecutorData(card) {
-      return {
-        name: card.querySelector('.executor-name')?.textContent.trim() || "",
-        version: card.querySelector('.info-version')?.textContent.trim() || "",
-        vngVersion: card.querySelector('.info-vng')?.textContent.trim() || "",
-        status: card.querySelector('.info-status')?.textContent.trim() || "",
-        download: card.querySelector('.info-download')?.href || "",
-        vng: card.querySelector('.info-vng-link')?.href || "",
+    function showEditPopup(card) {
+      // Lấy data cũ
+      const version = card.querySelector('.info-version').textContent.trim();
+      const vngVersion = card.querySelector('.info-vng').textContent.trim();
+      const status = card.querySelector('.info-status').textContent.trim();
+      const download = card.querySelector('.info-download').href;
+      const vng = card.querySelector('.info-vng-link').href;
+      // HTML popup
+      const popup = document.createElement('div');
+      popup.className = "popup-bg";
+      popup.innerHTML = `
+        <div class="popup-card">
+          <h3 style="font-size:1.2em;margin-bottom:1.1em;">Sửa thông tin Executor &amp; Gửi Github</h3>
+          <label>Version:</label>
+          <input type="text" class="edit-version" value="${version}" autocomplete="off"/>
+          <label>VNG Version:</label>
+          <input type="text" class="edit-vng-version" value="${vngVersion}" autocomplete="off"/>
+          <label>Status:</label>
+          <select class="edit-status">
+            <option value="Online"${status==="Online"?" selected":""}>Online</option>
+            <option value="Offline"${status==="Offline"?" selected":""}>Offline</option>
+          </select>
+          <label>Link Download:</label>
+          <input type="text" class="edit-download" value="${download}" autocomplete="off"/>
+          <label>Link VNG:</label>
+          <input type="text" class="edit-vng" value="${vng}" autocomplete="off"/>
+          <label>Token Github (base64):</label>
+          <input type="password" class="edit-token" placeholder="Nhập token base64..." autocomplete="off"/>
+          <div class="popup-actions">
+            <button class="btn-cancel">Hủy</button>
+            <button class="btn-save">Lưu &amp; Gửi Github</button>
+          </div>
+        </div>
+      `;
+      document.body.appendChild(popup);
+      // Sự kiện đóng popup
+      popup.querySelector('.btn-cancel').onclick = ()=> popup.remove();
+      // Lưu thay đổi và gửi github
+      popup.querySelector('.btn-save').onclick = async ()=>{
+        // Cập nhật vào card
+        card.querySelector('.info-version').textContent = popup.querySelector('.edit-version').value.trim();
+        card.querySelector('.info-vng').textContent = popup.querySelector('.edit-vng-version').value.trim();
+        card.querySelector('.info-status').textContent = popup.querySelector('.edit-status').value;
+        card.querySelector('.info-download').href = popup.querySelector('.edit-download').value.trim();
+        card.querySelector('.info-vng-link').href = popup.querySelector('.edit-vng').value.trim();
+        // Đổi màu chấm status
+        const dot = card.querySelector('.status-dot');
+        if (popup.querySelector('.edit-status').value === "Online") {
+          dot.classList.add("online");
+          dot.classList.remove("offline");
+        } else {
+          dot.classList.add("offline");
+          dot.classList.remove("online");
+        }
+        // Gửi github
+        const token = popup.querySelector('.edit-token').value.trim();
+        if (!token) { alert("Bạn phải nhập token base64!"); return; }
+        // Lấy data dạng object
+        const data = {
+          name: card.querySelector('.executor-name').textContent.trim(),
+          version: card.querySelector('.info-version').textContent.trim(),
+          vngVersion: card.querySelector('.info-vng').textContent.trim(),
+          status: card.querySelector('.info-status').textContent.trim(),
+          download: card.querySelector('.info-download').href,
+          vng: card.querySelector('.info-vng-link').href,
+        };
+        await pushToGitHub(token, GITHUB_REPO, GITHUB_PATH, JSON.stringify(data, null, 2));
+        popup.remove();
       };
     }
-
-    // Thêm sự kiện cho nút cây bút
+    // Gán sự kiện cho nút bút chì
     document.querySelectorAll('.executor-card .edit-btn').forEach(btn => {
-      btn.addEventListener('click', async function(e) {
+      btn.addEventListener('click', function(e) {
         e.preventDefault();
         const card = btn.closest('.executor-card');
-        const data = getExecutorData(card);
-        // Gửi lên Github
-        await pushToGitHub(GITHUB_TOKEN_BASE64, GITHUB_REPO, GITHUB_PATH, JSON.stringify(data, null, 2));
+        showEditPopup(card);
       });
     });
   </script>
