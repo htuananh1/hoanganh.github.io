@@ -49,13 +49,13 @@
       font-size: 1.3em;
       color: var(--accent);
     }
-    .executor-grid {
+    .executor-grid, .tools-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
       gap: 2rem;
       width: 100%;
     }
-    .executor-card {
+    .executor-card, .tool-card {
       background: linear-gradient(135deg, rgba(40,40,60,0.95), rgba(30,30,40,0.9));
       border-radius: 18px;
       padding: 2rem 1.5rem 1.5rem 1.5rem;
@@ -67,104 +67,32 @@
       flex-direction: column;
       gap: 1rem;
       min-height: 320px;
+      transition: box-shadow .16s;
     }
-    .executor-header {
-      display: flex;
-      gap: 1rem;
-      align-items: center;
-      margin-bottom: .7rem;
+    .tool-card:hover, .executor-card:hover {box-shadow:0 12px 48px #0006;}
+    .executor-header, .tool-header {display:flex; gap:1rem; align-items:center; margin-bottom:.7rem;}
+    .executor-logo, .tool-logo {width:44px; height:44px; border-radius:12px; background:#222; object-fit:contain; border:1.5px solid #232323; box-shadow:0 2px 12px #0003;}
+    .executor-name, .tool-name {font-size:1.25rem; font-weight:600; color:#fff; letter-spacing:0.02em; display:flex; align-items:center; gap:.4em;}
+    .executor-info, .tool-info {font-size:1rem; color:#d2d2e0; margin-bottom:0.4em; margin-left:0.2em;}
+    .executor-status {font-size:1rem; display:flex; align-items:center; gap:0.5em; margin-bottom:.6em; margin-left:0.2em;}
+    .status-dot {display:inline-block; width:11px; height:11px; border-radius:50%; margin-right:.3em; vertical-align:middle;}
+    .online {background:var(--online);}
+    .offline {background:var(--offline);}
+    .executor-actions, .tool-actions {margin-top:auto; display:flex; flex-direction:column; gap:0.7em;}
+    .main-row-actions {display:flex; gap:0.7em; width:100%;}
+    .btn-download, .btn-firefox, .btn-chrome {
+      flex:1; font-weight:700; border:none; border-radius:10px; padding:0.9em 0;
+      font-size:1.1em; cursor:pointer; display:flex; justify-content:center; align-items:center; gap:0.7em;
+      box-shadow:0 2px 12px #00ffea22; text-decoration:none; transition:background .2s, color .2s, transform .18s;
     }
-    .executor-logo {
-      width: 44px;
-      height: 44px;
-      border-radius: 12px;
-      background: #222;
-      object-fit: contain;
-      border: 1.5px solid #232323;
-      box-shadow: 0 2px 12px #0003;
-    }
-    .executor-name {
-      font-size: 1.25rem;
-      font-weight: 600;
-      color: #fff;
-      letter-spacing: 0.02em;
-      display: flex;
-      align-items: center;
-      gap: .4em;
-    }
-    .executor-info {
-      font-size: 1rem;
-      color: #d2d2e0;
-      margin-bottom: 0.4em;
-      margin-left: 0.2em;
-    }
-    .executor-status {
-      font-size: 1rem;
-      display: flex;
-      align-items: center;
-      gap: 0.5em;
-      margin-bottom: .6em;
-      margin-left: 0.2em;
-    }
-    .status-dot {
-      display: inline-block;
-      width: 11px;
-      height: 11px;
-      border-radius: 50%;
-      margin-right: .3em;
-      vertical-align: middle;
-    }
-    .online { background: var(--online);}
-    .offline { background: var(--offline);}
-    .executor-actions {
-      margin-top: auto;
-      display: flex;
-      flex-direction: column;
-      gap: 0.7em;
-    }
-    .main-row-actions {
-      display: flex;
-      gap: 0.7em;
-      width: 100%;
-    }
-    .btn-download {
-      flex: 1;
-      background: var(--btn-main);
-      color: #232323;
-      font-weight: 700;
-      border: none;
-      border-radius: 10px;
-      padding: 0.9em 0;
-      font-size: 1.1em;
-      cursor: pointer;
-      transition: background .2s, color .2s, transform .18s;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 0.7em;
-      box-shadow: 0 2px 12px #00ffea22;
-      text-decoration: none;
-    }
-    .btn-download:hover { background: #61ffd0; color: #161616; transform: translateY(-2px);}
-    .btn-vng {
-      flex: 1;
-      background: var(--btn-vng);
-      color: #eaeaea;
-      font-weight: 600;
-      border: none;
-      border-radius: 10px;
-      padding: 0.9em 0;
-      font-size: 1.1em;
-      cursor: pointer;
-      transition: background .2s, color .2s, transform .18s;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 0.7em;
-      box-shadow: 0 2px 12px #0004;
-      text-decoration: none;
-    }
-    .btn-vng:hover { background: #292929; color: var(--accent); transform: translateY(-2px);}
+    .btn-download {background: var(--btn-main); color:#232323;}
+    .btn-download:hover {background:#61ffd0; color:#161616; transform:translateY(-2px);}
+    .btn-firefox {background: #ff4f1f; color: #fff;}
+    .btn-firefox:hover {background:#ff7e47; color: #fff; transform:translateY(-2px);}
+    .btn-chrome {background: #43a047; color: #fff;}
+    .btn-chrome:hover {background:#66bb6a; color:#fff; transform:translateY(-2px);}
+    .btn-vng {background: var(--btn-vng); color:#eaeaea;}
+    .btn-vng:hover {background:#292929; color:var(--accent);}
     .edit-btn {
       position: absolute;
       top: 12px;
@@ -181,84 +109,19 @@
       transition: background .18s;
       z-index: 4;
     }
-    .edit-btn:hover {
-      background: #232323;
-    }
-    .edit-btn i {
-      color: var(--accent);
-      font-size: 1.25em;
-    }
-    /* Popup sửa card */
-    .popup-bg {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100vw; height: 100vh;
-      background: rgba(0,0,0,0.45);
-      z-index: 10000;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      animation: fadeIn .2s;
-    }
-    @keyframes fadeIn { 0% {opacity: 0;} 100% {opacity: 1;} }
-    .popup-card {
-      background: #23263a;
-      color: #f8f9fa;
-      border-radius: 14px;
-      padding: 2rem 1.5rem 1.5rem 1.5rem;
-      min-width: 320px;
-      max-width: 94vw;
-      box-shadow: 0 8px 40px #0007;
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      gap: 1.1em;
-    }
-    .popup-card label {
-      font-weight: 500;
-      margin-bottom: 0.3em;
-      display: block;
-    }
-    .popup-card input, .popup-card select {
-      width: 100%;
-      padding: 0.6em 0.7em;
-      border-radius: 7px;
-      border: 1px solid #555a;
-      background: #252740;
-      color: #fafbfc;
-      font-size: 1em;
-      margin-bottom: 0.8em;
-      margin-top: 0.13em;
-    }
-    .popup-actions {
-      display: flex;
-      gap: 1em;
-      margin-top: 0.2em;
-      justify-content: flex-end;
-    }
-    .popup-actions button {
-      border: none;
-      border-radius: 7px;
-      font-size: 1.08em;
-      padding: 0.5em 1.1em;
-      font-weight: 600;
-      cursor: pointer;
-      transition: background .16s;
-    }
-    .btn-cancel { background: #333; color: #ccc;}
-    .btn-save { background: var(--accent); color: #222;}
-    .btn-save:hover { background: #57f6ff;}
-    .btn-cancel:hover { background: #444;}
+    .edit-btn:hover { background: #232323; }
+    .edit-btn i { color: var(--accent); font-size: 1.25em; }
+    .tool-card.bypass{cursor:pointer; border:2px dashed var(--accent);}
+    .bypass-desc {font-size:1em; color:#bff; opacity:0.8; margin-bottom:1em;}
     @media (max-width: 900px) {
       .container { padding: 1rem 0.3rem; }
       .section-title { font-size: 1.3rem; }
     }
     @media (max-width: 600px) {
-      .executor-card { padding: 1.1rem 0.7rem 1rem 0.7rem; }
-      .executor-header { gap: 0.7rem;}
-      .executor-logo { width: 34px; height: 34px;}
+      .executor-card, .tool-card { padding: 1.1rem 0.7rem 1rem 0.7rem; }
+      .executor-header, .tool-header { gap: 0.7rem;}
+      .executor-logo, .tool-logo { width: 34px; height: 34px;}
       .edit-btn { top: 6px; right: 7px; width: 30px; height: 30px;}
-      .popup-card { min-width: 90vw; }
     }
   </style>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"/>
@@ -378,7 +241,50 @@
           </div>
         </div>
       </div>
-
+    </div>
+    <!-- Tools Section -->
+    <div class="section-title" style="margin-top:3rem;">
+      <i class="fa-solid fa-toolbox"></i>
+      Công Cụ
+    </div>
+    <div class="tools-grid">
+      <!-- Violentmonkey Card -->
+      <div class="tool-card" id="tool-violentmonkey">
+        <div class="tool-header">
+          <img src="https://violentmonkey.github.io/assets/icon128.png" alt="Violentmonkey" class="tool-logo"/>
+          <span class="tool-name">Violentmonkey</span>
+        </div>
+        <div class="tool-info">
+          Trình quản lý userscript (script tự động) tiện lợi, dễ dùng, hỗ trợ Chrome, Firefox.
+        </div>
+        <div class="tool-actions">
+          <div class="main-row-actions">
+            <a href="https://addons.mozilla.org/vi/firefox/addon/violentmonkey/" class="btn-firefox" target="_blank">
+              <i class="fab fa-firefox-browser"></i> Cài trên Firefox
+            </a>
+            <a href="https://chromewebstore.google.com/detail/violentmonkey/jinjaccalgkegednnccohejagnlnfdag" class="btn-chrome" target="_blank">
+              <i class="fab fa-chrome"></i> Cài trên Chrome
+            </a>
+          </div>
+        </div>
+      </div>
+      <!-- Bypass Card -->
+      <div class="tool-card bypass" id="tool-bypass">
+        <div class="tool-header">
+          <img src="https://img.icons8.com/ios-filled/50/00f2fe/lock-2.png" alt="Bypass" class="tool-logo"/>
+          <span class="tool-name">Bypass Script</span>
+        </div>
+        <div class="tool-info bypass-desc">
+          Script mở khoá, bỏ qua quảng cáo cho các trang web. <br><b>Dùng với Violentmonkey.</b>
+        </div>
+        <div class="tool-actions">
+          <div class="main-row-actions">
+            <a href="https://raw.githubusercontent.com/bypass-vip/userscript/refs/heads/main/bypass-vip.user.js" class="btn-download" id="bypass-download" target="_blank">
+              <i class="fas fa-download"></i> Tải Bypass Script
+            </a>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
   <script>
@@ -551,6 +457,15 @@
         }
       });
     });
+  });
+
+  // BYPASS: Click vào bypass card hoặc nút đều mở link script
+  document.getElementById('tool-bypass').addEventListener('click', function(e){
+    if(e.target.closest('a')) return;
+    window.open("https://raw.githubusercontent.com/bypass-vip/userscript/refs/heads/main/bypass-vip.user.js", "_blank");
+  });
+  document.getElementById('bypass-download').addEventListener('click', function(e){
+    window.open("https://raw.githubusercontent.com/bypass-vip/userscript/refs/heads/main/bypass-vip.user.js", "_blank");
   });
   </script>
 </body>
