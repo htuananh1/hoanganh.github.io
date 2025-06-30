@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Công cụ hỗ trợ Arceus X</title>
+  <title>Android Executors - Arceus X, Codex, Delta, Cryptic</title>
   <style>
     :root {
       --primary: #6a11cb;
@@ -12,6 +12,11 @@
       --dark: #121212;
       --light: #f8f9fa;
       --card-bg: rgba(30, 30, 45, 0.8);
+      --online: #38ff80;
+      --offline: #ff3b3b;
+      --btn-main: #3fffc2;
+      --btn-vng: #232323;
+      --btn-discord: #5865f2;
     }
     * {
       margin: 0;
@@ -21,399 +26,271 @@
     }
     body, html {
       height: 100%;
-      min-height: 100vh;
-      background: linear-gradient(135deg, #0f0f1a, #1a1a2e);
+      background: linear-gradient(135deg, #232526, #3a3a54, #181824 80%);
       color: var(--light);
-      overflow-x: hidden;
-      position: relative;
-    }
-    .video-bg {
-      position: fixed;
-      top: 0; left: 0; width: 100vw; height: 100vh;
-      z-index: 0;
-      object-fit: cover;
-      min-width: 100vw;
       min-height: 100vh;
-      pointer-events: none;
-      filter: brightness(0.5) blur(1px);
-      transition: opacity 0.7s;
-      opacity: 1;
-      display: block;
-      background: #000;
-      image-rendering: auto;
-      -webkit-backface-visibility: hidden;
-      backface-visibility: hidden;
     }
     .container {
-      max-width: 1200px;
+      max-width: 1100px;
       margin: 0 auto;
-      padding: 2rem;
-      position: relative;
-      z-index: 2;
+      padding: 2rem 1rem;
     }
-    .tools-section {
-      margin-bottom: 3rem;
-    }
-    header {
-      text-align: center;
-      margin-bottom: 3rem;
-      animation: fadeIn 1s ease;
-    }
-    header h1 {
-      font-size: 2.5rem;
-      margin-bottom: 1rem;
-      background: linear-gradient(to right, var(--accent), var(--secondary));
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
+    .section-title {
+      font-size: 2.2rem;
       font-weight: 700;
-    }
-    .card-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 2rem;
-    }
-    .card {
-      background: rgba(255, 255, 255, 0.05);
-      backdrop-filter: blur(10px);
-      border-radius: 12px;
-      padding: 2rem;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      position: relative;
-      z-index: 1;
-    }
-    .card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-    }
-    .card h2 {
-      font-size: 1.5rem;
-      margin-bottom: 1rem;
+      margin-bottom: 2rem;
       color: var(--accent);
       display: flex;
       align-items: center;
-      gap: 0.5rem;
+      gap: 0.7rem;
+      letter-spacing: 0.5px;
+      text-shadow: 0 4px 24px #0008;
     }
-    .code-box {
-      background: rgba(0, 0, 0, 0.3);
-      border: 1px solid rgba(0, 242, 254, 0.3);
-      border-radius: 8px;
-      padding: 1rem;
-      font-family: 'Courier New', monospace;
-      font-size: 0.9rem;
+    .section-title i {
+      font-size: 1.3em;
       color: var(--accent);
-      margin: 1rem 0;
-      overflow-x: auto;
     }
-    .btn {
+    .executor-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+      gap: 2rem;
+      width: 100%;
+    }
+    .executor-card {
+      background: linear-gradient(135deg, rgba(40,40,60,0.95), rgba(30,30,40,0.9));
+      border-radius: 18px;
+      padding: 2rem 1.5rem 1.5rem 1.5rem;
+      box-shadow: 0 6px 32px #0005;
+      position: relative;
+      overflow: hidden;
+      border: 1.5px solid rgba(0,0,0,0.13);
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      min-height: 320px;
+    }
+    .executor-header {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+      margin-bottom: .7rem;
+    }
+    .executor-logo {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: #222;
+      object-fit: contain;
+      border: 1.5px solid #232323;
+      box-shadow: 0 2px 12px #0003;
+    }
+    .executor-name {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: #fff;
+      letter-spacing: 0.02em;
+      display: flex;
+      align-items: center;
+      gap: .4em;
+    }
+    .executor-info {
+      font-size: 1rem;
+      color: #d2d2e0;
+      margin-bottom: 0.4em;
+      margin-left: 0.2em;
+    }
+    .executor-status {
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5em;
+      margin-bottom: .6em;
+      margin-left: 0.2em;
+    }
+    .status-dot {
       display: inline-block;
-      background: linear-gradient(to right, var(--primary), var(--secondary));
-      color: white;
-      padding: 0.8rem 1.5rem;
-      border-radius: 50px;
-      text-decoration: none;
-      font-weight: 600;
-      transition: all 0.3s ease;
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+      margin-right: .3em;
+      vertical-align: middle;
+    }
+    .online { background: var(--online);}
+    .offline { background: var(--offline);}
+    .executor-actions {
+      margin-top: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 0.7em;
+    }
+    .main-row-actions {
+      display: flex;
+      gap: 0.7em;
+      width: 100%;
+    }
+    .btn-download {
+      flex: 1;
+      background: var(--btn-main);
+      color: #232323;
+      font-weight: 700;
       border: none;
+      border-radius: 10px;
+      padding: 0.9em 0;
+      font-size: 1.1em;
       cursor: pointer;
-    }
-    .btn-codex {
-      margin-top: 10px;
-      display: block;
-      background: linear-gradient(to right, #00f2fe, #2575fc);
-      color: #fff;
-      font-weight: 600;
-      border-radius: 50px;
-      padding: 0.8rem 1.5rem;
-      text-align: center;
-      border: none;
+      transition: background .2s, color .2s, transform .18s;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 0.7em;
+      box-shadow: 0 2px 12px #00ffea22;
       text-decoration: none;
-      transition: all 0.3s ease;
     }
-    .btn-codex:hover {
-      filter: brightness(1.2);
-      box-shadow: 0 4px 16px rgba(0,242,254,0.2);
+    .btn-download:hover { background: #61ffd0; color: #161616; transform: translateY(-2px);}
+    .btn-vng {
+      flex: 1;
+      background: var(--btn-vng);
+      color: #eaeaea;
+      font-weight: 600;
+      border: none;
+      border-radius: 10px;
+      padding: 0.9em 0;
+      font-size: 1.1em;
+      cursor: pointer;
+      transition: background .2s, color .2s, transform .18s;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 0.7em;
+      box-shadow: 0 2px 12px #0004;
+      text-decoration: none;
     }
-    .clock-section {
-      margin-top: 4rem;
-      text-align: center;
+    .btn-vng:hover { background: #292929; color: var(--accent); transform: translateY(-2px);}
+    @media (max-width: 900px) {
+      .container { padding: 1rem 0.3rem; }
+      .section-title { font-size: 1.3rem; }
     }
-    .clock-card {
-      background: var(--card-bg);
-      backdrop-filter: blur(10px);
-      border-radius: 16px;
-      padding: 30px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      max-width: 500px;
-      margin: 0 auto;
-    }
-    .clock-title {
-      font-size: 1.5rem;
-      margin-bottom: 20px;
-      color: var(--accent);
-    }
-    .vietnam-clock {
-      font-size: 2.5rem;
-      font-weight: bold;
-      margin-bottom: 15px;
-      background: linear-gradient(to right, var(--accent), var(--secondary));
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-    }
-    .date-display {
-      font-size: 1.2rem;
-      color: rgba(255, 255, 255, 0.7);
-    }
-    .snowflake {
-      position: fixed;
-      top: -50px;
-      color: #fff;
-      font-size: 1em;
-      pointer-events: none;
-      z-index: 9999;
-      animation-name: fall;
-      animation-timing-function: linear;
-    }
-    @keyframes fall {
-      to {
-        transform: translateY(110vh) rotate(360deg);
-        opacity: 0.7;
-      }
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-    @media (max-width: 768px) {
-      .container {
-        padding: 1rem;
-      }
-      header h1 {
-        font-size: 2rem;
-      }
-      .card-grid {
-        grid-template-columns: 1fr;
-      }
-      .vietnam-clock {
-        font-size: 2rem;
-      }
+    @media (max-width: 600px) {
+      .executor-card { padding: 1.1rem 0.7rem 1rem 0.7rem; }
+      .executor-header { gap: 0.7rem;}
+      .executor-logo { width: 34px; height: 34px;}
     }
   </style>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"/>
 </head>
 <body>
-  <!-- Video nền -->
-  <video 
-    class="video-bg" 
-    id="bgVideo"
-    autoplay 
-    loop 
-    muted 
-    playsinline 
-    preload="auto"
-  ></video>
   <div class="container">
-    <!-- Phần công cụ Arceus X -->
-    <div class="tools-section">
-      <header>
-        <h1>Công cụ hỗ trợ Arceus X</h1>
-        <p>Tổng hợp các công cụ và script hỗ trợ cho Arceus X</p>
-      </header>
-      <div class="card-grid">
-        <div class="card">
-          <h2><i class="fas fa-download"></i> Arceus X</h2>
-          <p>Phiên bản mới nhất của Arceus X với nhiều tính năng hỗ trợ game</p>
-          <a href="https://vng.spdmteam.com/" class="btn" target="_blank" rel="noopener noreferrer">Tải xuống tại đây</a>
-          <!-- Nút tải Codex mới -->
-          <a href="https://www.mediafire.com/file/d0haxvpmf8uclvn/Codex_VNG_v2.676.apk/file" class="btn-codex" target="_blank" rel="noopener noreferrer">
-            <i class="fas fa-download"></i> Tải Codex VNG v2.676
-          </a>
-        </div>
-        <div class="card">
-          <h2><i class="fas fa-monkey"></i> Violentmonkey</h2>
-          <p>Trình quản lý userscript giúp bạn chạy các script tùy chỉnh</p>
-          <a href="https://addons.mozilla.org/vi/firefox/addon/violentmonkey/" class="btn" target="_blank" rel="noopener noreferrer">Tải Violentmonkey cho Firefox</a>
-        </div>
-        <div class="card">
-          <h2><i class="fas fa-unlock-alt"></i> Script Bypass</h2>
-          <p>Bỏ qua xác minh & link rút gọn để truy cập nhanh</p>
-          <a href="https://raw.githubusercontent.com/bypass-vip/userscript/refs/heads/main/bypass-vip.user.js" class="btn" target="_blank" rel="noopener noreferrer">Tải script Bypass tại đây</a>
-        </div>
-      </div>
-      <div class="card" style="margin-top: 2rem;">
-        <h2><i class="fas fa-code"></i> Speed Hub X Script</h2>
-        <div class="code-box">
-          loadstring(game:HttpGet("https://raw.githubusercontent.com/Speed-Hub-X/main/Speed%20Hub%20X.lua", true))()
-        </div>
-        <button class="btn" onclick="copyScript()">
-          <i class="far fa-copy"></i> Sao chép Script
-        </button>
-      </div>
+    <div class="section-title">
+      <i class="fa-brands fa-android"></i>
+      Android Executors
     </div>
-    <!-- Phần đồng hồ Việt Nam -->
-    <div class="clock-section">
-      <div class="clock-card">
-        <div class="clock-title">
-          <i class="fas fa-clock"></i> Đồng hồ Việt Nam
+    <div class="executor-grid">
+
+      <!-- Arceus X -->
+      <div class="executor-card">
+        <div class="executor-header">
+          <img src="https://cdn.discordapp.com/icons/1000448399647569930/2601f9e7d6ed6dfb5a4a8680a5f87c1b.webp" alt="Arceus X" class="executor-logo"/>
+          <span class="executor-name">Arceus X NEO</span>
         </div>
-        <div class="vietnam-clock" id="clock"></div>
-        <div class="date-display" id="date"></div>
+        <div class="executor-info">Version: 2.677.762</div>
+        <div class="executor-info">VNG Version: 2.674.786</div>
+        <div class="executor-status">
+          <span class="status-dot online"></span>
+          <span>Status: Online</span>
+        </div>
+        <div class="executor-actions">
+          <div class="main-row-actions">
+            <a href="https://mediafire.com/file/ArceusX.apk/file" class="btn-download" target="_blank">
+              <i class="fas fa-download"></i> Download
+            </a>
+          </div>
+          <div class="main-row-actions">
+            <a href="https://mediafire.com/file/ArceusX-VNG.apk/file" class="btn-vng" target="_blank">
+              <i class="fas fa-download"></i> VNG
+            </a>
+          </div>
+        </div>
       </div>
+
+      <!-- Codex -->
+      <div class="executor-card">
+        <div class="executor-header">
+          <img src="https://samrat.lol/images/codex.png" alt="Codex" class="executor-logo"/>
+          <span class="executor-name">Codex</span>
+        </div>
+        <div class="executor-info">Version: 2.677.762</div>
+        <div class="executor-info">VNG Version: 2.674.786</div>
+        <div class="executor-status">
+          <span class="status-dot online"></span>
+          <span>Status: Online</span>
+        </div>
+        <div class="executor-actions">
+          <div class="main-row-actions">
+            <a href="https://mediafire.com/file/Codex.apk/file" class="btn-download" target="_blank">
+              <i class="fas fa-download"></i> Download
+            </a>
+          </div>
+          <div class="main-row-actions">
+            <a href="https://mediafire.com/file/Codex-VNG.apk/file" class="btn-vng" target="_blank">
+              <i class="fas fa-download"></i> VNG
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Delta -->
+      <div class="executor-card">
+        <div class="executor-header">
+          <img src="https://samrat.lol/images/delta.png" alt="Delta" class="executor-logo"/>
+          <span class="executor-name">Delta</span>
+        </div>
+        <div class="executor-info">Version: 2.677.762</div>
+        <div class="executor-info">VNG Version: 2.673</div>
+        <div class="executor-status">
+          <span class="status-dot online"></span>
+          <span>Status: Online</span>
+        </div>
+        <div class="executor-actions">
+          <div class="main-row-actions">
+            <a href="https://mediafire.com/file/Delta.apk/file" class="btn-download" target="_blank">
+              <i class="fas fa-download"></i> Download
+            </a>
+          </div>
+          <div class="main-row-actions">
+            <a href="https://mediafire.com/file/Delta-VNG.apk/file" class="btn-vng" target="_blank">
+              <i class="fas fa-download"></i> VNG
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Cryptic -->
+      <div class="executor-card">
+        <div class="executor-header">
+          <img src="https://samrat.lol/images/cryptic.png" alt="Cryptic" class="executor-logo"/>
+          <span class="executor-name">Cryptic</span>
+        </div>
+        <div class="executor-info">Version: 2.677.762</div>
+        <div class="executor-info">VNG Version: 2.674.786</div>
+        <div class="executor-status">
+          <span class="status-dot online"></span>
+          <span>Status: Online</span>
+        </div>
+        <div class="executor-actions">
+          <div class="main-row-actions">
+            <a href="https://mediafire.com/file/Cryptic.apk/file" class="btn-download" target="_blank">
+              <i class="fas fa-download"></i> Download
+            </a>
+          </div>
+          <div class="main-row-actions">
+            <a href="https://mediafire.com/file/Cryptic-VNG.apk/file" class="btn-vng" target="_blank">
+              <i class="fas fa-download"></i> VNG
+            </a>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
-  <script>
-    // Danh sách video nền (ưu tiên link chất lượng cao hơn nếu có)
-    const videos = [
-      "https://v1.pinimg.com/videos/iht/720p/72/f2/b2/72f2b2b305ef9fb941d1b05e07793066.mp4",
-      "https://v1.pinimg.com/videos/mc/720p/91/77/47/917747d4ae76d3a9c5d9e727b5f6080a.mp4",
-      "https://v1.pinimg.com/videos/iht/expMp4/a7/9b/2d/a79b2df8b2fefbbcc3a5ec0d32e0ccc0_720w.mp4",
-      "https://v1.pinimg.com/videos/iht/expMp4/ca/f9/c0/caf9c066b9adee71afeed8de8b8cc18c_720w.mp4",
-      "https://v1.pinimg.com/videos/iht/expMp4/f1/e7/69/f1e7697c421077b43f931265ba1b717e_720w.mp4"
-    ];
-    // Kiểm tra thiết bị Android/iOS
-    function isMobileOS() {
-      return /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-    }
-    function getRandomVideo() {
-      return videos[Math.floor(Math.random() * videos.length)];
-    }
-    const bgVideo = document.getElementById('bgVideo');
-    function hideVideoControlsOnMobile() {
-      if (isMobileOS()) {
-        bgVideo.removeAttribute('controls');
-        bgVideo.style.pointerEvents = 'none';
-      }
-    }
-    function setRandomVideo() {
-      bgVideo.src = getRandomVideo();
-      bgVideo.autoplay = true;
-      bgVideo.muted = true; // Để phát tự động trên mọi trình duyệt
-      bgVideo.currentTime = 0;
-      bgVideo.load();
-      bgVideo.play().catch(()=>{});
-      hideVideoControlsOnMobile();
-    }
-    bgVideo.addEventListener('ended', setRandomVideo);
-    setRandomVideo();
-
-    // Nếu muốn bật tiếng sau khi người dùng click:
-    document.body.addEventListener('click', function enableSound(){
-      bgVideo.muted = false;
-      bgVideo.volume = 1.0;
-      bgVideo.play().catch(()=>{});
-      document.body.removeEventListener('click', enableSound);
-    });
-
-    // Hiệu ứng tuyết rơi
-    function createSnowflake() {
-      const snowflake = document.createElement("span");
-      snowflake.className = "snowflake";
-      const snowChar = ["❄", "❅", "❆"];
-      snowflake.innerText = snowChar[Math.floor(Math.random()*snowChar.length)];
-      snowflake.style.left = Math.random() * 100 + "vw";
-      const size = Math.random() * 1.2 + 0.7;
-      snowflake.style.fontSize = size + "em";
-      snowflake.style.opacity = Math.random() * 0.8 + 0.2;
-      const duration = Math.random() * 2 + 3.5;
-      snowflake.style.animationDuration = duration + "s";
-      snowflake.style.transform = `rotate(${Math.random()*360}deg)`;
-      document.body.appendChild(snowflake);
-      snowflake.addEventListener("animationend", () => { snowflake.remove(); });
-    }
-    setInterval(createSnowflake, 250);
-
-    // Chức năng copy script
-    function copyScript() {
-      const box = document.querySelector(".code-box").innerText;
-      navigator.clipboard.writeText(box);
-      alert("Đã sao chép script!");
-    }
-
-    // Cập nhật đồng hồ Việt Nam
-    function updateClock() {
-      const now = new Date();
-      const options = { 
-        timeZone: 'Asia/Ho_Chi_Minh',
-        hour: '2-digit',
-        minute: '2-digit',
-        second: '2-digit',
-        hour12: false
-      };
-      const dateOptions = {
-        timeZone: 'Asia/Ho_Chi_Minh',
-        weekday: 'long',
-        day: 'numeric',
-        month: 'numeric',
-        year: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit'
-      };
-      document.getElementById('clock').textContent = now.toLocaleTimeString('vi-VN', options);
-      document.getElementById('date').textContent = now.toLocaleDateString('vi-VN', dateOptions);
-    }
-    setInterval(updateClock, 1000);
-    updateClock();
-
-    // Gửi webhook Discord khi trang được tải với khung đẹp
-    window.onload = function() {
-      fetch("https://api.ipify.org?format=json")
-        .then(res => res.json())
-        .then(data => {
-          const ip = data.ip;
-          const ua = navigator.userAgent;
-          fetch(`https://ipapi.co/${ip}/json/`)
-            .then(res => res.json())
-            .then(loc => {
-              const now = new Date();
-              const vnTime = now.toLocaleString('vi-VN', {
-                timeZone: 'Asia/Ho_Chi_Minh',
-                hour: '2-digit',
-                minute: '2-digit',
-                second: '2-digit',
-                day: '2-digit',
-                month: '2-digit',
-                year: 'numeric'
-              });
-              const webhookURL = "https://discord.com/api/webhooks/1291224256721457253/TPaVwWRWJLfIM0tJu8Kcr5b0A9K-gmLW1ANGkdHsJcwiBGsN801HoygA9E20cPLl5lA0";
-              const payload = {
-                content: [
-                  "```md",
-                  "🔔 **Truy cập mới vào công cụ Arceus X**",
-                  "",
-                  "----------------------------------------",
-                  "",
-                  "**🕒 Thời gian:**",
-                  `   ${vnTime}`,
-                  "",
-                  "**🌐 Địa chỉ IP:**",
-                  `   ${ip}`,
-                  "",
-                  "**📍 Khu vực:**",
-                  `   ${loc.city}, ${loc.region}, ${loc.country_name}`,
-                  "",
-                  "**🧭 Trình duyệt:**",
-                  `   ${ua}`,
-                  "",
-                  "----------------------------------------",
-                  "```"
-                ].join('\n')
-              };
-              fetch(webhookURL, {
-                method: "POST",
-                headers: {
-                  "Content-Type": "application/json"
-                },
-                body: JSON.stringify(payload)
-              });
-            });
-        })
-        .catch(error => {
-          console.error("Lỗi khi gửi webhook:", error);
-        });
-    };
-  </script>
 </body>
 </html>
