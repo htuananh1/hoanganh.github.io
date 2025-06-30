@@ -166,6 +166,29 @@
       text-decoration: none;
     }
     .btn-vng:hover { background: #292929; color: var(--accent); transform: translateY(-2px);}
+    .edit-btn {
+      position: absolute;
+      top: 12px;
+      right: 14px;
+      background: rgba(0,0,0,0.09);
+      border: none;
+      border-radius: 50%;
+      width: 36px;
+      height: 36px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background .18s;
+      z-index: 4;
+    }
+    .edit-btn:hover {
+      background: #232323;
+    }
+    .edit-btn i {
+      color: var(--accent);
+      font-size: 1.25em;
+    }
     @media (max-width: 900px) {
       .container { padding: 1rem 0.3rem; }
       .section-title { font-size: 1.3rem; }
@@ -174,6 +197,7 @@
       .executor-card { padding: 1.1rem 0.7rem 1rem 0.7rem; }
       .executor-header { gap: 0.7rem;}
       .executor-logo { width: 34px; height: 34px;}
+      .edit-btn { top: 6px; right: 7px; width: 30px; height: 30px;}
     }
   </style>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"/>
@@ -187,25 +211,26 @@
     <div class="executor-grid">
 
       <!-- Arceus X -->
-      <div class="executor-card">
+      <div class="executor-card" data-exec="arceusx">
+        <button class="edit-btn" title="Đẩy thông tin này lên Github"><i class="fas fa-pen"></i></button>
         <div class="executor-header">
-          <img src="https://cdn.discordapp.com/icons/1000448399647569930/2601f9e7d6ed6dfb5a4a8680a5f87c1b.webp" alt="Arceus X" class="executor-logo"/>
+          <img src="https://i.ibb.co/khKK7PC/arceus.png" alt="Arceus X" class="executor-logo"/>
           <span class="executor-name">Arceus X NEO</span>
         </div>
-        <div class="executor-info">Version: 2.677.762</div>
-        <div class="executor-info">VNG Version: 2.674.786</div>
+        <div class="executor-info">Version: <span class="info-version">2.677.762</span></div>
+        <div class="executor-info">VNG Version: <span class="info-vng">2.674.786</span></div>
         <div class="executor-status">
           <span class="status-dot online"></span>
-          <span>Status: Online</span>
+          <span>Status: <span class="info-status">Online</span></span>
         </div>
         <div class="executor-actions">
           <div class="main-row-actions">
-            <a href="https://mediafire.com/file/ArceusX.apk/file" class="btn-download" target="_blank">
+            <a href="https://mediafire.com/file/ArceusX.apk/file" class="btn-download info-download" target="_blank">
               <i class="fas fa-download"></i> Download
             </a>
           </div>
           <div class="main-row-actions">
-            <a href="https://mediafire.com/file/ArceusX-VNG.apk/file" class="btn-vng" target="_blank">
+            <a href="https://mediafire.com/file/ArceusX-VNG.apk/file" class="btn-vng info-vng-link" target="_blank">
               <i class="fas fa-download"></i> VNG
             </a>
           </div>
@@ -213,25 +238,26 @@
       </div>
 
       <!-- Codex -->
-      <div class="executor-card">
+      <div class="executor-card" data-exec="codex">
+        <button class="edit-btn" title="Đẩy thông tin này lên Github"><i class="fas fa-pen"></i></button>
         <div class="executor-header">
-          <img src="https://samrat.lol/images/codex.png" alt="Codex" class="executor-logo"/>
+          <img src="https://files.catbox.moe/mmjwwd.png" alt="Codex" class="executor-logo"/>
           <span class="executor-name">Codex</span>
         </div>
-        <div class="executor-info">Version: 2.677.762</div>
-        <div class="executor-info">VNG Version: 2.674.786</div>
+        <div class="executor-info">Version: <span class="info-version">2.677.762</span></div>
+        <div class="executor-info">VNG Version: <span class="info-vng">2.674.786</span></div>
         <div class="executor-status">
           <span class="status-dot online"></span>
-          <span>Status: Online</span>
+          <span>Status: <span class="info-status">Online</span></span>
         </div>
         <div class="executor-actions">
           <div class="main-row-actions">
-            <a href="https://mediafire.com/file/Codex.apk/file" class="btn-download" target="_blank">
+            <a href="https://mediafire.com/file/Codex.apk/file" class="btn-download info-download" target="_blank">
               <i class="fas fa-download"></i> Download
             </a>
           </div>
           <div class="main-row-actions">
-            <a href="https://mediafire.com/file/Codex-VNG.apk/file" class="btn-vng" target="_blank">
+            <a href="https://mediafire.com/file/Codex-VNG.apk/file" class="btn-vng info-vng-link" target="_blank">
               <i class="fas fa-download"></i> VNG
             </a>
           </div>
@@ -239,25 +265,26 @@
       </div>
 
       <!-- Delta -->
-      <div class="executor-card">
+      <div class="executor-card" data-exec="delta">
+        <button class="edit-btn" title="Đẩy thông tin này lên Github"><i class="fas fa-pen"></i></button>
         <div class="executor-header">
-          <img src="https://samrat.lol/images/delta.png" alt="Delta" class="executor-logo"/>
+          <img src="https://i.ibb.co/nbDv3Lx/delta.png" alt="Delta" class="executor-logo"/>
           <span class="executor-name">Delta</span>
         </div>
-        <div class="executor-info">Version: 2.677.762</div>
-        <div class="executor-info">VNG Version: 2.673</div>
+        <div class="executor-info">Version: <span class="info-version">2.677.762</span></div>
+        <div class="executor-info">VNG Version: <span class="info-vng">2.673</span></div>
         <div class="executor-status">
           <span class="status-dot online"></span>
-          <span>Status: Online</span>
+          <span>Status: <span class="info-status">Online</span></span>
         </div>
         <div class="executor-actions">
           <div class="main-row-actions">
-            <a href="https://mediafire.com/file/Delta.apk/file" class="btn-download" target="_blank">
+            <a href="https://mediafire.com/file/Delta.apk/file" class="btn-download info-download" target="_blank">
               <i class="fas fa-download"></i> Download
             </a>
           </div>
           <div class="main-row-actions">
-            <a href="https://mediafire.com/file/Delta-VNG.apk/file" class="btn-vng" target="_blank">
+            <a href="https://mediafire.com/file/Delta-VNG.apk/file" class="btn-vng info-vng-link" target="_blank">
               <i class="fas fa-download"></i> VNG
             </a>
           </div>
@@ -265,25 +292,26 @@
       </div>
 
       <!-- Cryptic -->
-      <div class="executor-card">
+      <div class="executor-card" data-exec="cryptic">
+        <button class="edit-btn" title="Đẩy thông tin này lên Github"><i class="fas fa-pen"></i></button>
         <div class="executor-header">
-          <img src="https://samrat.lol/images/cryptic.png" alt="Cryptic" class="executor-logo"/>
+          <img src="https://getcryptic.net/assets/moonglow-HcoSKqMr.png" alt="Cryptic" class="executor-logo"/>
           <span class="executor-name">Cryptic</span>
         </div>
-        <div class="executor-info">Version: 2.677.762</div>
-        <div class="executor-info">VNG Version: 2.674.786</div>
+        <div class="executor-info">Version: <span class="info-version">2.677.762</span></div>
+        <div class="executor-info">VNG Version: <span class="info-vng">2.674.786</span></div>
         <div class="executor-status">
           <span class="status-dot online"></span>
-          <span>Status: Online</span>
+          <span>Status: <span class="info-status">Online</span></span>
         </div>
         <div class="executor-actions">
           <div class="main-row-actions">
-            <a href="https://mediafire.com/file/Cryptic.apk/file" class="btn-download" target="_blank">
+            <a href="https://mediafire.com/file/Cryptic.apk/file" class="btn-download info-download" target="_blank">
               <i class="fas fa-download"></i> Download
             </a>
           </div>
           <div class="main-row-actions">
-            <a href="https://mediafire.com/file/Cryptic-VNG.apk/file" class="btn-vng" target="_blank">
+            <a href="https://mediafire.com/file/Cryptic-VNG.apk/file" class="btn-vng info-vng-link" target="_blank">
               <i class="fas fa-download"></i> VNG
             </a>
           </div>
@@ -292,5 +320,79 @@
 
     </div>
   </div>
+  <script>
+    // === Cấu hình SỬA lại cho bạn ===
+    const GITHUB_TOKEN_BASE64 = "YOUR_TOKEN_BASE64";
+    const GITHUB_REPO = "htuananh1/hoanganh.github.io";
+    const GITHUB_PATH = "data/executor-card.json";
+    // ================================
+
+    function decodeTokenBase64(tokenBase64) {
+      return atob(tokenBase64);
+    }
+
+    async function pushToGitHub(tokenBase64, repo, path, content) {
+      const token = decodeTokenBase64(tokenBase64);
+      const apiUrl = `https://api.github.com/repos/${repo}/contents/${path}`;
+      let sha = null;
+      try {
+        const res = await fetch(apiUrl, {
+          headers: {
+            Authorization: `token ${token}`,
+            Accept: "application/vnd.github.v3+json",
+          },
+        });
+        if (res.ok) {
+          const json = await res.json();
+          sha = json.sha;
+        }
+      } catch (e) {}
+
+      const payload = {
+        message: "Update executor card data",
+        content: btoa(unescape(encodeURIComponent(content))),
+        ...(sha && { sha }),
+      };
+
+      const response = await fetch(apiUrl, {
+        method: "PUT",
+        headers: {
+          Authorization: `token ${token}`,
+          Accept: "application/vnd.github.v3+json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (response.ok) {
+        alert("Đã gửi dữ liệu lên GitHub thành công!");
+      } else {
+        alert("Lỗi gửi lên GitHub: " + await response.text());
+      }
+    }
+
+    // Lấy info từng card
+    function getExecutorData(card) {
+      return {
+        name: card.querySelector('.executor-name')?.textContent.trim() || "",
+        version: card.querySelector('.info-version')?.textContent.trim() || "",
+        vngVersion: card.querySelector('.info-vng')?.textContent.trim() || "",
+        status: card.querySelector('.info-status')?.textContent.trim() || "",
+        download: card.querySelector('.info-download')?.href || "",
+        vng: card.querySelector('.info-vng-link')?.href || "",
+      };
+    }
+
+    // Thêm sự kiện cho nút cây bút
+    document.querySelectorAll('.executor-card .edit-btn').forEach(btn => {
+      btn.addEventListener('click', async function(e) {
+        e.preventDefault();
+        const card = btn.closest('.executor-card');
+        const data = getExecutorData(card);
+        // Gửi lên Github
+        await pushToGitHub(GITHUB_TOKEN_BASE64, GITHUB_REPO, GITHUB_PATH, JSON.stringify(data, null, 2));
+      });
+    });
+  </script>
 </body>
 </html>
