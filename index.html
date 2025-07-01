@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Android Executors - Dynamic from JSON</title>
+  <title>Android Executors - Dynamic from JSON + Công Cụ</title>
   <style>
     :root {
       --primary: #6a11cb;
@@ -17,38 +17,62 @@
       --btn-main: #3fffc2;
       --btn-vng: #232323;
     }
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
-    body, html {
-      height: 100%;
-      background: linear-gradient(135deg, #232526, #3a3a54, #181824 80%);
+    * {margin:0; padding:0; box-sizing:border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;}
+    html, body {min-height:100vh; height:100%;}
+    body {
       color: var(--light);
       min-height: 100vh;
+      background: #181824;
+      /* fallback */
+      overflow-x: hidden;
+      position: relative;
     }
-    .container {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 2rem 1rem;
+    /* Galaxy Effect */
+    #galaxy-bg {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
     }
-    .section-title {
-      font-size: 2.2rem;
+    .star {
+      position: absolute;
+      background: linear-gradient(90deg, #fff, #baf0ff 60%, #a9d0fc 100%);
+      border-radius: 50%;
+      width: 2px; height: 2px;
+      opacity: .6;
+      animation: starMove 20s linear infinite;
+    }
+    @keyframes starMove {
+      0% {transform:translateY(0);}
+      100% {transform:translateY(100vh);}
+    }
+    /* Clock */
+    .clock-wrap {
+      position: fixed;
+      top: 16px;
+      right: 32px;
+      z-index: 10;
+      background: rgba(20, 26, 44, 0.72);
+      color: #e0eaff;
       font-weight: 700;
-      margin-bottom: 2rem;
-      color: var(--accent);
+      font-size: 1.23rem;
+      padding: .5rem 1.1rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 20px #0005;
+      letter-spacing: 0.09em;
       display: flex;
       align-items: center;
-      gap: 0.7rem;
-      letter-spacing: 0.5px;
-      text-shadow: 0 4px 24px #0008;
+      gap: 0.5em;
+      user-select: none;
     }
-    .section-title i {
-      font-size: 1.3em;
-      color: var(--accent);
-    }
+    .clock-icon { color: var(--accent);}
+    /* Card Styles */
+    .container {max-width: 1100px; margin: 0 auto; padding: 2rem 1rem; position:relative; z-index: 1;}
+    .section-title {font-size:2.2rem; font-weight:700; margin-bottom:2rem; color:var(--accent); display:flex; align-items:center; gap:0.7rem; letter-spacing:0.5px; text-shadow:0 4px 24px #0008;}
+    .section-title i {font-size:1.3em; color:var(--accent);}
     .executor-grid, .tools-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
@@ -113,6 +137,67 @@
     .edit-btn i { color: var(--accent); font-size: 1.25em; }
     .tool-card.bypass{cursor:pointer; border:2px dashed var(--accent);}
     .bypass-desc {font-size:1em; color:#bff; opacity:0.8; margin-bottom:1em;}
+    /* Popup sửa card */
+    .popup-bg {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      background: rgba(0,0,0,0.45);
+      z-index: 10000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: fadeIn .2s;
+    }
+    @keyframes fadeIn { 0% {opacity: 0;} 100% {opacity: 1;} }
+    .popup-card {
+      background: #23263a;
+      color: #f8f9fa;
+      border-radius: 14px;
+      padding: 2rem 1.5rem 1.5rem 1.5rem;
+      min-width: 320px;
+      max-width: 94vw;
+      box-shadow: 0 8px 40px #0007;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: 1.1em;
+    }
+    .popup-card label {
+      font-weight: 500;
+      margin-bottom: 0.3em;
+      display: block;
+    }
+    .popup-card input, .popup-card select {
+      width: 100%;
+      padding: 0.6em 0.7em;
+      border-radius: 7px;
+      border: 1px solid #555a;
+      background: #252740;
+      color: #fafbfc;
+      font-size: 1em;
+      margin-bottom: 0.8em;
+      margin-top: 0.13em;
+    }
+    .popup-actions {
+      display: flex;
+      gap: 1em;
+      margin-top: 0.2em;
+      justify-content: flex-end;
+    }
+    .popup-actions button {
+      border: none;
+      border-radius: 7px;
+      font-size: 1.08em;
+      padding: 0.5em 1.1em;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background .16s;
+    }
+    .btn-cancel { background: #333; color: #ccc;}
+    .btn-save { background: var(--accent); color: #222;}
+    .btn-save:hover { background: #57f6ff;}
+    .btn-cancel:hover { background: #444;}
     @media (max-width: 900px) {
       .container { padding: 1rem 0.3rem; }
       .section-title { font-size: 1.3rem; }
@@ -122,19 +207,23 @@
       .executor-header, .tool-header { gap: 0.7rem;}
       .executor-logo, .tool-logo { width: 34px; height: 34px;}
       .edit-btn { top: 6px; right: 7px; width: 30px; height: 30px;}
+      .popup-card { min-width: 90vw; }
     }
   </style>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"/>
 </head>
 <body>
+  <div id="galaxy-bg"></div>
+  <div class="clock-wrap">
+    <span class="clock-icon"><i class="fa-regular fa-clock"></i></span>
+    <span id="live-clock"></span>
+  </div>
   <div class="container">
     <div class="section-title">
       <i class="fa-brands fa-android"></i>
       Android Executors
     </div>
     <div class="executor-grid">
-
-      <!-- Arceus X -->
       <div class="executor-card" data-keyword="arceus">
         <button class="edit-btn" title="Sửa thông tin"><i class="fas fa-pen"></i></button>
         <div class="executor-header">
@@ -160,8 +249,6 @@
           </div>
         </div>
       </div>
-
-      <!-- Codex -->
       <div class="executor-card" data-keyword="codex">
         <button class="edit-btn" title="Sửa thông tin"><i class="fas fa-pen"></i></button>
         <div class="executor-header">
@@ -187,8 +274,6 @@
           </div>
         </div>
       </div>
-
-      <!-- Delta -->
       <div class="executor-card" data-keyword="delta">
         <button class="edit-btn" title="Sửa thông tin"><i class="fas fa-pen"></i></button>
         <div class="executor-header">
@@ -214,8 +299,6 @@
           </div>
         </div>
       </div>
-
-      <!-- Cryptic -->
       <div class="executor-card" data-keyword="cryptic">
         <button class="edit-btn" title="Sửa thông tin"><i class="fas fa-pen"></i></button>
         <div class="executor-header">
@@ -288,21 +371,63 @@
     </div>
   </div>
   <script>
-  // ---- Cấu hình ----
-  const DATA_URL = "https://raw.githubusercontent.com/htuananh1/hoanganh.github.io/refs/heads/main/data/executor-card.json";
-  const GITHUB_REPO = "htuananh1/hoanganh.github.io";
-  const GITHUB_PATH = "data/executor-card.json";
+  // Galaxy background
+  const galaxy = document.getElementById('galaxy-bg');
+  for (let i = 0; i < 120; ++i) {
+    const s = document.createElement('div');
+    s.className = 'star';
+    s.style.left = (Math.random() * 100) + 'vw';
+    s.style.top = (-Math.random() * 100) + 'vh';
+    s.style.opacity = Math.random() * 0.7 + 0.3;
+    s.style.width = s.style.height = (Math.random() * 1.6 + 1.2) + 'px';
+    s.style.animationDuration = (18 + Math.random()*7) + 's';
+    galaxy.appendChild(s);
+  }
+  // Live clock
+  function updateClock(){
+    const now = new Date();
+    const pad = n=>n.toString().padStart(2,'0');
+    const time = `${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())} - ${pad(now.getDate())}/${pad(now.getMonth()+1)}/${now.getFullYear()}`;
+    document.getElementById('live-clock').textContent = time;
+  }
+  updateClock(); setInterval(updateClock, 1000);
 
-  // ---- Tiện ích ----
-  function normalizeName(name) {
-    return (name||"").toLowerCase().replace(/[^a-z0-9]/g, "");
+  // Android executors lấy động từ JSON
+  const DATA_URL = "https://raw.githubusercontent.com/htuananh1/hoanganh.github.io/refs/heads/main/data/executor-card.json";
+  function normalizeName(name) {return (name||"").toLowerCase().replace(/[^a-z0-9]/g, "");}
+  function fillCard(card, ex) {
+    if(!ex) {
+      card.querySelector('.info-version').textContent = "";
+      card.querySelector('.info-vng').textContent = "";
+      card.querySelector('.info-status').textContent = "No data";
+      card.querySelector('.info-download').href = "#";
+      card.querySelector('.info-vng-link').href = "#";
+      const dot = card.querySelector('.status-dot');
+      if(dot) dot.className = "status-dot";
+      return;
+    }
+    card.querySelector('.info-version').textContent = ex.version || "";
+    card.querySelector('.info-vng').textContent = ex.vngVersion || "";
+    card.querySelector('.info-status').textContent = ex.status || "";
+    card.querySelector('.info-download').href = ex.download || "#";
+    card.querySelector('.info-vng-link').href = ex.vng || "#";
+    const dot = card.querySelector('.status-dot');
+    if(dot) dot.className = "status-dot " + (ex.status && ex.status.toLowerCase() === "online" ? "online":"offline");
   }
-  async function fetchJSON(url) {
-    const res = await fetch(url);
-    if (!res.ok) throw new Error("Load JSON failed");
-    return await res.json();
-  }
-  function showEditPopup(card, currentData, saveCallback) {
+  fetch(DATA_URL).then(r=>r.json()).then(data=>{
+    const list = Array.isArray(data) ? data : [data];
+    document.querySelectorAll('.executor-card').forEach(card=>{
+      const keyword = card.getAttribute('data-keyword').toLowerCase();
+      const ex = list.find(e => normalizeName(e.name).includes(keyword));
+      fillCard(card, ex);
+    });
+  }).catch(()=>{
+    document.querySelectorAll('.executor-card').forEach(card=>{
+      if(card.querySelector('.info-status')) card.querySelector('.info-status').textContent = "Không tải được dữ liệu!";
+    });
+  });
+  // Popup sửa card
+  function showEditPopup(card) {
     const version = card.querySelector('.info-version').textContent.trim();
     const vngVersion = card.querySelector('.info-vng').textContent.trim();
     const status = card.querySelector('.info-status').textContent.trim();
@@ -312,7 +437,7 @@
     popup.className = "popup-bg";
     popup.innerHTML = `
       <div class="popup-card">
-        <h3 style="font-size:1.2em;margin-bottom:1.1em;">Sửa thông tin Executor &amp; Gửi Github</h3>
+        <h3 style="font-size:1.2em;margin-bottom:1.1em;">Sửa thông tin Executor</h3>
         <label>Version:</label>
         <input type="text" class="edit-version" value="${version}" autocomplete="off"/>
         <label>VNG Version:</label>
@@ -347,9 +472,33 @@
       };
       const token = popup.querySelector('.edit-token').value.trim();
       if (!token) { alert("Bạn phải nhập token base64!"); return; }
-      saveCallback(newData, token, popup);
+      // Load lại toàn bộ danh sách, update đúng executor
+      let executorList;
+      try {
+        executorList = await (await fetch(DATA_URL)).json();
+        if (!Array.isArray(executorList)) executorList = [executorList];
+      } catch(e) { alert("Không tải được dữ liệu executor!"); return; }
+      let found = false;
+      const keyword = card.getAttribute('data-keyword').toLowerCase();
+      executorList = executorList.map(e=>{
+        if (normalizeName(e.name).includes(keyword)) { found = true; return newData; }
+        return e;
+      });
+      if (!found) executorList.push(newData);
+      const ok = await pushToGitHub(token, "htuananh1/hoanganh.github.io", "data/executor-card.json", JSON.stringify(executorList, null, 2));
+      if (ok) {
+        fillCard(card, newData);
+        popup.remove();
+      }
     };
   }
+  document.querySelectorAll('.executor-card .edit-btn').forEach(btn => {
+    btn.addEventListener('click', function(e) {
+      e.preventDefault();
+      const card = btn.closest('.executor-card');
+      showEditPopup(card);
+    });
+  });
   function decodeTokenBase64(tokenBase64) {
     try { return atob(tokenBase64.trim()); }
     catch(e) { return ""; }
@@ -396,69 +545,6 @@
       return false;
     }
   }
-
-  // ---- Load dữ liệu và map vào card ----
-  let executorList = [];
-  function updateCardsFromList(list) {
-    document.querySelectorAll('.executor-card').forEach(card=>{
-      const keyword = card.getAttribute('data-keyword').toLowerCase();
-      const ex = list.find(e => normalizeName(e.name).includes(keyword));
-      if(!ex) {
-        card.querySelector('.info-version').textContent = "";
-        card.querySelector('.info-vng').textContent = "";
-        card.querySelector('.info-status').textContent = "No data";
-        card.querySelector('.info-download').href = "#";
-        card.querySelector('.info-vng-link').href = "#";
-        card.querySelector('.status-dot').className = "status-dot";
-      } else {
-        card.querySelector('.info-version').textContent = ex.version || "";
-        card.querySelector('.info-vng').textContent = ex.vngVersion || "";
-        card.querySelector('.info-status').textContent = ex.status || "";
-        card.querySelector('.info-download').href = ex.download || "#";
-        card.querySelector('.info-vng-link').href = ex.vng || "#";
-        const dot = card.querySelector('.status-dot');
-        dot.className = "status-dot " + (ex.status && ex.status.toLowerCase()==="online" ? "online" : "offline");
-      }
-    });
-  }
-  async function reloadExecutorsAndMap() {
-    try {
-      executorList = await fetchJSON(DATA_URL);
-      if (!Array.isArray(executorList)) executorList = [executorList];
-      updateCardsFromList(executorList);
-    } catch {
-      document.querySelectorAll('.executor-card').forEach(card=>{
-        card.querySelector('.info-status').textContent = "Không tải được dữ liệu!";
-      });
-    }
-  }
-  reloadExecutorsAndMap();
-
-  // ---- Sửa và lưu 1 card (chỉ update thông tin card đó trên github) ----
-  document.querySelectorAll('.executor-card .edit-btn').forEach(btn => {
-    btn.addEventListener('click', function(e) {
-      e.preventDefault();
-      const card = btn.closest('.executor-card');
-      const keyword = card.getAttribute('data-keyword').toLowerCase();
-      const currentEx = executorList.find(e => normalizeName(e.name).includes(keyword)) || {};
-      showEditPopup(card, currentEx, async (newData, token, popup)=>{
-        // 1. Cập nhật executorList
-        let found = false;
-        executorList = executorList.map(e=>{
-          if (normalizeName(e.name).includes(keyword)) { found = true; return newData; }
-          return e;
-        });
-        if (!found) executorList.push(newData); // Nếu chưa có, thêm mới
-        // 2. Gửi lên github
-        const ok = await pushToGitHub(token, GITHUB_REPO, GITHUB_PATH, JSON.stringify(executorList, null, 2));
-        if (ok) {
-          updateCardsFromList(executorList);
-          popup.remove();
-        }
-      });
-    });
-  });
-
   // BYPASS: Click vào bypass card hoặc nút đều mở link script
   document.getElementById('tool-bypass').addEventListener('click', function(e){
     if(e.target.closest('a')) return;
