@@ -15,7 +15,7 @@
       --online: #38ff80;
       --offline: #ff3b3b;
       --btn-main: #3fffc2;
-      --btn-vng: #232323;
+      --btn-vng: #3fffc2;
       --btn-firefox: #ff4f1f;
       --btn-chrome: #43a047;
       --border-card: #2ae9e9;
@@ -88,7 +88,7 @@
     }
     .btn-download {background: var(--btn-main); color:#232323;}
     .btn-download:hover {background:#61ffd0; color:#161616; transform:translateY(-2px);}
-    .btn-vng {background: var(--btn-main); color:#232323;}
+    .btn-vng {background: var(--btn-vng); color:#232323;}
     .btn-vng:hover {background:#61ffd0; color:#161616; transform:translateY(-2px);}
     .btn-firefox {background: var(--btn-firefox); color: #fff;}
     .btn-firefox:hover {background:#ff7e47; color: #fff; transform:translateY(-2px);}
@@ -116,21 +116,26 @@
     .bypass-desc {font-size:1em; color:#bff; opacity:0.8; margin-bottom:1em;}
     .clock-wrap {
       position: fixed;
-      top: 16px;
-      right: 32px;
+      left: 0; right: 0; bottom: 0;
       z-index: 10;
+      margin: 0 auto;
       background: rgba(20, 26, 44, 0.72);
       color: #e0eaff;
       font-weight: 700;
-      font-size: 1.23rem;
-      padding: .5rem 1.1rem;
-      border-radius: 8px;
-      box-shadow: 0 2px 20px #0005;
+      font-size: 1.18rem;
+      padding: .6rem 1.2rem .6rem 1.2rem;
+      border-radius: 18px 18px 0 0;
+      box-shadow: 0 -2px 20px #0005;
       letter-spacing: 0.09em;
       display: flex;
       align-items: center;
-      gap: 0.5em;
+      gap: 1.2em;
+      width: fit-content;
+      left: 50%;
+      transform: translateX(-50%);
       user-select: none;
+      min-width: 265px;
+      justify-content: center;
     }
     .clock-icon { color: var(--accent);}
     .popup-bg {
@@ -195,10 +200,14 @@
     .btn-cancel:hover { background: #444;}
     .popup-oldlink {font-size:.93em; color:#d2d2e0b2; margin-bottom:1em; display:none;}
     .popup-card.edit-links .popup-oldlink {display:block;}
+    .show-old-link, .show-old-link-vng {
+      float:right;font-size:0.85em;background:none;border:none;color:var(--accent);cursor:pointer;
+      text-decoration:underline;padding:0;margin:0;
+    }
     @media (max-width: 900px) {
       .container { padding: 1rem 0.3rem; }
       .section-title { font-size: 1.3rem; }
-      .clock-wrap {top:2px;right:2px;font-size:1em;padding:.37em .7em;}
+      .clock-wrap {font-size:1em;padding:.37em .7em;}
     }
     @media (max-width: 600px) {
       .executor-card, .tool-card { padding: 1.1rem 0.7rem 1rem 0.7rem; }
@@ -206,16 +215,14 @@
       .executor-logo, .tool-logo { width: 34px; height: 34px;}
       .edit-btn { top: 6px; right: 7px; width: 30px; height: 30px;}
       .popup-card { min-width: 90vw; }
+      .clock-wrap {font-size:.98em;}
     }
   </style>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"/>
 </head>
 <body>
   <div id="galaxy-bg"></div>
-  <div class="clock-wrap">
-    <span class="clock-icon"><i class="fa-regular fa-clock"></i></span>
-    <span id="live-clock"></span>
-  </div>
+
   <div class="container">
     <div class="section-title">
       <i class="fa-brands fa-android"></i>
@@ -372,6 +379,12 @@
       </div>
     </div>
   </div>
+  <div class="clock-wrap">
+    <span class="clock-icon"><i class="fa-regular fa-clock"></i></span>
+    <span id="live-clock"></span>
+    <span id="vn-date"></span>
+    <span id="lunar-date"></span>
+  </div>
   <script>
   // Galaxy background
   const galaxy = document.getElementById('galaxy-bg');
@@ -385,19 +398,39 @@
     s.style.animationDuration = (18 + Math.random()*7) + 's';
     galaxy.appendChild(s);
   }
-  // Live clock
-  function updateClock(){
-    const now = new Date();
-    const pad = n=>n.toString().padStart(2,'0');
-    const time = `${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())} - ${pad(now.getDate())}/${pad(now.getMonth()+1)}/${now.getFullYear()}`;
-    document.getElementById('live-clock').textContent = time;
-  }
-  updateClock(); setInterval(updateClock, 1000);
-
   // Always force desktop view on Android
   if (/android/i.test(navigator.userAgent)) {
     document.querySelector('meta[name=viewport]').setAttribute('content','width=1024, initial-scale=1.0');
   }
+  // Live clock + Vietnam time + lunar
+  function getLunarVN(date){
+    // Simple lunar date for Vietnam (placeholder, not 100% accurate, for real use, use library like https://github.com/vanng822/lunarjs)
+    function INT(d){return Math.floor(d);}
+    let day = date.getDate(), month = date.getMonth()+1, year = date.getFullYear();
+    let off = date.valueOf() - new Date(1900,0,31).valueOf();
+    let k = Math.floor(off/86400000/29.530588853);
+    let lunarNewYear = new Date(1900,0,31+k*29.530588853*86400000);
+    let lday = Math.floor((date-lunarNewYear)/86400000)+1;
+    let lmonth = month, lyear = year;
+    if(lday<=0){
+      k--;
+      lunarNewYear = new Date(1900,0,31+k*29.530588853*86400000);
+      lday = Math.floor((date-lunarNewYear)/86400000)+1;
+    }
+    return `Âm: ${lday}/${lmonth}/${lyear}`;
+  }
+  function updateClock(){
+    const now = new Date();
+    // Vietnam time
+    const vnNow = new Date(now.getTime() + 7*3600*1000 - now.getTimezoneOffset()*60000);
+    const pad = n=>n.toString().padStart(2,'0');
+    const time = `${pad(vnNow.getHours())}:${pad(vnNow.getMinutes())}:${pad(vnNow.getSeconds())}`;
+    const date = `${pad(vnNow.getDate())}/${pad(vnNow.getMonth()+1)}/${vnNow.getFullYear()}`;
+    document.getElementById('live-clock').textContent = `${time}`;
+    document.getElementById('vn-date').textContent = `- ${date}`;
+    document.getElementById('lunar-date').textContent = `- ${getLunarVN(vnNow)}`;
+  }
+  updateClock(); setInterval(updateClock, 1000);
 
   // Android executors lấy động từ JSON
   const DATA_URL = "https://raw.githubusercontent.com/htuananh1/hoanganh.github.io/refs/heads/main/data/executor-card.json";
@@ -433,7 +466,7 @@
       if(card.querySelector('.info-status')) card.querySelector('.info-status').textContent = "Không tải được dữ liệu!";
     });
   });
-  // Popup sửa card (ẩn link cũ, có nút show link cũ)
+  // Popup sửa card (ẩn link, có nút show link cũ)
   function showEditPopup(card) {
     const version = card.querySelector('.info-version').textContent.trim();
     const vngVersion = card.querySelector('.info-vng').textContent.trim();
@@ -456,15 +489,15 @@
         </select>
         <label>
           Link Download:
-          <button type="button" class="show-old-link" style="float:right;font-size:0.85em;background:none;border:none;color:var(--accent);cursor:pointer;">Hiện link cũ</button>
+          <button type="button" class="show-old-link" style="float:right">Hiện link cũ</button>
         </label>
-        <input type="text" class="edit-download" value="${download}" autocomplete="off"/>
+        <input type="text" class="edit-download" value="" autocomplete="off"/>
         <div class="popup-oldlink" style="display:none;">${download}</div>
         <label>
           Link VNG:
-          <button type="button" class="show-old-link-vng" style="float:right;font-size:0.85em;background:none;border:none;color:var(--accent);cursor:pointer;">Hiện link cũ</button>
+          <button type="button" class="show-old-link-vng" style="float:right">Hiện link cũ</button>
         </label>
-        <input type="text" class="edit-vng" value="${vng}" autocomplete="off"/>
+        <input type="text" class="edit-vng" value="" autocomplete="off"/>
         <div class="popup-oldlink popup-oldlink-vng" style="display:none;">${vng}</div>
         <label>Token Github (base64):</label>
         <input type="password" class="edit-token" placeholder="Nhập token base64..." autocomplete="off"/>
@@ -475,7 +508,6 @@
       </div>
     `;
     document.body.appendChild(popup);
-    // Nút hiện link cũ
     popup.querySelector('.show-old-link').onclick = function(){
       const old = popup.querySelector('.popup-oldlink');
       old.style.display = old.style.display==="none"?"block":"none";
@@ -491,8 +523,8 @@
         version: popup.querySelector('.edit-version').value.trim(),
         vngVersion: popup.querySelector('.edit-vng-version').value.trim(),
         status: popup.querySelector('.edit-status').value.trim(),
-        download: popup.querySelector('.edit-download').value.trim(),
-        vng: popup.querySelector('.edit-vng').value.trim()
+        download: popup.querySelector('.edit-download').value.trim() || download,
+        vng: popup.querySelector('.edit-vng').value.trim() || vng
       };
       const token = popup.querySelector('.edit-token').value.trim();
       if (!token) { alert("Bạn phải nhập token base64!"); return; }
@@ -568,7 +600,6 @@
       return false;
     }
   }
-  // BYPASS: Click vào bypass card hoặc nút đều mở link script
   document.getElementById('tool-bypass').addEventListener('click', function(e){
     if(e.target.closest('a')) return;
     window.open("https://raw.githubusercontent.com/bypass-vip/userscript/refs/heads/main/bypass-vip.user.js", "_blank");
