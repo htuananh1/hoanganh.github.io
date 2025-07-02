@@ -2,40 +2,38 @@
 <html lang="vi">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=1024, initial-scale=1.0">
   <title>Android Executors - Dynamic from JSON + Công Cụ</title>
   <style>
     :root {
       --primary: #6a11cb;
       --secondary: #2575fc;
       --accent: #00f2fe;
-      --dark: #121212;
+      --dark: #181824;
       --light: #f8f9fa;
-      --card-bg: rgba(30, 30, 45, 0.8);
+      --card-bg: #222336;
       --online: #38ff80;
       --offline: #ff3b3b;
       --btn-main: #3fffc2;
       --btn-vng: #232323;
+      --btn-firefox: #ff4f1f;
+      --btn-chrome: #43a047;
+      --border-card: #2ae9e9;
     }
-    * {margin:0; padding:0; box-sizing:border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;}
-    html, body {min-height:100vh; height:100%;}
+    html, body {height:100%; min-height:100vh;}
     body {
       color: var(--light);
       min-height: 100vh;
       background: #181824;
-      /* fallback */
-      overflow-x: hidden;
       position: relative;
+      overflow-x: hidden;
     }
-    /* Galaxy Effect */
     #galaxy-bg {
       position: fixed;
       inset: 0;
       z-index: 0;
       pointer-events: none;
-      width: 100vw;
-      height: 100vh;
-      overflow: hidden;
+      width: 100vw; height: 100vh; overflow: hidden;
     }
     .star {
       position: absolute;
@@ -49,27 +47,6 @@
       0% {transform:translateY(0);}
       100% {transform:translateY(100vh);}
     }
-    /* Clock */
-    .clock-wrap {
-      position: fixed;
-      top: 16px;
-      right: 32px;
-      z-index: 10;
-      background: rgba(20, 26, 44, 0.72);
-      color: #e0eaff;
-      font-weight: 700;
-      font-size: 1.23rem;
-      padding: .5rem 1.1rem;
-      border-radius: 8px;
-      box-shadow: 0 2px 20px #0005;
-      letter-spacing: 0.09em;
-      display: flex;
-      align-items: center;
-      gap: 0.5em;
-      user-select: none;
-    }
-    .clock-icon { color: var(--accent);}
-    /* Card Styles */
     .container {max-width: 1100px; margin: 0 auto; padding: 2rem 1rem; position:relative; z-index: 1;}
     .section-title {font-size:2.2rem; font-weight:700; margin-bottom:2rem; color:var(--accent); display:flex; align-items:center; gap:0.7rem; letter-spacing:0.5px; text-shadow:0 4px 24px #0008;}
     .section-title i {font-size:1.3em; color:var(--accent);}
@@ -80,23 +57,23 @@
       width: 100%;
     }
     .executor-card, .tool-card {
-      background: linear-gradient(135deg, rgba(40,40,60,0.95), rgba(30,30,40,0.9));
+      background: var(--card-bg);
       border-radius: 18px;
       padding: 2rem 1.5rem 1.5rem 1.5rem;
       box-shadow: 0 6px 32px #0005;
       position: relative;
       overflow: hidden;
-      border: 1.5px solid rgba(0,0,0,0.13);
+      border: 2px solid #181824;
       display: flex;
       flex-direction: column;
       gap: 1rem;
-      min-height: 320px;
-      transition: box-shadow .16s;
+      min-height: 300px;
+      transition: box-shadow .16s, border-color .2s;
     }
-    .tool-card:hover, .executor-card:hover {box-shadow:0 12px 48px #0006;}
+    .executor-card:hover, .tool-card:hover {box-shadow:0 12px 48px #0006; border-color:var(--accent);}
     .executor-header, .tool-header {display:flex; gap:1rem; align-items:center; margin-bottom:.7rem;}
-    .executor-logo, .tool-logo {width:44px; height:44px; border-radius:12px; background:#222; object-fit:contain; border:1.5px solid #232323; box-shadow:0 2px 12px #0003;}
-    .executor-name, .tool-name {font-size:1.25rem; font-weight:600; color:#fff; letter-spacing:0.02em; display:flex; align-items:center; gap:.4em;}
+    .executor-logo, .tool-logo {width:44px; height:44px; border-radius:12px; background:#222; object-fit:cover; border:1.5px solid #232323; box-shadow:0 2px 12px #0003;}
+    .executor-name, .tool-name {font-size:1.25rem; font-weight:700; color:#fff; letter-spacing:0.02em; display:flex; align-items:center; gap:.4em;}
     .executor-info, .tool-info {font-size:1rem; color:#d2d2e0; margin-bottom:0.4em; margin-left:0.2em;}
     .executor-status {font-size:1rem; display:flex; align-items:center; gap:0.5em; margin-bottom:.6em; margin-left:0.2em;}
     .status-dot {display:inline-block; width:11px; height:11px; border-radius:50%; margin-right:.3em; vertical-align:middle;}
@@ -104,19 +81,19 @@
     .offline {background:var(--offline);}
     .executor-actions, .tool-actions {margin-top:auto; display:flex; flex-direction:column; gap:0.7em;}
     .main-row-actions {display:flex; gap:0.7em; width:100%;}
-    .btn-download, .btn-firefox, .btn-chrome {
+    .btn-download, .btn-vng, .btn-firefox, .btn-chrome {
       flex:1; font-weight:700; border:none; border-radius:10px; padding:0.9em 0;
       font-size:1.1em; cursor:pointer; display:flex; justify-content:center; align-items:center; gap:0.7em;
       box-shadow:0 2px 12px #00ffea22; text-decoration:none; transition:background .2s, color .2s, transform .18s;
     }
     .btn-download {background: var(--btn-main); color:#232323;}
     .btn-download:hover {background:#61ffd0; color:#161616; transform:translateY(-2px);}
-    .btn-firefox {background: #ff4f1f; color: #fff;}
+    .btn-vng {background: var(--btn-main); color:#232323;}
+    .btn-vng:hover {background:#61ffd0; color:#161616; transform:translateY(-2px);}
+    .btn-firefox {background: var(--btn-firefox); color: #fff;}
     .btn-firefox:hover {background:#ff7e47; color: #fff; transform:translateY(-2px);}
-    .btn-chrome {background: #43a047; color: #fff;}
+    .btn-chrome {background: var(--btn-chrome); color: #fff;}
     .btn-chrome:hover {background:#66bb6a; color:#fff; transform:translateY(-2px);}
-    .btn-vng {background: var(--btn-vng); color:#eaeaea;}
-    .btn-vng:hover {background:#292929; color:var(--accent);}
     .edit-btn {
       position: absolute;
       top: 12px;
@@ -137,7 +114,25 @@
     .edit-btn i { color: var(--accent); font-size: 1.25em; }
     .tool-card.bypass{cursor:pointer; border:2px dashed var(--accent);}
     .bypass-desc {font-size:1em; color:#bff; opacity:0.8; margin-bottom:1em;}
-    /* Popup sửa card */
+    .clock-wrap {
+      position: fixed;
+      top: 16px;
+      right: 32px;
+      z-index: 10;
+      background: rgba(20, 26, 44, 0.72);
+      color: #e0eaff;
+      font-weight: 700;
+      font-size: 1.23rem;
+      padding: .5rem 1.1rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 20px #0005;
+      letter-spacing: 0.09em;
+      display: flex;
+      align-items: center;
+      gap: 0.5em;
+      user-select: none;
+    }
+    .clock-icon { color: var(--accent);}
     .popup-bg {
       position: fixed;
       top: 0; left: 0;
@@ -198,9 +193,12 @@
     .btn-save { background: var(--accent); color: #222;}
     .btn-save:hover { background: #57f6ff;}
     .btn-cancel:hover { background: #444;}
+    .popup-oldlink {font-size:.93em; color:#d2d2e0b2; margin-bottom:1em; display:none;}
+    .popup-card.edit-links .popup-oldlink {display:block;}
     @media (max-width: 900px) {
       .container { padding: 1rem 0.3rem; }
       .section-title { font-size: 1.3rem; }
+      .clock-wrap {top:2px;right:2px;font-size:1em;padding:.37em .7em;}
     }
     @media (max-width: 600px) {
       .executor-card, .tool-card { padding: 1.1rem 0.7rem 1rem 0.7rem; }
@@ -224,6 +222,7 @@
       Android Executors
     </div>
     <div class="executor-grid">
+      <!-- Arceus X -->
       <div class="executor-card" data-keyword="arceus">
         <button class="edit-btn" title="Sửa thông tin"><i class="fas fa-pen"></i></button>
         <div class="executor-header">
@@ -249,6 +248,7 @@
           </div>
         </div>
       </div>
+      <!-- Codex -->
       <div class="executor-card" data-keyword="codex">
         <button class="edit-btn" title="Sửa thông tin"><i class="fas fa-pen"></i></button>
         <div class="executor-header">
@@ -274,6 +274,7 @@
           </div>
         </div>
       </div>
+      <!-- Delta -->
       <div class="executor-card" data-keyword="delta">
         <button class="edit-btn" title="Sửa thông tin"><i class="fas fa-pen"></i></button>
         <div class="executor-header">
@@ -299,6 +300,7 @@
           </div>
         </div>
       </div>
+      <!-- Cryptic -->
       <div class="executor-card" data-keyword="cryptic">
         <button class="edit-btn" title="Sửa thông tin"><i class="fas fa-pen"></i></button>
         <div class="executor-header">
@@ -334,7 +336,7 @@
       <!-- Violentmonkey Card -->
       <div class="tool-card" id="tool-violentmonkey">
         <div class="tool-header">
-          <img src="https://violentmonkey.github.io/assets/icon128.png" alt="Violentmonkey" class="tool-logo"/>
+          <img src="https://lh3.googleusercontent.com/wAjIhsb6UfVOYybA5DQBgKZ5dFx45Glf44OywmAkgcGKwaChRPpABYZq4cjlfNdt8kvxUHhIDbjgk8NTLpHl0i-EKA=s120" alt="Violentmonkey" class="tool-logo"/>
           <span class="tool-name">Violentmonkey</span>
         </div>
         <div class="tool-info">
@@ -392,6 +394,11 @@
   }
   updateClock(); setInterval(updateClock, 1000);
 
+  // Always force desktop view on Android
+  if (/android/i.test(navigator.userAgent)) {
+    document.querySelector('meta[name=viewport]').setAttribute('content','width=1024, initial-scale=1.0');
+  }
+
   // Android executors lấy động từ JSON
   const DATA_URL = "https://raw.githubusercontent.com/htuananh1/hoanganh.github.io/refs/heads/main/data/executor-card.json";
   function normalizeName(name) {return (name||"").toLowerCase().replace(/[^a-z0-9]/g, "");}
@@ -426,7 +433,7 @@
       if(card.querySelector('.info-status')) card.querySelector('.info-status').textContent = "Không tải được dữ liệu!";
     });
   });
-  // Popup sửa card
+  // Popup sửa card (ẩn link cũ, có nút show link cũ)
   function showEditPopup(card) {
     const version = card.querySelector('.info-version').textContent.trim();
     const vngVersion = card.querySelector('.info-vng').textContent.trim();
@@ -447,10 +454,18 @@
           <option value="Online"${status==="Online"?" selected":""}>Online</option>
           <option value="Offline"${status==="Offline"?" selected":""}>Offline</option>
         </select>
-        <label>Link Download:</label>
+        <label>
+          Link Download:
+          <button type="button" class="show-old-link" style="float:right;font-size:0.85em;background:none;border:none;color:var(--accent);cursor:pointer;">Hiện link cũ</button>
+        </label>
         <input type="text" class="edit-download" value="${download}" autocomplete="off"/>
-        <label>Link VNG:</label>
+        <div class="popup-oldlink" style="display:none;">${download}</div>
+        <label>
+          Link VNG:
+          <button type="button" class="show-old-link-vng" style="float:right;font-size:0.85em;background:none;border:none;color:var(--accent);cursor:pointer;">Hiện link cũ</button>
+        </label>
         <input type="text" class="edit-vng" value="${vng}" autocomplete="off"/>
+        <div class="popup-oldlink popup-oldlink-vng" style="display:none;">${vng}</div>
         <label>Token Github (base64):</label>
         <input type="password" class="edit-token" placeholder="Nhập token base64..." autocomplete="off"/>
         <div class="popup-actions">
@@ -460,6 +475,15 @@
       </div>
     `;
     document.body.appendChild(popup);
+    // Nút hiện link cũ
+    popup.querySelector('.show-old-link').onclick = function(){
+      const old = popup.querySelector('.popup-oldlink');
+      old.style.display = old.style.display==="none"?"block":"none";
+    };
+    popup.querySelector('.show-old-link-vng').onclick = function(){
+      const old = popup.querySelector('.popup-oldlink-vng');
+      old.style.display = old.style.display==="none"?"block":"none";
+    };
     popup.querySelector('.btn-cancel').onclick = ()=> popup.remove();
     popup.querySelector('.btn-save').onclick = async ()=>{
       const newData = {
@@ -472,7 +496,6 @@
       };
       const token = popup.querySelector('.edit-token').value.trim();
       if (!token) { alert("Bạn phải nhập token base64!"); return; }
-      // Load lại toàn bộ danh sách, update đúng executor
       let executorList;
       try {
         executorList = await (await fetch(DATA_URL)).json();
