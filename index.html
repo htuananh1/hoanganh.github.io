@@ -2,7 +2,7 @@
 <html lang="vi">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=1024, initial-scale=1.0">
+  <meta name="viewport" content="width=1024, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Android Executors - Dynamic from JSON + Công Cụ</title>
   <style>
     :root {
@@ -52,38 +52,38 @@
     .section-title i {font-size:1.3em; color:var(--accent);}
     .executor-grid, .tools-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
-      gap: 2rem;
+      grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+      gap: 1.3rem;
       width: 100%;
     }
     .executor-card, .tool-card {
       background: var(--card-bg);
       border-radius: 18px;
-      padding: 2rem 1.5rem 1.5rem 1.5rem;
+      padding: 1.3rem 1rem 1rem 1rem;
       box-shadow: 0 6px 32px #0005;
       position: relative;
       overflow: hidden;
       border: 2px solid #181824;
       display: flex;
       flex-direction: column;
-      gap: 1rem;
-      min-height: 300px;
+      gap: .7rem;
+      min-height: 220px;
       transition: box-shadow .16s, border-color .2s;
     }
     .executor-card:hover, .tool-card:hover {box-shadow:0 12px 48px #0006; border-color:var(--accent);}
-    .executor-header, .tool-header {display:flex; gap:1rem; align-items:center; margin-bottom:.7rem;}
-    .executor-logo, .tool-logo {width:44px; height:44px; border-radius:12px; background:#222; object-fit:cover; border:1.5px solid #232323; box-shadow:0 2px 12px #0003;}
-    .executor-name, .tool-name {font-size:1.25rem; font-weight:700; color:#fff; letter-spacing:0.02em; display:flex; align-items:center; gap:.4em;}
-    .executor-info, .tool-info {font-size:1rem; color:#d2d2e0; margin-bottom:0.4em; margin-left:0.2em;}
-    .executor-status {font-size:1rem; display:flex; align-items:center; gap:0.5em; margin-bottom:.6em; margin-left:0.2em;}
-    .status-dot {display:inline-block; width:11px; height:11px; border-radius:50%; margin-right:.3em; vertical-align:middle;}
+    .executor-header, .tool-header {display:flex; gap:0.7rem; align-items:center; margin-bottom:.5rem;}
+    .executor-logo, .tool-logo {width:36px; height:36px; border-radius:8px; background:#222; object-fit:cover; border:1.5px solid #232323; box-shadow:0 2px 12px #0003;}
+    .executor-name, .tool-name {font-size:1.13rem; font-weight:700; color:#fff; letter-spacing:0.01em; display:flex; align-items:center; gap:.4em;}
+    .executor-info, .tool-info {font-size:.95rem; color:#d2d2e0; margin-bottom:0.3em; margin-left:0.2em;}
+    .executor-status {font-size:.97rem; display:flex; align-items:center; gap:0.5em; margin-bottom:.5em; margin-left:0.2em;}
+    .status-dot {display:inline-block; width:10px; height:10px; border-radius:50%; margin-right:.25em; vertical-align:middle;}
     .online {background:var(--online);}
     .offline {background:var(--offline);}
-    .executor-actions, .tool-actions {margin-top:auto; display:flex; flex-direction:column; gap:0.7em;}
-    .main-row-actions {display:flex; gap:0.7em; width:100%;}
+    .executor-actions, .tool-actions {margin-top:auto; display:flex; flex-direction:column; gap:0.5em;}
+    .main-row-actions {display:flex; gap:0.6em; width:100%;}
     .btn-download, .btn-vng, .btn-firefox, .btn-chrome {
-      flex:1; font-weight:700; border:none; border-radius:10px; padding:0.9em 0;
-      font-size:1.1em; cursor:pointer; display:flex; justify-content:center; align-items:center; gap:0.7em;
+      flex:1; font-weight:700; border:none; border-radius:10px; padding:0.7em 0;
+      font-size:1em; cursor:pointer; display:flex; justify-content:center; align-items:center; gap:0.7em;
       box-shadow:0 2px 12px #00ffea22; text-decoration:none; transition:background .2s, color .2s, transform .18s;
     }
     .btn-download {background: var(--btn-main); color:#232323;}
@@ -96,13 +96,13 @@
     .btn-chrome:hover {background:#66bb6a; color:#fff; transform:translateY(-2px);}
     .edit-btn {
       position: absolute;
-      top: 12px;
-      right: 14px;
+      top: 10px;
+      right: 10px;
       background: rgba(0,0,0,0.09);
       border: none;
       border-radius: 50%;
-      width: 36px;
-      height: 36px;
+      width: 30px;
+      height: 30px;
       cursor: pointer;
       display: flex;
       align-items: center;
@@ -111,9 +111,9 @@
       z-index: 4;
     }
     .edit-btn:hover { background: #232323; }
-    .edit-btn i { color: var(--accent); font-size: 1.25em; }
+    .edit-btn i { color: var(--accent); font-size: 1.15em; }
     .tool-card.bypass{cursor:pointer; border:2px dashed var(--accent);}
-    .bypass-desc {font-size:1em; color:#bff; opacity:0.8; margin-bottom:1em;}
+    .bypass-desc {font-size:.95em; color:#bff; opacity:0.8; margin-bottom:.5em;}
     .clock-wrap {
       position: fixed;
       left: 0; right: 0; bottom: 0;
@@ -122,19 +122,19 @@
       background: rgba(20, 26, 44, 0.72);
       color: #e0eaff;
       font-weight: 700;
-      font-size: 1.18rem;
+      font-size: 1em;
       padding: .6rem 1.2rem .6rem 1.2rem;
       border-radius: 18px 18px 0 0;
       box-shadow: 0 -2px 20px #0005;
       letter-spacing: 0.09em;
       display: flex;
       align-items: center;
-      gap: 1.2em;
+      gap: 0.8em;
       width: fit-content;
       left: 50%;
       transform: translateX(-50%);
       user-select: none;
-      min-width: 265px;
+      min-width: 170px;
       justify-content: center;
     }
     .clock-icon { color: var(--accent);}
@@ -142,7 +142,7 @@
       position: fixed;
       top: 0; left: 0;
       width: 100vw; height: 100vh;
-      background: rgba(0,0,0,0.45);
+      background: rgba(0,0,0,0.46);
       z-index: 10000;
       display: flex;
       align-items: center;
@@ -154,41 +154,44 @@
       background: #23263a;
       color: #f8f9fa;
       border-radius: 14px;
-      padding: 2rem 1.5rem 1.5rem 1.5rem;
-      min-width: 320px;
-      max-width: 94vw;
+      padding: 1.4rem 1rem 1rem 1rem;
+      min-width: 90vw;
+      max-width: 96vw;
       box-shadow: 0 8px 40px #0007;
       position: relative;
       display: flex;
       flex-direction: column;
-      gap: 1.1em;
+      gap: 0.8em;
+      font-size: 1em;
     }
     .popup-card label {
       font-weight: 500;
-      margin-bottom: 0.3em;
+      margin-bottom: 0.1em;
       display: block;
+      font-size:.96em;
     }
     .popup-card input, .popup-card select {
       width: 100%;
-      padding: 0.6em 0.7em;
+      padding: 0.5em 0.7em;
       border-radius: 7px;
       border: 1px solid #555a;
       background: #252740;
       color: #fafbfc;
       font-size: 1em;
-      margin-bottom: 0.8em;
+      margin-bottom: 0.7em;
       margin-top: 0.13em;
     }
     .popup-actions {
       display: flex;
-      gap: 1em;
+      gap: 0.7em;
       margin-top: 0.2em;
       justify-content: flex-end;
+      font-size:.97em;
     }
     .popup-actions button {
       border: none;
       border-radius: 7px;
-      font-size: 1.08em;
+      font-size: 1em;
       padding: 0.5em 1.1em;
       font-weight: 600;
       cursor: pointer;
@@ -198,24 +201,20 @@
     .btn-save { background: var(--accent); color: #222;}
     .btn-save:hover { background: #57f6ff;}
     .btn-cancel:hover { background: #444;}
-    .popup-oldlink {font-size:.93em; color:#d2d2e0b2; margin-bottom:1em; display:none;}
+    .popup-oldlink {font-size:.95em; color:#d2d2e0b2; margin-bottom:1em; display:none;}
     .popup-card.edit-links .popup-oldlink {display:block;}
     .show-old-link, .show-old-link-vng {
       float:right;font-size:0.85em;background:none;border:none;color:var(--accent);cursor:pointer;
       text-decoration:underline;padding:0;margin:0;
     }
-    @media (max-width: 900px) {
-      .container { padding: 1rem 0.3rem; }
-      .section-title { font-size: 1.3rem; }
-      .clock-wrap {font-size:1em;padding:.37em .7em;}
-    }
-    @media (max-width: 600px) {
-      .executor-card, .tool-card { padding: 1.1rem 0.7rem 1rem 0.7rem; }
-      .executor-header, .tool-header { gap: 0.7rem;}
-      .executor-logo, .tool-logo { width: 34px; height: 34px;}
-      .edit-btn { top: 6px; right: 7px; width: 30px; height: 30px;}
-      .popup-card { min-width: 90vw; }
-      .clock-wrap {font-size:.98em;}
+    @media (max-width: 700px) {
+      .container { padding: .8rem .1rem; }
+      .section-title { font-size: 1.15rem; }
+      .executor-card, .tool-card, .popup-card {border-radius:12px;padding:.7rem .3rem .9rem .3rem;}
+      .clock-wrap {font-size:.93em; min-width:140px;}
+      .popup-card { min-width: 98vw; max-width:99vw;}
+      .executor-header, .tool-header {gap:.5rem;}
+      .executor-logo, .tool-logo {width:28px;height:28px;}
     }
   </style>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"/>
@@ -335,7 +334,7 @@
       </div>
     </div>
     <!-- Tools Section -->
-    <div class="section-title" style="margin-top:3rem;">
+    <div class="section-title" style="margin-top:2rem;">
       <i class="fa-solid fa-toolbox"></i>
       Công Cụ
     </div>
@@ -388,7 +387,7 @@
   <script>
   // Galaxy background
   const galaxy = document.getElementById('galaxy-bg');
-  for (let i = 0; i < 120; ++i) {
+  for (let i = 0; i < 80; ++i) {
     const s = document.createElement('div');
     s.className = 'star';
     s.style.left = (Math.random() * 100) + 'vw';
@@ -400,7 +399,7 @@
   }
   // Always force desktop view on Android
   if (/android/i.test(navigator.userAgent)) {
-    document.querySelector('meta[name=viewport]').setAttribute('content','width=1024, initial-scale=1.0');
+    document.querySelector('meta[name=viewport]').setAttribute('content','width=1024, initial-scale=1.0, maximum-scale=1.0, user-scalable=no');
   }
   // Live clock + Vietnam time + lunar
   function getLunarVN(date){
@@ -477,7 +476,7 @@
     popup.className = "popup-bg";
     popup.innerHTML = `
       <div class="popup-card">
-        <h3 style="font-size:1.2em;margin-bottom:1.1em;">Sửa thông tin Executor</h3>
+        <h3 style="font-size:1.1em;margin-bottom:.9em;">Sửa thông tin Executor</h3>
         <label>Version:</label>
         <input type="text" class="edit-version" value="${version}" autocomplete="off"/>
         <label>VNG Version:</label>
@@ -489,13 +488,13 @@
         </select>
         <label>
           Link Download:
-          <button type="button" class="show-old-link" style="float:right">Hiện link cũ</button>
+          <button type="button" class="show-old-link">Hiện link cũ</button>
         </label>
         <input type="text" class="edit-download" value="" autocomplete="off"/>
         <div class="popup-oldlink" style="display:none;">${download}</div>
         <label>
           Link VNG:
-          <button type="button" class="show-old-link-vng" style="float:right">Hiện link cũ</button>
+          <button type="button" class="show-old-link-vng">Hiện link cũ</button>
         </label>
         <input type="text" class="edit-vng" value="" autocomplete="off"/>
         <div class="popup-oldlink popup-oldlink-vng" style="display:none;">${vng}</div>
