@@ -9,24 +9,29 @@
       --primary: #6a11cb;
       --secondary: #2575fc;
       --accent: #00f2fe;
-      --dark: #181824;
+      --dark: #12121c;
       --light: #f8f9fa;
-      --card-bg: #222336;
+      --card-bg: rgba(36, 38, 58, 0.65); /* Nền kính mờ */
       --online: #38ff80;
       --offline: #ff3b3b;
       --btn-main: #3fffc2;
       --btn-vng: #3fffc2;
       --btn-firefox: #ff4f1f;
       --btn-chrome: #43a047;
-      --border-card: #2ae9e9;
+      --border-glow: #2ae9e9;
+      --text-glow: 0 0 8px rgba(0, 242, 254, 0.5);
     }
-    html, body {height:100%; min-height:100vh;}
+    html, body {
+      height: 100%;
+      min-height: 100vh;
+    }
     body {
       color: var(--light);
       min-height: 100vh;
-      background: #181824;
+      background: var(--dark);
       position: relative;
       overflow-x: hidden;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     }
     #galaxy-bg {
       position: fixed;
@@ -47,123 +52,207 @@
       0% {transform:translateY(0);}
       100% {transform:translateY(100vh);}
     }
-    .container {max-width: 500px; margin: 0 auto; padding: 1.2rem 0.4rem 2.7rem 0.4rem; position:relative; z-index: 1;}
-    .section-title {font-size:1.3rem; font-weight:700; margin-bottom:1.2rem; color:var(--accent); display:flex; align-items:center; gap:0.45rem; letter-spacing:0.5px; text-shadow:0 4px 24px #0008;}
-    .section-title i {font-size:1.15em; color:var(--accent);}
+    .container {
+      max-width: 500px;
+      margin: 0 auto;
+      padding: 1.5rem 0.5rem 3rem 0.5rem;
+      position: relative;
+      z-index: 1;
+    }
+    .section-title {
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      letter-spacing: 0.8px;
+      text-shadow: var(--text-glow);
+    }
+    .section-title i {
+      font-size: 1.15em;
+      color: var(--accent);
+    }
     .executor-grid, .tools-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 1.1rem;
+      gap: 1.2rem;
       width: 100%;
     }
     @media (max-width: 700px) {
       .executor-grid, .tools-grid { grid-template-columns: 1fr; }
-      .container {padding: .7rem .05rem 2.7rem .05rem;}
-      .section-title{font-size:1.05rem;}
+      .container { padding: 1rem .2rem 3rem .2rem; }
+      .section-title { font-size: 1.15rem; }
     }
     .executor-card, .tool-card {
       background: var(--card-bg);
-      border-radius: 13px;
-      padding: 1.1rem .7rem .7rem .7rem;
-      box-shadow: 0 6px 20px #0004;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-radius: 16px;
+      padding: 1.2rem .8rem .8rem .8rem;
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
       position: relative;
       overflow: hidden;
-      border: 2px solid #181824;
+      border: 2px solid transparent;
       display: flex;
       flex-direction: column;
       gap: .6rem;
       min-height: 180px;
-      transition: box-shadow .16s, border-color .2s;
+      transition: box-shadow .2s, border-color .2s;
     }
-    .executor-card:hover, .tool-card:hover {box-shadow:0 8px 30px #0005; border-color:var(--accent);}
-    .executor-header, .tool-header {display:flex; gap:0.5rem; align-items:center; margin-bottom:.3rem;}
-    .executor-logo, .tool-logo {width:32px; height:32px; border-radius:8px; background:#222; object-fit:cover; border:1.5px solid #232323; box-shadow:0 2px 8px #0002;}
-    .executor-logo.codex {object-fit:contain; background:#fff;}
-    .executor-name, .tool-name {font-size:.99rem; font-weight:700; color:#fff; letter-spacing:0.01em; display:flex; align-items:center; gap:.3em;}
-    .executor-info, .tool-info {font-size:.93rem; color:#d2d2e0; margin-bottom:0.2em; margin-left:0.07em;}
-    .executor-status {font-size:.96rem; display:flex; align-items:center; gap:0.5em; margin-bottom:.25em; margin-left:0.08em;}
-    .status-dot {display:inline-block; width:10px; height:10px; border-radius:50%; margin-right:.21em; vertical-align:middle;}
-    .online {background:var(--online);}
-    .offline {background:var(--offline);}
-    .executor-actions, .tool-actions {margin-top:auto; display:flex; flex-direction:column; gap:0.4em;}
-    .main-row-actions {display:flex; gap:0.45em; width:100%;}
+    .executor-card:hover, .tool-card:hover {
+      box-shadow: 0 8px 40px #0008;
+      border-color: var(--border-glow);
+    }
+    .executor-header, .tool-header {
+      display: flex;
+      gap: 0.6rem;
+      align-items: center;
+      margin-bottom: .3rem;
+    }
+    .executor-logo, .tool-logo {
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      background: #222;
+      object-fit: cover;
+      border: 1.5px solid #333;
+      box-shadow: 0 2px 8px #0002;
+    }
+    .executor-logo.codex { object-fit: contain; background: #fff; }
+    .executor-name, .tool-name {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: 0.02em;
+      display: flex;
+      align-items: center;
+      gap: .3em;
+    }
+    .executor-info, .tool-info { font-size: .95rem; color: #d2d2e0; margin-bottom: 0.2em; }
+    .executor-status { font-size: .98rem; display: flex; align-items: center; gap: 0.5em; }
+    .status-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      margin-right: .21em;
+      vertical-align: middle;
+      box-shadow: 0 0 6px, 0 0 8px;
+    }
+    .online { background: var(--online); box-shadow: 0 0 6px var(--online), 0 0 8px var(--online); }
+    .offline { background: var(--offline); box-shadow: 0 0 6px var(--offline), 0 0 8px var(--offline); }
+    .executor-actions, .tool-actions { margin-top: auto; display: flex; flex-direction: column; gap: 0.45em; }
+    .main-row-actions { display: flex; gap: 0.5em; width: 100%; }
     .btn-download, .btn-vng, .btn-firefox, .btn-chrome {
-      flex:1; font-weight:700; border:none; border-radius:10px; padding:0.58em 0;
-      font-size:.97em; cursor:pointer; display:flex; justify-content:center; align-items:center; gap:0.6em;
-      box-shadow:0 2px 8px #00ffea22; text-decoration:none; transition:background .2s, color .2s, transform .18s;
+      flex: 1;
+      font-weight: 700;
+      border: none;
+      border-radius: 10px;
+      padding: 0.65em 0;
+      font-size: .98em;
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 0.6em;
+      text-decoration: none;
+      transition: filter .2s, box-shadow .2s;
     }
-    .btn-download {background: var(--btn-main); color:#232323;}
-    .btn-download:hover {background:#61ffd0; color:#161616; transform:translateY(-2px);}
-    .btn-vng {background: var(--btn-vng); color:#232323;}
-    .btn-vng:hover {background:#61ffd0; color:#161616; transform:translateY(-2px);}
-    .btn-firefox {background: var(--btn-firefox); color: #fff;}
-    .btn-firefox:hover {background:#ff7e47; color: #fff; transform:translateY(-2px);}
-    .btn-chrome {background: var(--btn-chrome); color: #fff;}
-    .btn-chrome:hover {background:#66bb6a; color:#fff; transform:translateY(-2px);}
+    .btn-download, .btn-vng {
+      background: var(--btn-main);
+      color: #1a1a1a;
+      box-shadow: 0 4px 15px -5px var(--btn-main);
+    }
+    .btn-firefox {
+      background: var(--btn-firefox);
+      color: #fff;
+      box-shadow: 0 4px 15px -5px var(--btn-firefox);
+    }
+    .btn-chrome {
+      background: var(--btn-chrome);
+      color: #fff;
+      box-shadow: 0 4px 15px -5px var(--btn-chrome);
+    }
+    .btn-download:hover, .btn-vng:hover, .btn-firefox:hover, .btn-chrome:hover {
+      filter: brightness(1.15);
+      box-shadow: 0 6px 20px -5px;
+    }
     .edit-btn {
       position: absolute;
-      top: 9px;
+      top: 10px;
       right: 10px;
-      background: rgba(0,0,0,0.09);
-      border: none;
+      background: rgba(0, 0, 0, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.1);
       border-radius: 50%;
-      width: 26px;
-      height: 26px;
+      width: 28px;
+      height: 28px;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: background .18s;
+      transition: background .2s;
       z-index: 4;
     }
-    .edit-btn:hover { background: #232323; }
-    .edit-btn i { color: var(--accent); font-size: 1em; }
-    .tool-card.bypass{cursor:pointer; border:2px dashed var(--accent);}
-    .bypass-desc {font-size:.93em; color:#bff; opacity:0.8; margin-bottom:.4em;}
+    .edit-btn:hover { background: #0005; }
+    .edit-btn i { color: var(--accent); font-size: .95em; }
+    .tool-card.bypass {
+      cursor: pointer;
+      border: 2px dashed var(--accent);
+    }
+    .bypass-desc { font-size: .93em; color: #bff; opacity: 0.9; margin-bottom: .4em; }
     .clock-wrap {
       position: fixed;
-      left: 0; right: 0; bottom: 0;
+      left: 50%;
+      bottom: 0;
+      transform: translateX(-50%);
       z-index: 10;
-      margin: 0 auto;
-      background: rgba(20, 26, 44, 0.72);
+      background: rgba(25, 26, 48, 0.7);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
       color: #e0eaff;
       font-weight: 700;
       font-size: .95em;
-      padding: .51rem 1.08rem .51rem 1.08rem;
-      border-radius: 13px 13px 0 0;
-      box-shadow: 0 -2px 20px #0005;
+      padding: .5rem 1.1rem;
+      border-radius: 16px 16px 0 0;
+      box-shadow: 0 -4px 30px rgba(0, 0, 0, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-bottom: none;
       letter-spacing: 0.09em;
       display: flex;
       align-items: center;
       gap: 0.5em;
       width: fit-content;
-      left: 50%;
-      transform: translateX(-50%);
       user-select: none;
       min-width: 110px;
       justify-content: center;
     }
-    .clock-icon { color: var(--accent);}
+    .clock-icon { color: var(--accent); text-shadow: var(--text-glow); }
     .popup-bg {
       position: fixed;
       top: 0; left: 0;
       width: 100vw; height: 100vh;
-      background: rgba(0,0,0,0.46);
+      background: rgba(0,0,0,0.5);
+      backdrop-filter: blur(5px);
+      -webkit-backdrop-filter: blur(5px);
       z-index: 10000;
       display: flex;
       align-items: center;
       justify-content: center;
       animation: fadeIn .2s;
     }
-    @keyframes fadeIn { 0% {opacity: 0;} 100% {opacity: 1;} }
+    @keyframes fadeIn { 0% { opacity: 0; } 100% { opacity: 1; } }
     .popup-card {
-      background: #23263a;
+      background: rgba(38, 41, 62, 0.8);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
       color: #f8f9fa;
-      border-radius: 12px;
-      padding: 1.05rem .7rem .7rem .7rem;
+      border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 1.2rem 1rem .8rem 1rem;
       min-width: 93vw;
-      max-width: 97vw;
-      box-shadow: 0 8px 40px #0007;
+      max-width: 480px;
+      box-shadow: 0 8px 40px #000a;
       position: relative;
       display: flex;
       flex-direction: column;
@@ -172,46 +261,68 @@
     }
     .popup-card label {
       font-weight: 500;
-      margin-bottom: 0.07em;
+      margin-bottom: 0.1em;
       display: block;
-      font-size:.93em;
+      font-size: .93em;
+      color: #b0b8d0;
     }
     .popup-card input, .popup-card select {
       width: 100%;
-      padding: 0.42em 0.6em;
-      border-radius: 7px;
+      padding: 0.5em 0.7em;
+      border-radius: 8px;
       border: 1px solid #555a;
-      background: #252740;
+      background: #202236;
       color: #fafbfc;
       font-size: 1em;
       margin-bottom: 0.5em;
       margin-top: 0.1em;
+      transition: border-color .2s, box-shadow .2s;
+    }
+    .popup-card input:focus, .popup-card select:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 10px -2px var(--accent);
     }
     .popup-actions {
       display: flex;
-      gap: 0.5em;
-      margin-top: 0.18em;
+      gap: 0.6em;
+      margin-top: 0.3em;
       justify-content: flex-end;
-      font-size:.97em;
+      font-size: .97em;
     }
     .popup-actions button {
       border: none;
-      border-radius: 7px;
+      border-radius: 8px;
       font-size: .98em;
-      padding: 0.43em 1em;
+      padding: 0.5em 1.2em;
       font-weight: 600;
       cursor: pointer;
-      transition: background .16s;
+      transition: background .18s, filter .18s;
     }
-    .btn-cancel { background: #333; color: #ccc;}
-    .btn-save { background: var(--accent); color: #222;}
-    .btn-save:hover { background: #57f6ff;}
-    .btn-cancel:hover { background: #444;}
-    .popup-oldlink {font-size:.93em; color:#d2d2e0b2; margin-bottom:1em; display:none;}
-    .popup-card.edit-links .popup-oldlink {display:block;}
+    .btn-cancel { background: #424560; color: #ccc; }
+    .btn-save { background: var(--accent); color: #111; }
+    .btn-save:hover { filter: brightness(1.1); }
+    .btn-cancel:hover { background: #505370; }
+    .popup-oldlink {
+      font-size: .93em;
+      color: #d2d2e0b2;
+      margin-bottom: 1em;
+      display: none;
+      background: #202236;
+      padding: .4em .6em;
+      border-radius: 6px;
+      word-break: break-all;
+    }
+    .popup-card.edit-links .popup-oldlink { display: block; }
     .show-old-link, .show-old-link-vng {
-      float:right;font-size:0.83em;background:none;border:none;color:var(--accent);cursor:pointer;
-      text-decoration:underline;padding:0;margin:0;
+      float: right;
+      font-size: 0.83em;
+      background: none;
+      border: none;
+      color: var(--accent);
+      cursor: pointer;
+      text-decoration: underline;
+      padding: 0; margin: 0;
     }
   </style>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"/>
@@ -224,7 +335,6 @@
       Android Executors
     </div>
     <div class="executor-grid">
-      <!-- Arceus X -->
       <div class="executor-card" data-keyword="arceus">
         <button class="edit-btn" title="Sửa thông tin"><i class="fas fa-pen"></i></button>
         <div class="executor-header">
@@ -250,7 +360,6 @@
           </div>
         </div>
       </div>
-      <!-- Codex -->
       <div class="executor-card" data-keyword="codex">
         <button class="edit-btn" title="Sửa thông tin"><i class="fas fa-pen"></i></button>
         <div class="executor-header">
@@ -276,7 +385,6 @@
           </div>
         </div>
       </div>
-      <!-- Delta -->
       <div class="executor-card" data-keyword="delta">
         <button class="edit-btn" title="Sửa thông tin"><i class="fas fa-pen"></i></button>
         <div class="executor-header">
@@ -302,7 +410,6 @@
           </div>
         </div>
       </div>
-      <!-- Cryptic -->
       <div class="executor-card" data-keyword="cryptic">
         <button class="edit-btn" title="Sửa thông tin"><i class="fas fa-pen"></i></button>
         <div class="executor-header">
@@ -329,13 +436,11 @@
         </div>
       </div>
     </div>
-    <!-- Tools Section -->
-    <div class="section-title" style="margin-top:1.2rem;">
+    <div class="section-title" style="margin-top:1.5rem;">
       <i class="fa-solid fa-toolbox"></i>
       Công Cụ
     </div>
     <div class="tools-grid">
-      <!-- Violentmonkey Card -->
       <div class="tool-card" id="tool-violentmonkey">
         <div class="tool-header">
           <img src="https://lh3.googleusercontent.com/wAjIhsb6UfVOYybA5DQBgKZ5dFx45Glf44OywmAkgcGKwaChRPpABYZq4cjlfNdt8kvxUHhIDbjgk8NTLpHl0i-EKA=s120" alt="Violentmonkey" class="tool-logo"/>
@@ -355,14 +460,14 @@
           </div>
         </div>
       </div>
-      <!-- Bypass Card -->
       <div class="tool-card bypass" id="tool-bypass">
         <div class="tool-header">
           <img src="https://img.icons8.com/ios-filled/50/00f2fe/lock-2.png" alt="Bypass" class="tool-logo"/>
           <span class="tool-name">Bypass Script</span>
         </div>
         <div class="tool-info bypass-desc">
-          Script mở khoá, bỏ qua quảng cáo cho các trang web. <br><b>Dùng với Violentmonkey.</b>
+          Script mở khoá, bỏ qua quảng cáo cho các trang web.
+          <br><b>Dùng với Violentmonkey.</b>
         </div>
         <div class="tool-actions">
           <div class="main-row-actions">
@@ -412,12 +517,15 @@
       lunarNewYear = new Date(1900,0,31+k*29.530588853*86400000);
       lday = Math.floor((date-lunarNewYear)/86400000)+1;
     }
-    return `Âm: ${lday}/${lmonth}/${lyear}`;
+    // This logic is a placeholder and may not be accurate across years.
+    // A proper implementation would need a full lunar calendar algorithm.
+    let current_lmonth = lunarNewYear.getMonth() + 1;
+    return `Âm: ${lday}/${current_lmonth}`;
   }
   function updateClock(){
     const now = new Date();
     // Vietnam time
-    const vnNow = new Date(now.getTime() + 7*3600*1000 - now.getTimezoneOffset()*60000);
+    const vnNow = new Date(now.toLocaleString("en-US", {timeZone: "Asia/Ho_Chi_Minh"}));
     const pad = n=>n.toString().padStart(2,'0');
     const time = `${pad(vnNow.getHours())}:${pad(vnNow.getMinutes())}:${pad(vnNow.getSeconds())}`;
     const date = `${pad(vnNow.getDate())}/${pad(vnNow.getMonth()+1)}/${vnNow.getFullYear()}`;
@@ -450,10 +558,10 @@
     if(dot) dot.className = "status-dot " + (ex.status && ex.status.toLowerCase() === "online" ? "online":"offline");
   }
   fetch(DATA_URL).then(r=>r.json()).then(data=>{
-    const list = Array.isArray(data) ? data : [data];
+    const list = Array.isArray(data) ? data : (data ? [data] : []);
     document.querySelectorAll('.executor-card').forEach(card=>{
       const keyword = card.getAttribute('data-keyword').toLowerCase();
-      const ex = list.find(e => normalizeName(e.name).includes(keyword));
+      const ex = list.find(e => e && e.name && normalizeName(e.name).includes(keyword));
       fillCard(card, ex);
     });
   }).catch(()=>{
@@ -472,7 +580,7 @@
     popup.className = "popup-bg";
     popup.innerHTML = `
       <div class="popup-card">
-        <h3 style="font-size:.99em;margin-bottom:.65em;">Sửa thông tin Executor</h3>
+        <h3 style="font-size:1.1em;margin-bottom:.6em;font-weight:600;color:var(--light);">Sửa thông tin Executor</h3>
         <label>Version:</label>
         <input type="text" class="edit-version" value="${version}" autocomplete="off"/>
         <label>VNG Version:</label>
@@ -486,32 +594,37 @@
           Link Download:
           <button type="button" class="show-old-link">Hiện link cũ</button>
         </label>
-        <input type="text" class="edit-download" value="" autocomplete="off"/>
-        <div class="popup-oldlink" style="display:none;">${download}</div>
+        <input type="text" class="edit-download" placeholder="Để trống nếu không đổi" autocomplete="off"/>
+        <div class="popup-oldlink">${download}</div>
         <label>
           Link VNG:
           <button type="button" class="show-old-link-vng">Hiện link cũ</button>
         </label>
-        <input type="text" class="edit-vng" value="" autocomplete="off"/>
-        <div class="popup-oldlink popup-oldlink-vng" style="display:none;">${vng}</div>
+        <input type="text" class="edit-vng" placeholder="Để trống nếu không đổi" autocomplete="off"/>
+        <div class="popup-oldlink popup-oldlink-vng">${vng}</div>
         <label>Token Github (base64):</label>
-        <input type="password" class="edit-token" placeholder="Nhập token base64..." autocomplete="off"/>
+        <input type="password" class="edit-token" placeholder="Nhập token base64 để gửi..." autocomplete="off"/>
         <div class="popup-actions">
           <button class="btn-cancel">Hủy</button>
-          <button class="btn-save">Lưu &amp; Gửi Github</button>
+          <button class="btn-save">Lưu & Gửi Github</button>
         </div>
       </div>
     `;
     document.body.appendChild(popup);
     popup.querySelector('.show-old-link').onclick = function(){
-      const old = popup.querySelector('.popup-oldlink');
+      const old = popup.querySelector('.popup-oldlink:not(.popup-oldlink-vng)');
       old.style.display = old.style.display==="none"?"block":"none";
     };
     popup.querySelector('.show-old-link-vng').onclick = function(){
       const old = popup.querySelector('.popup-oldlink-vng');
       old.style.display = old.style.display==="none"?"block":"none";
     };
-    popup.querySelector('.btn-cancel').onclick = ()=> popup.remove();
+    const closePopup = () => {
+        popup.style.animation = 'fadeOut .2s forwards';
+        setTimeout(() => popup.remove(), 200);
+    };
+    popup.addEventListener('click', (e) => { if(e.target === popup) closePopup(); });
+    popup.querySelector('.btn-cancel').onclick = closePopup;
     popup.querySelector('.btn-save').onclick = async ()=>{
       const newData = {
         name: card.querySelector('.executor-name').textContent.trim(),
@@ -525,26 +638,36 @@
       if (!token) { alert("Bạn phải nhập token base64!"); return; }
       let executorList;
       try {
-        executorList = await (await fetch(DATA_URL)).json();
+        const response = await fetch(`${DATA_URL}?t=${new Date().getTime()}`); // cache busting
+        executorList = await response.json();
         if (!Array.isArray(executorList)) executorList = [executorList];
-      } catch(e) { alert("Không tải được dữ liệu executor!"); return; }
+      } catch(e) { alert("Không tải được dữ liệu executor gốc!"); return; }
       let found = false;
       const keyword = card.getAttribute('data-keyword').toLowerCase();
       executorList = executorList.map(e=>{
-        if (normalizeName(e.name).includes(keyword)) { found = true; return newData; }
+        if (e && e.name && normalizeName(e.name).includes(keyword)) {
+            found = true;
+            return newData;
+        }
         return e;
       });
       if (!found) executorList.push(newData);
       const ok = await pushToGitHub(token, "htuananh1/hoanganh.github.io", "data/executor-card.json", JSON.stringify(executorList, null, 2));
       if (ok) {
         fillCard(card, newData);
-        popup.remove();
+        closePopup();
       }
     };
+    // Add fadeOut animation style
+    const styleSheet = document.createElement("style");
+    styleSheet.type = "text/css";
+    styleSheet.innerText = "@keyframes fadeOut { 0% { opacity: 1; } 100% { opacity: 0; } }";
+    document.head.appendChild(styleSheet);
   }
   document.querySelectorAll('.executor-card .edit-btn').forEach(btn => {
     btn.addEventListener('click', function(e) {
       e.preventDefault();
+      e.stopPropagation();
       const card = btn.closest('.executor-card');
       showEditPopup(card);
     });
@@ -563,43 +686,49 @@
     let sha = null;
     try {
       const res = await fetch(apiUrl, {
-        headers: {
-          Authorization: `token ${token}`,
-          Accept: "application/vnd.github.v3+json",
-        },
+        headers: { Authorization: `token ${token}`, Accept: "application/vnd.github.v3+json" },
+        cache: 'no-cache' // Bỏ qua cache để luôn lấy SHA mới nhất
       });
       if (res.ok) {
         const json = await res.json();
         sha = json.sha;
       }
-    } catch (e) {}
+    } catch (e) {
+      console.error("Could not fetch file SHA:", e);
+    }
     const payload = {
-      message: "Update executor card data",
-      content: btoa(unescape(encodeURIComponent(content))),
+      message: `Update data via web UI - ${new Date().toISOString()}`,
+      content: btoa(unescape(encodeURIComponent(content))), // Ensure correct UTF-8 to Base64 encoding
       ...(sha && { sha }),
     };
-    const response = await fetch(apiUrl, {
-      method: "PUT",
-      headers: {
-        Authorization: `token ${token}`,
-        Accept: "application/vnd.github.v3+json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(payload),
-    });
-    if (response.ok) {
-      alert("Đã gửi dữ liệu lên GitHub thành công!");
-      return true;
-    } else {
-      alert("Lỗi gửi lên GitHub: " + await response.text());
-      return false;
+    try {
+        const response = await fetch(apiUrl, {
+          method: "PUT",
+          headers: {
+            Authorization: `token ${token}`,
+            Accept: "application/vnd.github.v3+json",
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(payload),
+        });
+        if (response.ok) {
+          alert("Đã cập nhật dữ liệu lên GitHub thành công!");
+          return true;
+        } else {
+          const errorData = await response.json();
+          alert("Lỗi gửi lên GitHub: " + (errorData.message || response.statusText));
+          return false;
+        }
+    } catch(e) {
+        alert("Lỗi mạng hoặc không thể kết nối tới GitHub API.");
+        return false;
     }
   }
   document.getElementById('tool-bypass').addEventListener('click', function(e){
-    if(e.target.closest('a')) return;
-    window.open("https://raw.githubusercontent.com/bypass-vip/userscript/refs/heads/main/bypass-vip.user.js", "_blank");
-  });
-  document.getElementById('bypass-download').addEventListener('click', function(e){
+    if(e.target.closest('a')) {
+      e.stopPropagation();
+      return;
+    }
     window.open("https://raw.githubusercontent.com/bypass-vip/userscript/refs/heads/main/bypass-vip.user.js", "_blank");
   });
   </script>
