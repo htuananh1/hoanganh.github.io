@@ -1,0 +1,34 @@
+# .github/workflows/gemini_reviewer.yml
+name: 'Gemini AI Code Reviewer'
+
+# Trigger workflow khi có bình luận trong Pull Request
+on:
+  issue_comment:
+    types: [created]
+
+permissions:
+  contents: read
+  pull-requests: write # Cần quyền để viết comment vào PR
+
+jobs:
+  ai_code_review:
+    # Chỉ chạy job nếu bình luận được tạo bởi author của PR hoặc collaborator
+    # Và nội dung bình luận chứa "/review"
+    if: |
+      (github.event.issue.pull_request != null) &&
+      (contains(github.event.comment.body, '/review'))
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 'Call Gemini to review the PR'
+        # Sử dụng Action chính thức từ Google
+        uses: google-gemini/gemini-cli-action@v0.3.0
+        with:
+          # Truyền API Key từ GitHub Secrets một cách an toàn
+          api_key: ${{ secrets.GEMINI_API_KEY }}
+          # Câu lệnh prompt cho Gemini
+          command: |
+            review the pull request ${{ github.event.issue.number }}
+            and provide feedback on code quality, potential bugs,
+            and suggestions for improvement.
+            Focus on conciseness and clarity.
