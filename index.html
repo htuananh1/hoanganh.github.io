@@ -17,12 +17,13 @@
       --cream: #fef3c7;
       --dark-purple: #1e1b4b;
       --deep-navy: #0f172a;
-      --glass-bg: rgba(255, 255, 255, 0.05);
-      --glass-border: rgba(255, 255, 255, 0.1);
-      --text-primary: #f8fafc;
+      --glass-bg: rgba(255, 255, 255, 0.08);
+      --glass-border: rgba(255, 255, 255, 0.15);
+      --text-primary: #f1f5f9;
       --text-secondary: #cbd5e1;
-      --shadow-glow: 0 8px 32px rgba(168, 85, 247, 0.3);
-      --shadow-soft: 0 4px 16px rgba(0, 0, 0, 0.2);
+      --shadow-glow: 0 10px 40px rgba(168, 85, 247, 0.4);
+      --shadow-soft: 0 6px 20px rgba(0, 0, 0, 0.3);
+      --card-hover: rgba(255, 255, 255, 0.12);
     }
 
     * {
@@ -38,13 +39,13 @@
 
     body {
       font-family: 'Poppins', 'Noto Sans JP', sans-serif;
-      background: linear-gradient(135deg, var(--deep-navy) 0%, var(--dark-purple) 50%, #4c1d95 100%);
+      background: linear-gradient(135deg, #0a0a23 0%, #1e1b4b 30%, #4c1d95 60%, #7c3aed 100%);
       color: var(--text-primary);
       position: relative;
       min-height: 100vh;
     }
 
-    /* Animated background particles */
+    /* Animated background */
     .particle-bg {
       position: fixed;
       top: 0;
@@ -60,23 +61,25 @@
       position: absolute;
       border-radius: 50%;
       background: linear-gradient(45deg, var(--sakura-pink), var(--lavender));
-      animation: float 6s ease-in-out infinite;
-      opacity: 0.7;
+      animation: float 8s ease-in-out infinite;
+      opacity: 0.6;
     }
 
-    .particle:nth-child(1) { width: 4px; height: 4px; top: 20%; left: 20%; animation-delay: 0s; }
-    .particle:nth-child(2) { width: 6px; height: 6px; top: 40%; left: 60%; animation-delay: 1s; }
-    .particle:nth-child(3) { width: 3px; height: 3px; top: 60%; left: 30%; animation-delay: 2s; }
-    .particle:nth-child(4) { width: 5px; height: 5px; top: 80%; left: 70%; animation-delay: 3s; }
-    .particle:nth-child(5) { width: 4px; height: 4px; top: 30%; left: 80%; animation-delay: 4s; }
-    .particle:nth-child(6) { width: 7px; height: 7px; top: 70%; left: 15%; animation-delay: 5s; }
+    .particle:nth-child(1) { width: 6px; height: 6px; top: 15%; left: 15%; animation-delay: 0s; }
+    .particle:nth-child(2) { width: 8px; height: 8px; top: 35%; left: 70%; animation-delay: 1.5s; }
+    .particle:nth-child(3) { width: 4px; height: 4px; top: 55%; left: 25%; animation-delay: 3s; }
+    .particle:nth-child(4) { width: 7px; height: 7px; top: 75%; left: 80%; animation-delay: 4.5s; }
+    .particle:nth-child(5) { width: 5px; height: 5px; top: 25%; left: 85%; animation-delay: 6s; }
+    .particle:nth-child(6) { width: 9px; height: 9px; top: 65%; left: 10%; animation-delay: 7.5s; }
 
     @keyframes float {
-      0%, 100% { transform: translateY(0) rotate(0deg); }
-      50% { transform: translateY(-20px) rotate(180deg); }
+      0%, 100% { transform: translateY(0) rotate(0deg) scale(1); opacity: 0.6; }
+      25% { transform: translateY(-15px) rotate(90deg) scale(1.1); opacity: 0.8; }
+      50% { transform: translateY(-30px) rotate(180deg) scale(0.9); opacity: 0.4; }
+      75% { transform: translateY(-15px) rotate(270deg) scale(1.1); opacity: 0.8; }
     }
 
-    /* Sakura petals animation */
+    /* Sakura petals */
     .sakura-container {
       position: fixed;
       top: 0;
@@ -90,19 +93,19 @@
 
     .sakura {
       position: absolute;
-      width: 10px;
-      height: 10px;
-      background: var(--sakura-pink);
+      width: 12px;
+      height: 12px;
+      background: linear-gradient(45deg, var(--sakura-pink), #ffc0cb);
       border-radius: 0 100% 0 100%;
-      animation: sakura-fall 8s linear infinite;
-      opacity: 0.8;
+      animation: sakura-fall 12s linear infinite;
+      opacity: 0.7;
     }
 
-    .sakura:nth-child(1) { left: 10%; animation-delay: 0s; animation-duration: 8s; }
-    .sakura:nth-child(2) { left: 30%; animation-delay: 2s; animation-duration: 10s; }
-    .sakura:nth-child(3) { left: 50%; animation-delay: 4s; animation-duration: 7s; }
-    .sakura:nth-child(4) { left: 70%; animation-delay: 6s; animation-duration: 9s; }
-    .sakura:nth-child(5) { left: 90%; animation-delay: 1s; animation-duration: 11s; }
+    .sakura:nth-child(1) { left: 5%; animation-delay: 0s; animation-duration: 12s; }
+    .sakura:nth-child(2) { left: 25%; animation-delay: 3s; animation-duration: 14s; }
+    .sakura:nth-child(3) { left: 45%; animation-delay: 6s; animation-duration: 10s; }
+    .sakura:nth-child(4) { left: 65%; animation-delay: 9s; animation-duration: 13s; }
+    .sakura:nth-child(5) { left: 85%; animation-delay: 2s; animation-duration: 11s; }
 
     @keyframes sakura-fall {
       0% {
@@ -110,10 +113,10 @@
         opacity: 0;
       }
       10% {
-        opacity: 0.8;
+        opacity: 0.7;
       }
       90% {
-        opacity: 0.8;
+        opacity: 0.7;
       }
       100% {
         transform: translateY(100vh) rotate(360deg);
@@ -138,87 +141,98 @@
     }
 
     .header h1 {
-      font-size: 2.5rem;
+      font-size: 2.8rem;
       font-weight: 700;
-      background: linear-gradient(135deg, var(--sakura-pink), var(--lavender), var(--sky-blue));
+      background: linear-gradient(135deg, var(--sakura-pink) 0%, var(--lavender) 50%, var(--sky-blue) 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
-      margin-bottom: 0.5rem;
-      text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+      margin-bottom: 0.8rem;
+      text-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+      letter-spacing: -0.5px;
     }
 
     .header .subtitle {
-      font-size: 1.1rem;
+      font-size: 1.2rem;
       color: var(--text-secondary);
       font-weight: 300;
-      letter-spacing: 0.5px;
+      letter-spacing: 0.8px;
+      opacity: 0.9;
     }
 
     .header .anime-icon {
-      font-size: 3rem;
-      margin-bottom: 1rem;
-      filter: drop-shadow(0 4px 8px rgba(255, 107, 157, 0.4));
+      font-size: 4rem;
+      margin-bottom: 1.5rem;
+      filter: drop-shadow(0 8px 16px rgba(255, 107, 157, 0.5));
+      animation: bounce 3s ease-in-out infinite;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
     }
 
     /* Section titles */
     .section-title {
-      font-size: 1.4rem;
+      font-size: 1.5rem;
       font-weight: 600;
-      margin-bottom: 1.5rem;
+      margin-bottom: 2rem;
       color: var(--text-primary);
       display: flex;
       align-items: center;
-      gap: 0.8rem;
+      gap: 1rem;
       position: relative;
+      padding-left: 1.5rem;
     }
 
     .section-title::before {
       content: '';
-      width: 4px;
+      width: 5px;
       height: 100%;
       background: linear-gradient(135deg, var(--sakura-pink), var(--lavender));
-      border-radius: 2px;
+      border-radius: 3px;
       position: absolute;
-      left: -1rem;
+      left: 0;
+      box-shadow: 0 0 10px rgba(255, 107, 157, 0.4);
     }
 
     .section-title i {
-      font-size: 1.2rem;
+      font-size: 1.3rem;
       color: var(--sakura-pink);
-      filter: drop-shadow(0 2px 4px rgba(255, 107, 157, 0.4));
+      filter: drop-shadow(0 4px 8px rgba(255, 107, 157, 0.4));
     }
 
     /* Grid layouts */
     .executor-grid, .tools-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 1.5rem;
+      gap: 1.8rem;
       margin-bottom: 3rem;
     }
 
     @media (max-width: 700px) {
       .executor-grid, .tools-grid { 
         grid-template-columns: 1fr; 
-        gap: 1rem;
+        gap: 1.2rem;
       }
-      .container { padding: 1.5rem 0.5rem; }
-      .header h1 { font-size: 2rem; }
+      .container { padding: 1.5rem 0.8rem; }
+      .header h1 { font-size: 2.2rem; }
+      .header .anime-icon { font-size: 3rem; }
     }
 
     /* Cards */
     .executor-card, .tool-card {
       background: var(--glass-bg);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
+      backdrop-filter: blur(25px);
+      -webkit-backdrop-filter: blur(25px);
       border: 1px solid var(--glass-border);
-      border-radius: 20px;
-      padding: 1.5rem;
+      border-radius: 24px;
+      padding: 1.8rem;
       position: relative;
       overflow: hidden;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
       box-shadow: var(--shadow-soft);
-      min-height: 200px;
+      min-height: 220px;
       display: flex;
       flex-direction: column;
     }
@@ -229,61 +243,71 @@
       top: 0;
       left: 0;
       right: 0;
-      height: 3px;
-      background: linear-gradient(90deg, var(--sakura-pink), var(--lavender), var(--sky-blue));
-      border-radius: 20px 20px 0 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--sakura-pink), var(--lavender), var(--sky-blue), var(--mint-green));
+      border-radius: 24px 24px 0 0;
     }
 
     .executor-card:hover, .tool-card:hover {
-      transform: translateY(-8px) scale(1.02);
+      transform: translateY(-12px) scale(1.03);
       box-shadow: var(--shadow-glow);
-      border-color: rgba(255, 107, 157, 0.3);
+      border-color: rgba(255, 107, 157, 0.4);
+      background: var(--card-hover);
     }
 
     /* Card headers */
     .executor-header, .tool-header {
       display: flex;
       align-items: center;
-      gap: 1rem;
-      margin-bottom: 1rem;
+      gap: 1.2rem;
+      margin-bottom: 1.2rem;
     }
 
     .executor-logo, .tool-logo {
-      width: 45px;
-      height: 45px;
-      border-radius: 12px;
+      width: 50px;
+      height: 50px;
+      border-radius: 16px;
       object-fit: cover;
       border: 2px solid var(--glass-border);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-      background: linear-gradient(135deg, var(--glass-bg), rgba(255, 255, 255, 0.1));
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+      background: linear-gradient(135deg, var(--glass-bg), rgba(255, 255, 255, 0.15));
+      transition: transform 0.3s ease;
+    }
+
+    .executor-card:hover .executor-logo,
+    .tool-card:hover .tool-logo {
+      transform: scale(1.1) rotate(5deg);
     }
 
     .executor-name, .tool-name {
-      font-size: 1.1rem;
+      font-size: 1.2rem;
       font-weight: 600;
       color: var(--text-primary);
       letter-spacing: 0.3px;
+      line-height: 1.3;
     }
 
     .executor-info, .tool-info {
-      font-size: 0.9rem;
+      font-size: 0.95rem;
       color: var(--text-secondary);
-      margin-bottom: 0.5rem;
-      line-height: 1.4;
+      margin-bottom: 0.8rem;
+      line-height: 1.5;
+      opacity: 0.9;
     }
 
     /* Status indicators */
     .executor-status {
       display: flex;
       align-items: center;
-      gap: 0.5rem;
-      margin-bottom: 1rem;
-      font-size: 0.9rem;
+      gap: 0.8rem;
+      margin-bottom: 1.2rem;
+      font-size: 0.95rem;
+      font-weight: 500;
     }
 
     .status-dot {
-      width: 8px;
-      height: 8px;
+      width: 10px;
+      height: 10px;
       border-radius: 50%;
       position: relative;
     }
@@ -291,17 +315,18 @@
     .status-dot::before {
       content: '';
       position: absolute;
-      top: -2px;
-      left: -2px;
-      right: -2px;
-      bottom: -2px;
+      top: -3px;
+      left: -3px;
+      right: -3px;
+      bottom: -3px;
       border-radius: 50%;
-      opacity: 0.4;
+      opacity: 0.5;
       animation: pulse 2s infinite;
     }
 
     .online {
       background: var(--mint-green);
+      box-shadow: 0 0 12px rgba(52, 211, 153, 0.6);
     }
 
     .online::before {
@@ -310,6 +335,7 @@
 
     .offline {
       background: var(--sunset-orange);
+      box-shadow: 0 0 12px rgba(251, 146, 60, 0.6);
     }
 
     .offline::before {
@@ -317,9 +343,9 @@
     }
 
     @keyframes pulse {
-      0% { transform: scale(1); opacity: 0.4; }
-      50% { transform: scale(1.5); opacity: 0.1; }
-      100% { transform: scale(1); opacity: 0.4; }
+      0% { transform: scale(1); opacity: 0.5; }
+      50% { transform: scale(1.8); opacity: 0.1; }
+      100% { transform: scale(1); opacity: 0.5; }
     }
 
     /* Buttons */
@@ -327,20 +353,20 @@
       margin-top: auto;
       display: flex;
       flex-direction: column;
-      gap: 0.8rem;
+      gap: 1rem;
     }
 
     .main-row-actions {
       display: flex;
-      gap: 0.5rem;
+      gap: 0.8rem;
     }
 
     .btn-download, .btn-vng, .btn-firefox, .btn-chrome, .edit-btn {
-      padding: 0.7rem 1rem;
+      padding: 0.9rem 1.2rem;
       border: none;
-      border-radius: 12px;
+      border-radius: 16px;
       font-weight: 600;
-      font-size: 0.85rem;
+      font-size: 0.9rem;
       cursor: pointer;
       transition: all 0.3s ease;
       position: relative;
@@ -349,62 +375,68 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 0.5rem;
+      gap: 0.6rem;
       flex: 1;
+      font-family: inherit;
     }
 
     .btn-download {
       background: linear-gradient(135deg, var(--sakura-pink), #ff8fab);
       color: white;
-      box-shadow: 0 4px 12px rgba(255, 107, 157, 0.3);
+      box-shadow: 0 6px 16px rgba(255, 107, 157, 0.4);
     }
 
     .btn-vng {
       background: linear-gradient(135deg, var(--mint-green), #10b981);
       color: white;
-      box-shadow: 0 4px 12px rgba(52, 211, 153, 0.3);
+      box-shadow: 0 6px 16px rgba(52, 211, 153, 0.4);
     }
 
     .btn-firefox {
       background: linear-gradient(135deg, var(--sunset-orange), #f97316);
       color: white;
-      box-shadow: 0 4px 12px rgba(251, 146, 60, 0.3);
+      box-shadow: 0 6px 16px rgba(251, 146, 60, 0.4);
     }
 
     .btn-chrome {
       background: linear-gradient(135deg, var(--sky-blue), #0ea5e9);
       color: white;
-      box-shadow: 0 4px 12px rgba(56, 189, 248, 0.3);
+      box-shadow: 0 6px 16px rgba(56, 189, 248, 0.4);
     }
 
     .edit-btn {
       background: linear-gradient(135deg, var(--lavender), #a855f7);
       color: white;
-      box-shadow: 0 4px 12px rgba(192, 132, 252, 0.3);
+      box-shadow: 0 6px 16px rgba(192, 132, 252, 0.4);
       width: 100%;
     }
 
     .btn-download:hover, .btn-vng:hover, .btn-firefox:hover, .btn-chrome:hover, .edit-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+      transform: translateY(-3px);
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.4);
     }
 
     .btn-download:active, .btn-vng:active, .btn-firefox:active, .btn-chrome:active, .edit-btn:active {
-      transform: translateY(0);
+      transform: translateY(-1px);
     }
 
     /* Special tool cards styling */
     .tool-card.special {
-      background: linear-gradient(135deg, rgba(255, 107, 157, 0.1), rgba(192, 132, 252, 0.1));
-      border: 1px solid rgba(255, 107, 157, 0.2);
+      background: linear-gradient(135deg, rgba(255, 107, 157, 0.15), rgba(192, 132, 252, 0.15));
+      border: 1px solid rgba(255, 107, 157, 0.3);
+    }
+
+    .tool-card.violentmonkey {
+      background: linear-gradient(135deg, rgba(168, 85, 247, 0.15), rgba(56, 189, 248, 0.15));
+      border: 1px solid rgba(168, 85, 247, 0.3);
     }
 
     /* Popup styling */
     .popup-overlay {
       position: fixed;
       inset: 0;
-      background: rgba(0, 0, 0, 0.7);
-      backdrop-filter: blur(8px);
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(12px);
       z-index: 1000;
       display: flex;
       align-items: center;
@@ -415,15 +447,16 @@
 
     .popup-content {
       background: var(--glass-bg);
-      backdrop-filter: blur(20px);
+      backdrop-filter: blur(25px);
       border: 1px solid var(--glass-border);
-      border-radius: 20px;
-      padding: 2rem;
-      max-width: 400px;
+      border-radius: 24px;
+      padding: 2.5rem;
+      max-width: 420px;
       width: 100%;
-      max-height: 80vh;
+      max-height: 85vh;
       overflow-y: auto;
       position: relative;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
     }
 
     .popup-content::before {
@@ -432,66 +465,75 @@
       top: 0;
       left: 0;
       right: 0;
-      height: 3px;
+      height: 4px;
       background: linear-gradient(90deg, var(--sakura-pink), var(--lavender));
-      border-radius: 20px 20px 0 0;
+      border-radius: 24px 24px 0 0;
     }
 
     .popup-content h3 {
       color: var(--text-primary);
-      margin-bottom: 1.5rem;
-      font-size: 1.3rem;
+      margin-bottom: 2rem;
+      font-size: 1.4rem;
       text-align: center;
+      font-weight: 600;
     }
 
     .popup-content label {
       display: block;
       color: var(--text-secondary);
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.6rem;
       font-weight: 500;
+      font-size: 0.95rem;
     }
 
     .popup-content input, .popup-content select {
       width: 100%;
-      padding: 0.8rem;
+      padding: 1rem;
       border: 1px solid var(--glass-border);
-      border-radius: 10px;
-      background: rgba(255, 255, 255, 0.05);
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.08);
       color: var(--text-primary);
-      margin-bottom: 1rem;
+      margin-bottom: 1.2rem;
       font-family: inherit;
+      font-size: 0.95rem;
+      transition: all 0.3s ease;
     }
 
     .popup-content input:focus, .popup-content select:focus {
       outline: none;
       border-color: var(--sakura-pink);
-      box-shadow: 0 0 0 2px rgba(255, 107, 157, 0.2);
+      box-shadow: 0 0 0 3px rgba(255, 107, 157, 0.2);
+      background: rgba(255, 255, 255, 0.12);
     }
 
     .popup-actions {
       display: flex;
       gap: 1rem;
-      margin-top: 1.5rem;
+      margin-top: 2rem;
     }
 
     .btn-cancel, .btn-save {
       flex: 1;
-      padding: 0.8rem;
+      padding: 1rem;
       border: none;
-      border-radius: 10px;
+      border-radius: 12px;
       font-weight: 600;
       cursor: pointer;
       transition: all 0.3s ease;
+      font-family: inherit;
+      font-size: 0.95rem;
     }
 
     .btn-cancel {
       background: rgba(255, 255, 255, 0.1);
       color: var(--text-secondary);
+      border: 1px solid var(--glass-border);
     }
 
     .btn-save {
       background: linear-gradient(135deg, var(--sakura-pink), #ff8fab);
       color: white;
+      box-shadow: 0 6px 16px rgba(255, 107, 157, 0.3);
     }
 
     .btn-cancel:hover, .btn-save:hover {
@@ -499,15 +541,16 @@
     }
 
     .popup-oldlink {
-      background: rgba(255, 255, 255, 0.05);
-      padding: 0.8rem;
+      background: rgba(255, 255, 255, 0.08);
+      padding: 1rem;
       border-radius: 8px;
       margin-top: 0.5rem;
       margin-bottom: 1rem;
       word-break: break-all;
-      font-size: 0.8rem;
+      font-size: 0.85rem;
       color: var(--text-secondary);
       display: none;
+      border: 1px solid var(--glass-border);
     }
 
     .show-old-link, .show-old-link-vng {
@@ -516,32 +559,40 @@
       color: var(--sakura-pink);
       cursor: pointer;
       text-decoration: underline;
-      font-size: 0.8rem;
+      font-size: 0.85rem;
       padding: 0;
       margin-left: 0.5rem;
+      font-weight: 500;
     }
 
     @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
+      from { opacity: 0; transform: scale(0.9); }
+      to { opacity: 1; transform: scale(1); }
     }
 
     @keyframes fadeOut {
-      from { opacity: 1; }
-      to { opacity: 0; }
+      from { opacity: 1; transform: scale(1); }
+      to { opacity: 0; transform: scale(0.9); }
     }
 
     /* Loading animation */
     .loading {
       text-align: center;
-      padding: 2rem;
+      padding: 3rem;
       color: var(--text-secondary);
+      grid-column: 1 / -1;
     }
 
     .loading i {
-      font-size: 2rem;
+      font-size: 2.5rem;
       animation: spin 1s linear infinite;
       color: var(--sakura-pink);
+      margin-bottom: 1rem;
+    }
+
+    .loading p {
+      font-size: 1.1rem;
+      font-weight: 500;
     }
 
     @keyframes spin {
@@ -551,17 +602,17 @@
 
     /* Scrollbar styling */
     ::-webkit-scrollbar {
-      width: 6px;
+      width: 8px;
     }
 
     ::-webkit-scrollbar-track {
       background: rgba(255, 255, 255, 0.05);
-      border-radius: 3px;
+      border-radius: 4px;
     }
 
     ::-webkit-scrollbar-thumb {
       background: linear-gradient(135deg, var(--sakura-pink), var(--lavender));
-      border-radius: 3px;
+      border-radius: 4px;
     }
 
     ::-webkit-scrollbar-thumb:hover {
@@ -594,7 +645,7 @@
     <div class="header">
       <div class="anime-icon">🌸✨🎮</div>
       <h1>Anime Executors Hub</h1>
-      <p class="subtitle">Android Tools & Utilities with Kawaii Style</p>
+      <p class="subtitle">Android Tools & Utilities với phong cách Kawaii</p>
     </div>
 
     <!-- Executors Section -->
@@ -605,76 +656,82 @@
     <div class="executor-grid" id="executor-grid">
       <div class="loading">
         <i class="fas fa-spinner"></i>
-        <p>Loading executors...</p>
+        <p>🌸 Đang tải executors... ✨</p>
       </div>
     </div>
 
     <!-- Tools Section -->
     <div class="section-title">
       <i class="fas fa-tools"></i>
-      Useful Tools
+      Công Cụ Hữu Ích
     </div>
     <div class="tools-grid">
-      <div class="tool-card special" id="tool-bypass">
+      <div class="tool-card violentmonkey" id="tool-violentmonkey">
         <div class="tool-header">
-          <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%23ff6b9d'/%3E%3Ctext x='50' y='60' text-anchor='middle' fill='white' font-size='40' font-weight='bold'%3EB%3C/text%3E%3C/svg%3E" alt="Bypass" class="tool-logo">
+          <img src="https://lh3.googleusercontent.com/wAjIhsb6UfVOYybA5DQBgKZ5dFx45Glf44OywmAkgcGKwaChRPpABYZq4cjlfNdt8kvxUHhIDbjgk8NTLpHl0i-EKA=s120" alt="Violentmonkey" class="tool-logo">
           <div>
-            <div class="tool-name">🔓 Bypass VIP</div>
-            <div class="tool-info">Skip ads and unlock premium content</div>
+            <div class="tool-name">🐒 Violentmonkey</div>
+            <div class="tool-info">Trình quản lý userscript tiện lợi cho Chrome & Firefox</div>
           </div>
         </div>
         <div class="tool-actions">
-          <a href="https://raw.githubusercontent.com/bypass-vip/userscript/refs/heads/main/bypass-vip.user.js" target="_blank" class="btn-chrome">
+          <div class="main-row-actions">
+            <a href="https://addons.mozilla.org/vi/firefox/addon/violentmonkey/" class="btn-firefox" target="_blank">
+              <i class="fab fa-firefox-browser"></i>
+              Firefox
+            </a>
+            <a href="https://chromewebstore.google.com/detail/violentmonkey/jinjaccalgkegednnccohejagnlnfdag" class="btn-chrome" target="_blank">
+              <i class="fab fa-chrome"></i>
+              Chrome
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="tool-card special" id="tool-bypass">
+        <div class="tool-header">
+          <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='grad' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23ff6b9d;stop-opacity:1' /%3E%3Cstop offset='100%25' style='stop-color:%23c084fc;stop-opacity:1' /%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle cx='50' cy='50' r='45' fill='url(%23grad)'/%3E%3Ctext x='50' y='60' text-anchor='middle' fill='white' font-size='35' font-weight='bold'%3E🔓%3C/text%3E%3C/svg%3E" alt="Bypass" class="tool-logo">
+          <div>
+            <div class="tool-name">🔓 Bypass VIP</div>
+            <div class="tool-info">Bỏ qua quảng cáo và mở khóa nội dung premium</div>
+          </div>
+        </div>
+        <div class="tool-actions">
+          <a href="https://raw.githubusercontent.com/bypass-vip/userscript/refs/heads/main/bypass-vip.user.js" target="_blank" class="btn-download">
             <i class="fas fa-download"></i>
-            Install Script
+            Tải Bypass Script
           </a>
         </div>
       </div>
 
       <div class="tool-card">
         <div class="tool-header">
-          <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%23a855f7'/%3E%3Ctext x='50' y='60' text-anchor='middle' fill='white' font-size='30' font-weight='bold'%3E🎯%3C/text%3E%3C/svg%3E" alt="Utility" class="tool-logo">
+          <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='grad2' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23a855f7;stop-opacity:1' /%3E%3Cstop offset='100%25' style='stop-color:%2338bdf8;stop-opacity:1' /%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle cx='50' cy='50' r='45' fill='url(%23grad2)'/%3E%3Ctext x='50' y='60' text-anchor='middle' fill='white' font-size='28' font-weight='bold'%3E🎯%3C/text%3E%3C/svg%3E" alt="Utility" class="tool-logo">
           <div>
             <div class="tool-name">🎯 Script Utils</div>
-            <div class="tool-info">Collection of useful scripts and utilities</div>
+            <div class="tool-info">Bộ sưu tập các script và tiện ích hữu ích</div>
           </div>
         </div>
         <div class="tool-actions">
-          <button class="btn-vng" onclick="alert('🌸 More tools coming soon! Stay tuned! ✨')">
+          <button class="btn-vng" onclick="alert('🌸 Sẽ có thêm nhiều công cụ sớm thôi! ✨')">
             <i class="fas fa-magic"></i>
-            Coming Soon
+            Sắp Ra Mắt
           </button>
         </div>
       </div>
 
       <div class="tool-card">
         <div class="tool-header">
-          <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%2334d399'/%3E%3Ctext x='50' y='60' text-anchor='middle' fill='white' font-size='30' font-weight='bold'%3E📱%3C/text%3E%3C/svg%3E" alt="Mobile" class="tool-logo">
+          <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='grad3' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%2334d399;stop-opacity:1' /%3E%3Cstop offset='100%25' style='stop-color:%2338bdf8;stop-opacity:1' /%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle cx='50' cy='50' r='45' fill='url(%23grad3)'/%3E%3Ctext x='50' y='60' text-anchor='middle' fill='white' font-size='28' font-weight='bold'%3E📱%3C/text%3E%3C/svg%3E" alt="Mobile" class="tool-logo">
           <div>
             <div class="tool-name">📱 Mobile Tools</div>
-            <div class="tool-info">Android debugging and development tools</div>
+            <div class="tool-info">Công cụ debug và phát triển Android</div>
           </div>
         </div>
         <div class="tool-actions">
-          <button class="btn-firefox" onclick="alert('🌸 Mobile tools will be available soon! ✨')">
+          <button class="btn-firefox" onclick="alert('🌸 Công cụ mobile sẽ có sớm! ✨')">
             <i class="fas fa-mobile-alt"></i>
-            Coming Soon
-          </button>
-        </div>
-      </div>
-
-      <div class="tool-card">
-        <div class="tool-header">
-          <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%2338bdf8'/%3E%3Ctext x='50' y='60' text-anchor='middle' fill='white' font-size='30' font-weight='bold'%3E💫%3C/text%3E%3C/svg%3E" alt="Extra" class="tool-logo">
-          <div>
-            <div class="tool-name">💫 Anime Resources</div>
-            <div class="tool-info">Anime-themed resources and assets</div>
-          </div>
-        </div>
-        <div class="tool-actions">
-          <button class="btn-download" onclick="alert('🌸 Kawaii resources coming soon! (◕‿◕)♡')">
-            <i class="fas fa-heart"></i>
-            Coming Soon
+            Sắp Ra Mắt
           </button>
         </div>
       </div>
@@ -728,15 +785,15 @@
       card.className = 'executor-card';
       card.innerHTML = `
         <div class="executor-header">
-          <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%23ff6b9d'/%3E%3Ctext x='50' y='60' text-anchor='middle' fill='white' font-size='25' font-weight='bold'%3E🎮%3C/text%3E%3C/svg%3E" alt="${data.name}" class="executor-logo">
+          <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='execGrad' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23ff6b9d;stop-opacity:1' /%3E%3Cstop offset='100%25' style='stop-color:%23a855f7;stop-opacity:1' /%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle cx='50' cy='50' r='45' fill='url(%23execGrad)'/%3E%3Ctext x='50' y='60' text-anchor='middle' fill='white' font-size='25' font-weight='bold'%3E🎮%3C/text%3E%3C/svg%3E" alt="${data.name}" class="executor-logo">
           <div>
             <div class="executor-name">${data.name || 'Unknown'}</div>
           </div>
         </div>
-        <div class="executor-info">Loading...</div>
+        <div class="executor-info">🔄 Đang tải thông tin...</div>
         <div class="executor-status">
           <div class="status-dot offline"></div>
-          <span>💤 Checking...</span>
+          <span>💤 Đang kiểm tra...</span>
         </div>
         <div class="executor-actions">
           <div class="main-row-actions">
@@ -751,7 +808,7 @@
           </div>
           <button class="edit-btn">
             <i class="fas fa-edit"></i>
-            ✨ Edit Kawaii Style
+            ✨ Chỉnh Sửa Kawaii
           </button>
         </div>
       `;
@@ -776,7 +833,7 @@
           grid.innerHTML = `
             <div class="loading">
               <i class="fas fa-exclamation-triangle"></i>
-              <p>🌸 No executors found! Come back later! ✨</p>
+              <p>🌸 Không tìm thấy executor nào! Hãy quay lại sau! ✨</p>
             </div>
           `;
           return;
@@ -805,7 +862,7 @@
         grid.innerHTML = `
           <div class="loading">
             <i class="fas fa-exclamation-triangle"></i>
-            <p>🌸 Failed to load executors! Check your connection! 💔</p>
+            <p>🌸 Lỗi khi tải executors! Kiểm tra kết nối mạng! 💔</p>
           </div>
         `;
       }
@@ -824,33 +881,33 @@
       popup.className = 'popup-overlay';
       popup.innerHTML = `
         <div class="popup-content">
-          <h3>🌸 Edit ${name} (Kawaii Style) ✨</h3>
+          <h3>🌸 Chỉnh Sửa ${name} (Phong Cách Kawaii) ✨</h3>
           <label>Version:</label>
-          <input type="text" class="edit-version" placeholder="Enter new version..." autocomplete="off"/>
+          <input type="text" class="edit-version" placeholder="Nhập version mới..." autocomplete="off"/>
           <label>VNG Version:</label>
-          <input type="text" class="edit-vng-version" placeholder="Enter VNG version..." autocomplete="off"/>
+          <input type="text" class="edit-vng-version" placeholder="Nhập VNG version..." autocomplete="off"/>
           <label>Status:</label>
           <select class="edit-status">
             <option value="online">✨ Online</option>
             <option value="offline">💤 Offline</option>
           </select>
           <label>
-            Download Link:
-            <button type="button" class="show-old-link">Show old link</button>
+            Link Download:
+            <button type="button" class="show-old-link">Hiện link cũ</button>
           </label>
-          <input type="text" class="edit-download" placeholder="Leave empty to keep current..." autocomplete="off"/>
+          <input type="text" class="edit-download" placeholder="Để trống nếu giữ nguyên..." autocomplete="off"/>
           <div class="popup-oldlink">${download}</div>
           <label>
-            VNG Link:
-            <button type="button" class="show-old-link-vng">Show old link</button>
+            Link VNG:
+            <button type="button" class="show-old-link-vng">Hiện link cũ</button>
           </label>
-          <input type="text" class="edit-vng" placeholder="Leave empty to keep current..." autocomplete="off"/>
+          <input type="text" class="edit-vng" placeholder="Để trống nếu giữ nguyên..." autocomplete="off"/>
           <div class="popup-oldlink popup-oldlink-vng">${vng}</div>
           <label>GitHub Token (base64):</label>
-          <input type="password" class="edit-token" placeholder="Enter base64 token to submit..." autocomplete="off"/>
+          <input type="password" class="edit-token" placeholder="Nhập base64 token để submit..." autocomplete="off"/>
           <div class="popup-actions">
-            <button class="btn-cancel">🌸 Cancel</button>
-            <button class="btn-save">✨ Save & Submit</button>
+            <button class="btn-cancel">🌸 Hủy</button>
+            <button class="btn-save">✨ Lưu & Gửi</button>
           </div>
         </div>
       `;
@@ -869,8 +926,8 @@
       };
       
       const closePopup = () => {
-        popup.style.animation = 'fadeOut 0.2s forwards';
-        setTimeout(() => popup.remove(), 200);
+        popup.style.animation = 'fadeOut 0.3s forwards';
+        setTimeout(() => popup.remove(), 300);
       };
       
       popup.addEventListener('click', (e) => { 
@@ -891,7 +948,7 @@
         
         const token = popup.querySelector('.edit-token').value.trim();
         if (!token) { 
-          alert("🌸 You must enter a base64 token! ✨"); 
+          alert("🌸 Bạn phải nhập base64 token! ✨"); 
           return; 
         }
         
@@ -901,7 +958,7 @@
           executorList = await response.json();
           if (!Array.isArray(executorList)) executorList = [executorList];
         } catch(e) { 
-          alert("🌸 Cannot load original executor data! 💔"); 
+          alert("🌸 Không thể tải dữ liệu executor gốc! 💔"); 
           return; 
         }
         
@@ -936,7 +993,7 @@
     async function pushToGitHub(tokenBase64, repo, path, content) {
       const token = decodeTokenBase64(tokenBase64);
       if (!token) {
-        alert("🌸 Invalid base64 token! 💔");
+        alert("🌸 Token base64 không hợp lệ! 💔");
         return false;
       }
       
@@ -961,7 +1018,7 @@
       }
       
       const payload = {
-        message: `✨ Update data via kawaii web UI - ${new Date().toISOString()}`,
+        message: `✨ Cập nhật dữ liệu qua kawaii web UI - ${new Date().toISOString()}`,
         content: btoa(unescape(encodeURIComponent(content))),
         ...(sha && { sha }),
       };
@@ -978,15 +1035,15 @@
         });
         
         if (response.ok) {
-          alert("🌸 Successfully updated data to GitHub! ✨");
+          alert("🌸 Đã cập nhật dữ liệu lên GitHub thành công! ✨");
           return true;
         } else {
           const errorData = await response.json();
-          alert("🌸 GitHub upload error: " + (errorData.message || response.statusText) + " 💔");
+          alert("🌸 Lỗi khi upload lên GitHub: " + (errorData.message || response.statusText) + " 💔");
           return false;
         }
       } catch(e) {
-        alert("🌸 Network error or cannot connect to GitHub API! 💔");
+        alert("🌸 Lỗi mạng hoặc không thể kết nối tới GitHub API! 💔");
         return false;
       }
     }
