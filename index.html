@@ -536,7 +536,7 @@
   updateClock(); setInterval(updateClock, 1000);
 
   // Android executors lấy động từ JSON
-  const DATA_URL = "https://raw.githubusercontent.com/htuananh1/hoanganh.github.io/refs/heads/main/data/executor-card.json";
+  const DATA_URL = "./data/executor-card.json";
   function normalizeName(name) {return (name||"").toLowerCase().replace(/[^a-z0-9]/g, "");}
   function fillCard(card, ex) {
     if(!ex) {
