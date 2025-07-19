@@ -3,705 +3,970 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=430, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Android Executors - Dynamic from JSON + Công Cụ</title>
+  <title>🌸 Anime Executors Hub - Android Tools & Utilities 🌸</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Noto+Sans+JP:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     :root {
-      --primary: #6a11cb;
-      --secondary: #2575fc;
-      --accent: #00f2fe;
-      --dark: #12121c;
-      --light: #f8f9fa;
-      --card-bg: rgba(36, 38, 58, 0.65); /* Nền kính mờ */
-      --online: #38ff80;
-      --offline: #ff3b3b;
-      --btn-main: #3fffc2;
-      --btn-vng: #3fffc2;
-      --btn-firefox: #ff4f1f;
-      --btn-chrome: #43a047;
-      --border-glow: #2ae9e9;
-      --text-glow: 0 0 8px rgba(0, 242, 254, 0.5);
+      --sakura-pink: #ff6b9d;
+      --soft-purple: #a855f7;
+      --sky-blue: #38bdf8;
+      --mint-green: #34d399;
+      --sunset-orange: #fb923c;
+      --lavender: #c084fc;
+      --cream: #fef3c7;
+      --dark-purple: #1e1b4b;
+      --deep-navy: #0f172a;
+      --glass-bg: rgba(255, 255, 255, 0.05);
+      --glass-border: rgba(255, 255, 255, 0.1);
+      --text-primary: #f8fafc;
+      --text-secondary: #cbd5e1;
+      --shadow-glow: 0 8px 32px rgba(168, 85, 247, 0.3);
+      --shadow-soft: 0 4px 16px rgba(0, 0, 0, 0.2);
     }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
     html, body {
       height: 100%;
-      min-height: 100vh;
-    }
-    body {
-      color: var(--light);
-      min-height: 100vh;
-      background: var(--dark);
-      position: relative;
       overflow-x: hidden;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     }
-    #galaxy-bg {
+
+    body {
+      font-family: 'Poppins', 'Noto Sans JP', sans-serif;
+      background: linear-gradient(135deg, var(--deep-navy) 0%, var(--dark-purple) 50%, #4c1d95 100%);
+      color: var(--text-primary);
+      position: relative;
+      min-height: 100vh;
+    }
+
+    /* Animated background particles */
+    .particle-bg {
       position: fixed;
-      inset: 0;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
       z-index: 0;
       pointer-events: none;
-      width: 100vw; height: 100vh; overflow: hidden;
+      overflow: hidden;
     }
-    .star {
+
+    .particle {
       position: absolute;
-      background: linear-gradient(90deg, #fff, #baf0ff 60%, #a9d0fc 100%);
       border-radius: 50%;
-      width: 2px; height: 2px;
-      opacity: .6;
-      animation: starMove 20s linear infinite;
+      background: linear-gradient(45deg, var(--sakura-pink), var(--lavender));
+      animation: float 6s ease-in-out infinite;
+      opacity: 0.7;
     }
-    @keyframes starMove {
-      0% {transform:translateY(0);}
-      100% {transform:translateY(100vh);}
+
+    .particle:nth-child(1) { width: 4px; height: 4px; top: 20%; left: 20%; animation-delay: 0s; }
+    .particle:nth-child(2) { width: 6px; height: 6px; top: 40%; left: 60%; animation-delay: 1s; }
+    .particle:nth-child(3) { width: 3px; height: 3px; top: 60%; left: 30%; animation-delay: 2s; }
+    .particle:nth-child(4) { width: 5px; height: 5px; top: 80%; left: 70%; animation-delay: 3s; }
+    .particle:nth-child(5) { width: 4px; height: 4px; top: 30%; left: 80%; animation-delay: 4s; }
+    .particle:nth-child(6) { width: 7px; height: 7px; top: 70%; left: 15%; animation-delay: 5s; }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-20px) rotate(180deg); }
     }
+
+    /* Sakura petals animation */
+    .sakura-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .sakura {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background: var(--sakura-pink);
+      border-radius: 0 100% 0 100%;
+      animation: sakura-fall 8s linear infinite;
+      opacity: 0.8;
+    }
+
+    .sakura:nth-child(1) { left: 10%; animation-delay: 0s; animation-duration: 8s; }
+    .sakura:nth-child(2) { left: 30%; animation-delay: 2s; animation-duration: 10s; }
+    .sakura:nth-child(3) { left: 50%; animation-delay: 4s; animation-duration: 7s; }
+    .sakura:nth-child(4) { left: 70%; animation-delay: 6s; animation-duration: 9s; }
+    .sakura:nth-child(5) { left: 90%; animation-delay: 1s; animation-duration: 11s; }
+
+    @keyframes sakura-fall {
+      0% {
+        transform: translateY(-100px) rotate(0deg);
+        opacity: 0;
+      }
+      10% {
+        opacity: 0.8;
+      }
+      90% {
+        opacity: 0.8;
+      }
+      100% {
+        transform: translateY(100vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+
+    /* Main container */
     .container {
       max-width: 500px;
       margin: 0 auto;
-      padding: 1.5rem 0.5rem 3rem 0.5rem;
+      padding: 2rem 1rem;
       position: relative;
-      z-index: 1;
+      z-index: 2;
     }
+
+    /* Header */
+    .header {
+      text-align: center;
+      margin-bottom: 3rem;
+      position: relative;
+    }
+
+    .header h1 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--sakura-pink), var(--lavender), var(--sky-blue));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 0.5rem;
+      text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    .header .subtitle {
+      font-size: 1.1rem;
+      color: var(--text-secondary);
+      font-weight: 300;
+      letter-spacing: 0.5px;
+    }
+
+    .header .anime-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      filter: drop-shadow(0 4px 8px rgba(255, 107, 157, 0.4));
+    }
+
+    /* Section titles */
     .section-title {
       font-size: 1.4rem;
-      font-weight: 700;
+      font-weight: 600;
       margin-bottom: 1.5rem;
-      color: var(--accent);
+      color: var(--text-primary);
       display: flex;
       align-items: center;
-      gap: 0.6rem;
-      letter-spacing: 0.8px;
-      text-shadow: var(--text-glow);
+      gap: 0.8rem;
+      position: relative;
     }
+
+    .section-title::before {
+      content: '';
+      width: 4px;
+      height: 100%;
+      background: linear-gradient(135deg, var(--sakura-pink), var(--lavender));
+      border-radius: 2px;
+      position: absolute;
+      left: -1rem;
+    }
+
     .section-title i {
-      font-size: 1.15em;
-      color: var(--accent);
+      font-size: 1.2rem;
+      color: var(--sakura-pink);
+      filter: drop-shadow(0 2px 4px rgba(255, 107, 157, 0.4));
     }
+
+    /* Grid layouts */
     .executor-grid, .tools-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 1.2rem;
-      width: 100%;
+      gap: 1.5rem;
+      margin-bottom: 3rem;
     }
+
     @media (max-width: 700px) {
-      .executor-grid, .tools-grid { grid-template-columns: 1fr; }
-      .container { padding: 1rem .2rem 3rem .2rem; }
-      .section-title { font-size: 1.15rem; }
+      .executor-grid, .tools-grid { 
+        grid-template-columns: 1fr; 
+        gap: 1rem;
+      }
+      .container { padding: 1.5rem 0.5rem; }
+      .header h1 { font-size: 2rem; }
     }
+
+    /* Cards */
     .executor-card, .tool-card {
-      background: var(--card-bg);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      border-radius: 16px;
-      padding: 1.2rem .8rem .8rem .8rem;
-      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+      background: var(--glass-bg);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--glass-border);
+      border-radius: 20px;
+      padding: 1.5rem;
       position: relative;
       overflow: hidden;
-      border: 2px solid transparent;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: var(--shadow-soft);
+      min-height: 200px;
       display: flex;
       flex-direction: column;
-      gap: .6rem;
-      min-height: 180px;
-      transition: box-shadow .2s, border-color .2s;
     }
+
+    .executor-card::before, .tool-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--sakura-pink), var(--lavender), var(--sky-blue));
+      border-radius: 20px 20px 0 0;
+    }
+
     .executor-card:hover, .tool-card:hover {
-      box-shadow: 0 8px 40px #0008;
-      border-color: var(--border-glow);
+      transform: translateY(-8px) scale(1.02);
+      box-shadow: var(--shadow-glow);
+      border-color: rgba(255, 107, 157, 0.3);
     }
+
+    /* Card headers */
     .executor-header, .tool-header {
       display: flex;
-      gap: 0.6rem;
       align-items: center;
-      margin-bottom: .3rem;
+      gap: 1rem;
+      margin-bottom: 1rem;
     }
+
     .executor-logo, .tool-logo {
-      width: 34px;
-      height: 34px;
-      border-radius: 8px;
-      background: #222;
+      width: 45px;
+      height: 45px;
+      border-radius: 12px;
       object-fit: cover;
-      border: 1.5px solid #333;
-      box-shadow: 0 2px 8px #0002;
+      border: 2px solid var(--glass-border);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      background: linear-gradient(135deg, var(--glass-bg), rgba(255, 255, 255, 0.1));
     }
-    .executor-logo.codex { object-fit: contain; background: #fff; }
+
     .executor-name, .tool-name {
-      font-size: 1.05rem;
-      font-weight: 700;
-      color: #fff;
-      letter-spacing: 0.02em;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      letter-spacing: 0.3px;
+    }
+
+    .executor-info, .tool-info {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      margin-bottom: 0.5rem;
+      line-height: 1.4;
+    }
+
+    /* Status indicators */
+    .executor-status {
       display: flex;
       align-items: center;
-      gap: .3em;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+      font-size: 0.9rem;
     }
-    .executor-info, .tool-info { font-size: .95rem; color: #d2d2e0; margin-bottom: 0.2em; }
-    .executor-status { font-size: .98rem; display: flex; align-items: center; gap: 0.5em; }
+
     .status-dot {
-      width: 10px;
-      height: 10px;
+      width: 8px;
+      height: 8px;
       border-radius: 50%;
-      margin-right: .21em;
-      vertical-align: middle;
-      box-shadow: 0 0 6px, 0 0 8px;
-    }
-    .online { background: var(--online); box-shadow: 0 0 6px var(--online), 0 0 8px var(--online); }
-    .offline { background: var(--offline); box-shadow: 0 0 6px var(--offline), 0 0 8px var(--offline); }
-    .executor-actions, .tool-actions { margin-top: auto; display: flex; flex-direction: column; gap: 0.45em; }
-    .main-row-actions { display: flex; gap: 0.5em; width: 100%; }
-    .btn-download, .btn-vng, .btn-firefox, .btn-chrome {
-      flex: 1;
-      font-weight: 700;
-      border: none;
-      border-radius: 10px;
-      padding: 0.65em 0;
-      font-size: .98em;
-      cursor: pointer;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 0.6em;
-      text-decoration: none;
-      transition: filter .2s, box-shadow .2s;
-    }
-    .btn-download, .btn-vng {
-      background: var(--btn-main);
-      color: #1a1a1a;
-      box-shadow: 0 4px 15px -5px var(--btn-main);
-    }
-    .btn-firefox {
-      background: var(--btn-firefox);
-      color: #fff;
-      box-shadow: 0 4px 15px -5px var(--btn-firefox);
-    }
-    .btn-chrome {
-      background: var(--btn-chrome);
-      color: #fff;
-      box-shadow: 0 4px 15px -5px var(--btn-chrome);
-    }
-    .btn-download:hover, .btn-vng:hover, .btn-firefox:hover, .btn-chrome:hover {
-      filter: brightness(1.15);
-      box-shadow: 0 6px 20px -5px;
-    }
-    .edit-btn {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      background: rgba(0, 0, 0, 0.2);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 50%;
-      width: 28px;
-      height: 28px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: background .2s;
-      z-index: 4;
-    }
-    .edit-btn:hover { background: #0005; }
-    .edit-btn i { color: var(--accent); font-size: .95em; }
-    .tool-card.bypass {
-      cursor: pointer;
-      border: 2px dashed var(--accent);
-    }
-    .bypass-desc { font-size: .93em; color: #bff; opacity: 0.9; margin-bottom: .4em; }
-    .clock-wrap {
-      position: fixed;
-      left: 50%;
-      bottom: 0;
-      transform: translateX(-50%);
-      z-index: 10;
-      background: rgba(25, 26, 48, 0.7);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      color: #e0eaff;
-      font-weight: 700;
-      font-size: .95em;
-      padding: .5rem 1.1rem;
-      border-radius: 16px 16px 0 0;
-      box-shadow: 0 -4px 30px rgba(0, 0, 0, 0.2);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-bottom: none;
-      letter-spacing: 0.09em;
-      display: flex;
-      align-items: center;
-      gap: 0.5em;
-      width: fit-content;
-      user-select: none;
-      min-width: 110px;
-      justify-content: center;
-    }
-    .clock-icon { color: var(--accent); text-shadow: var(--text-glow); }
-    .popup-bg {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100vw; height: 100vh;
-      background: rgba(0,0,0,0.5);
-      backdrop-filter: blur(5px);
-      -webkit-backdrop-filter: blur(5px);
-      z-index: 10000;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      animation: fadeIn .2s;
-    }
-    @keyframes fadeIn { 0% { opacity: 0; } 100% { opacity: 1; } }
-    .popup-card {
-      background: rgba(38, 41, 62, 0.8);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      color: #f8f9fa;
-      border-radius: 14px;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      padding: 1.2rem 1rem .8rem 1rem;
-      min-width: 93vw;
-      max-width: 480px;
-      box-shadow: 0 8px 40px #000a;
       position: relative;
+    }
+
+    .status-dot::before {
+      content: '';
+      position: absolute;
+      top: -2px;
+      left: -2px;
+      right: -2px;
+      bottom: -2px;
+      border-radius: 50%;
+      opacity: 0.4;
+      animation: pulse 2s infinite;
+    }
+
+    .online {
+      background: var(--mint-green);
+    }
+
+    .online::before {
+      background: var(--mint-green);
+    }
+
+    .offline {
+      background: var(--sunset-orange);
+    }
+
+    .offline::before {
+      background: var(--sunset-orange);
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); opacity: 0.4; }
+      50% { transform: scale(1.5); opacity: 0.1; }
+      100% { transform: scale(1); opacity: 0.4; }
+    }
+
+    /* Buttons */
+    .executor-actions, .tool-actions {
+      margin-top: auto;
       display: flex;
       flex-direction: column;
-      gap: 0.7em;
-      font-size: .98em;
+      gap: 0.8rem;
     }
-    .popup-card label {
-      font-weight: 500;
-      margin-bottom: 0.1em;
-      display: block;
-      font-size: .93em;
-      color: #b0b8d0;
+
+    .main-row-actions {
+      display: flex;
+      gap: 0.5rem;
     }
-    .popup-card input, .popup-card select {
+
+    .btn-download, .btn-vng, .btn-firefox, .btn-chrome, .edit-btn {
+      padding: 0.7rem 1rem;
+      border: none;
+      border-radius: 12px;
+      font-weight: 600;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      flex: 1;
+    }
+
+    .btn-download {
+      background: linear-gradient(135deg, var(--sakura-pink), #ff8fab);
+      color: white;
+      box-shadow: 0 4px 12px rgba(255, 107, 157, 0.3);
+    }
+
+    .btn-vng {
+      background: linear-gradient(135deg, var(--mint-green), #10b981);
+      color: white;
+      box-shadow: 0 4px 12px rgba(52, 211, 153, 0.3);
+    }
+
+    .btn-firefox {
+      background: linear-gradient(135deg, var(--sunset-orange), #f97316);
+      color: white;
+      box-shadow: 0 4px 12px rgba(251, 146, 60, 0.3);
+    }
+
+    .btn-chrome {
+      background: linear-gradient(135deg, var(--sky-blue), #0ea5e9);
+      color: white;
+      box-shadow: 0 4px 12px rgba(56, 189, 248, 0.3);
+    }
+
+    .edit-btn {
+      background: linear-gradient(135deg, var(--lavender), #a855f7);
+      color: white;
+      box-shadow: 0 4px 12px rgba(192, 132, 252, 0.3);
       width: 100%;
-      padding: 0.5em 0.7em;
-      border-radius: 8px;
-      border: 1px solid #555a;
-      background: #202236;
-      color: #fafbfc;
-      font-size: 1em;
-      margin-bottom: 0.5em;
-      margin-top: 0.1em;
-      transition: border-color .2s, box-shadow .2s;
     }
-    .popup-card input:focus, .popup-card select:focus {
+
+    .btn-download:hover, .btn-vng:hover, .btn-firefox:hover, .btn-chrome:hover, .edit-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+    }
+
+    .btn-download:active, .btn-vng:active, .btn-firefox:active, .btn-chrome:active, .edit-btn:active {
+      transform: translateY(0);
+    }
+
+    /* Special tool cards styling */
+    .tool-card.special {
+      background: linear-gradient(135deg, rgba(255, 107, 157, 0.1), rgba(192, 132, 252, 0.1));
+      border: 1px solid rgba(255, 107, 157, 0.2);
+    }
+
+    /* Popup styling */
+    .popup-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(8px);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .popup-content {
+      background: var(--glass-bg);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--glass-border);
+      border-radius: 20px;
+      padding: 2rem;
+      max-width: 400px;
+      width: 100%;
+      max-height: 80vh;
+      overflow-y: auto;
+      position: relative;
+    }
+
+    .popup-content::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--sakura-pink), var(--lavender));
+      border-radius: 20px 20px 0 0;
+    }
+
+    .popup-content h3 {
+      color: var(--text-primary);
+      margin-bottom: 1.5rem;
+      font-size: 1.3rem;
+      text-align: center;
+    }
+
+    .popup-content label {
+      display: block;
+      color: var(--text-secondary);
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+    }
+
+    .popup-content input, .popup-content select {
+      width: 100%;
+      padding: 0.8rem;
+      border: 1px solid var(--glass-border);
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text-primary);
+      margin-bottom: 1rem;
+      font-family: inherit;
+    }
+
+    .popup-content input:focus, .popup-content select:focus {
       outline: none;
-      border-color: var(--accent);
-      box-shadow: 0 0 10px -2px var(--accent);
+      border-color: var(--sakura-pink);
+      box-shadow: 0 0 0 2px rgba(255, 107, 157, 0.2);
     }
+
     .popup-actions {
       display: flex;
-      gap: 0.6em;
-      margin-top: 0.3em;
-      justify-content: flex-end;
-      font-size: .97em;
+      gap: 1rem;
+      margin-top: 1.5rem;
     }
-    .popup-actions button {
+
+    .btn-cancel, .btn-save {
+      flex: 1;
+      padding: 0.8rem;
       border: none;
-      border-radius: 8px;
-      font-size: .98em;
-      padding: 0.5em 1.2em;
+      border-radius: 10px;
       font-weight: 600;
       cursor: pointer;
-      transition: background .18s, filter .18s;
+      transition: all 0.3s ease;
     }
-    .btn-cancel { background: #424560; color: #ccc; }
-    .btn-save { background: var(--accent); color: #111; }
-    .btn-save:hover { filter: brightness(1.1); }
-    .btn-cancel:hover { background: #505370; }
+
+    .btn-cancel {
+      background: rgba(255, 255, 255, 0.1);
+      color: var(--text-secondary);
+    }
+
+    .btn-save {
+      background: linear-gradient(135deg, var(--sakura-pink), #ff8fab);
+      color: white;
+    }
+
+    .btn-cancel:hover, .btn-save:hover {
+      transform: translateY(-2px);
+    }
+
     .popup-oldlink {
-      font-size: .93em;
-      color: #d2d2e0b2;
-      margin-bottom: 1em;
-      display: none;
-      background: #202236;
-      padding: .4em .6em;
-      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.05);
+      padding: 0.8rem;
+      border-radius: 8px;
+      margin-top: 0.5rem;
+      margin-bottom: 1rem;
       word-break: break-all;
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      display: none;
     }
-    .popup-card.edit-links .popup-oldlink { display: block; }
+
     .show-old-link, .show-old-link-vng {
-      float: right;
-      font-size: 0.83em;
       background: none;
       border: none;
-      color: var(--accent);
+      color: var(--sakura-pink);
       cursor: pointer;
       text-decoration: underline;
-      padding: 0; margin: 0;
+      font-size: 0.8rem;
+      padding: 0;
+      margin-left: 0.5rem;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes fadeOut {
+      from { opacity: 1; }
+      to { opacity: 0; }
+    }
+
+    /* Loading animation */
+    .loading {
+      text-align: center;
+      padding: 2rem;
+      color: var(--text-secondary);
+    }
+
+    .loading i {
+      font-size: 2rem;
+      animation: spin 1s linear infinite;
+      color: var(--sakura-pink);
+    }
+
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    /* Scrollbar styling */
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 3px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: linear-gradient(135deg, var(--sakura-pink), var(--lavender));
+      border-radius: 3px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: linear-gradient(135deg, #ff8fab, #c084fc);
     }
   </style>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"/>
 </head>
 <body>
-  <div id="galaxy-bg"></div>
+  <!-- Animated background -->
+  <div class="particle-bg">
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+  </div>
+
+  <!-- Sakura petals -->
+  <div class="sakura-container">
+    <div class="sakura"></div>
+    <div class="sakura"></div>
+    <div class="sakura"></div>
+    <div class="sakura"></div>
+    <div class="sakura"></div>
+  </div>
+
   <div class="container">
+    <!-- Header -->
+    <div class="header">
+      <div class="anime-icon">🌸✨🎮</div>
+      <h1>Anime Executors Hub</h1>
+      <p class="subtitle">Android Tools & Utilities with Kawaii Style</p>
+    </div>
+
+    <!-- Executors Section -->
     <div class="section-title">
-      <i class="fa-brands fa-android"></i>
+      <i class="fas fa-rocket"></i>
       Android Executors
     </div>
-    <div class="executor-grid">
-      <div class="executor-card" data-keyword="arceus">
-        <button class="edit-btn" title="Sửa thông tin"><i class="fas fa-pen"></i></button>
-        <div class="executor-header">
-          <img src="https://i.ibb.co/khKK7PC/arceus.png" alt="Arceus X" class="executor-logo"/>
-          <span class="executor-name">Arceus X NEO</span>
-        </div>
-        <div class="executor-info">Version: <span class="info-version"></span></div>
-        <div class="executor-info">VNG Version: <span class="info-vng"></span></div>
-        <div class="executor-status">
-          <span class="status-dot"></span>
-          <span>Status: <span class="info-status"></span></span>
-        </div>
-        <div class="executor-actions">
-          <div class="main-row-actions">
-            <a href="#" class="btn-download info-download" target="_blank">
-              <i class="fas fa-download"></i> Download
-            </a>
-          </div>
-          <div class="main-row-actions">
-            <a href="#" class="btn-vng info-vng-link" target="_blank">
-              <i class="fas fa-download"></i> VNG
-            </a>
-          </div>
-        </div>
-      </div>
-      <div class="executor-card" data-keyword="codex">
-        <button class="edit-btn" title="Sửa thông tin"><i class="fas fa-pen"></i></button>
-        <div class="executor-header">
-          <img src="https://cdn.jsdelivr.net/gh/htuananh1/cdn@main/codex-logo-round.png" alt="Codex" class="executor-logo codex"/>
-          <span class="executor-name">Codex</span>
-        </div>
-        <div class="executor-info">Version: <span class="info-version"></span></div>
-        <div class="executor-info">VNG Version: <span class="info-vng"></span></div>
-        <div class="executor-status">
-          <span class="status-dot"></span>
-          <span>Status: <span class="info-status"></span></span>
-        </div>
-        <div class="executor-actions">
-          <div class="main-row-actions">
-            <a href="#" class="btn-download info-download" target="_blank">
-              <i class="fas fa-download"></i> Download
-            </a>
-          </div>
-          <div class="main-row-actions">
-            <a href="#" class="btn-vng info-vng-link" target="_blank">
-              <i class="fas fa-download"></i> VNG
-            </a>
-          </div>
-        </div>
-      </div>
-      <div class="executor-card" data-keyword="delta">
-        <button class="edit-btn" title="Sửa thông tin"><i class="fas fa-pen"></i></button>
-        <div class="executor-header">
-          <img src="https://i.ibb.co/nbDv3Lx/delta.png" alt="Delta" class="executor-logo"/>
-          <span class="executor-name">Delta</span>
-        </div>
-        <div class="executor-info">Version: <span class="info-version"></span></div>
-        <div class="executor-info">VNG Version: <span class="info-vng"></span></div>
-        <div class="executor-status">
-          <span class="status-dot"></span>
-          <span>Status: <span class="info-status"></span></span>
-        </div>
-        <div class="executor-actions">
-          <div class="main-row-actions">
-            <a href="#" class="btn-download info-download" target="_blank">
-              <i class="fas fa-download"></i> Download
-            </a>
-          </div>
-          <div class="main-row-actions">
-            <a href="#" class="btn-vng info-vng-link" target="_blank">
-              <i class="fas fa-download"></i> VNG
-            </a>
-          </div>
-        </div>
-      </div>
-      <div class="executor-card" data-keyword="cryptic">
-        <button class="edit-btn" title="Sửa thông tin"><i class="fas fa-pen"></i></button>
-        <div class="executor-header">
-          <img src="https://getcryptic.net/assets/moonglow-HcoSKqMr.png" alt="Cryptic" class="executor-logo"/>
-          <span class="executor-name">Cryptic</span>
-        </div>
-        <div class="executor-info">Version: <span class="info-version"></span></div>
-        <div class="executor-info">VNG Version: <span class="info-vng"></span></div>
-        <div class="executor-status">
-          <span class="status-dot"></span>
-          <span>Status: <span class="info-status"></span></span>
-        </div>
-        <div class="executor-actions">
-          <div class="main-row-actions">
-            <a href="#" class="btn-download info-download" target="_blank">
-              <i class="fas fa-download"></i> Download
-            </a>
-          </div>
-          <div class="main-row-actions">
-            <a href="#" class="btn-vng info-vng-link" target="_blank">
-              <i class="fas fa-download"></i> VNG
-            </a>
-          </div>
-        </div>
+    <div class="executor-grid" id="executor-grid">
+      <div class="loading">
+        <i class="fas fa-spinner"></i>
+        <p>Loading executors...</p>
       </div>
     </div>
-    <div class="section-title" style="margin-top:1.5rem;">
-      <i class="fa-solid fa-toolbox"></i>
-      Công Cụ
+
+    <!-- Tools Section -->
+    <div class="section-title">
+      <i class="fas fa-tools"></i>
+      Useful Tools
     </div>
     <div class="tools-grid">
-      <div class="tool-card" id="tool-violentmonkey">
+      <div class="tool-card special" id="tool-bypass">
         <div class="tool-header">
-          <img src="https://lh3.googleusercontent.com/wAjIhsb6UfVOYybA5DQBgKZ5dFx45Glf44OywmAkgcGKwaChRPpABYZq4cjlfNdt8kvxUHhIDbjgk8NTLpHl0i-EKA=s120" alt="Violentmonkey" class="tool-logo"/>
-          <span class="tool-name">Violentmonkey</span>
-        </div>
-        <div class="tool-info">
-          Trình quản lý userscript (script tự động) tiện lợi, dễ dùng, hỗ trợ Chrome, Firefox.
+          <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%23ff6b9d'/%3E%3Ctext x='50' y='60' text-anchor='middle' fill='white' font-size='40' font-weight='bold'%3EB%3C/text%3E%3C/svg%3E" alt="Bypass" class="tool-logo">
+          <div>
+            <div class="tool-name">🔓 Bypass VIP</div>
+            <div class="tool-info">Skip ads and unlock premium content</div>
+          </div>
         </div>
         <div class="tool-actions">
-          <div class="main-row-actions">
-            <a href="https://addons.mozilla.org/vi/firefox/addon/violentmonkey/" class="btn-firefox" target="_blank">
-              <i class="fab fa-firefox-browser"></i> Cài trên Firefox
-            </a>
-            <a href="https://chromewebstore.google.com/detail/violentmonkey/jinjaccalgkegednnccohejagnlnfdag" class="btn-chrome" target="_blank">
-              <i class="fab fa-chrome"></i> Cài trên Chrome
-            </a>
-          </div>
+          <a href="https://raw.githubusercontent.com/bypass-vip/userscript/refs/heads/main/bypass-vip.user.js" target="_blank" class="btn-chrome">
+            <i class="fas fa-download"></i>
+            Install Script
+          </a>
         </div>
       </div>
-      <div class="tool-card bypass" id="tool-bypass">
+
+      <div class="tool-card">
         <div class="tool-header">
-          <img src="https://img.icons8.com/ios-filled/50/00f2fe/lock-2.png" alt="Bypass" class="tool-logo"/>
-          <span class="tool-name">Bypass Script</span>
-        </div>
-        <div class="tool-info bypass-desc">
-          Script mở khoá, bỏ qua quảng cáo cho các trang web.
-          <br><b>Dùng với Violentmonkey.</b>
+          <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%23a855f7'/%3E%3Ctext x='50' y='60' text-anchor='middle' fill='white' font-size='30' font-weight='bold'%3E🎯%3C/text%3E%3C/svg%3E" alt="Utility" class="tool-logo">
+          <div>
+            <div class="tool-name">🎯 Script Utils</div>
+            <div class="tool-info">Collection of useful scripts and utilities</div>
+          </div>
         </div>
         <div class="tool-actions">
-          <div class="main-row-actions">
-            <a href="https://raw.githubusercontent.com/bypass-vip/userscript/refs/heads/main/bypass-vip.user.js" class="btn-download" id="bypass-download" target="_blank">
-              <i class="fas fa-download"></i> Tải Bypass Script
-            </a>
+          <button class="btn-vng" onclick="alert('🌸 More tools coming soon! Stay tuned! ✨')">
+            <i class="fas fa-magic"></i>
+            Coming Soon
+          </button>
+        </div>
+      </div>
+
+      <div class="tool-card">
+        <div class="tool-header">
+          <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%2334d399'/%3E%3Ctext x='50' y='60' text-anchor='middle' fill='white' font-size='30' font-weight='bold'%3E📱%3C/text%3E%3C/svg%3E" alt="Mobile" class="tool-logo">
+          <div>
+            <div class="tool-name">📱 Mobile Tools</div>
+            <div class="tool-info">Android debugging and development tools</div>
           </div>
+        </div>
+        <div class="tool-actions">
+          <button class="btn-firefox" onclick="alert('🌸 Mobile tools will be available soon! ✨')">
+            <i class="fas fa-mobile-alt"></i>
+            Coming Soon
+          </button>
+        </div>
+      </div>
+
+      <div class="tool-card">
+        <div class="tool-header">
+          <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%2338bdf8'/%3E%3Ctext x='50' y='60' text-anchor='middle' fill='white' font-size='30' font-weight='bold'%3E💫%3C/text%3E%3C/svg%3E" alt="Extra" class="tool-logo">
+          <div>
+            <div class="tool-name">💫 Anime Resources</div>
+            <div class="tool-info">Anime-themed resources and assets</div>
+          </div>
+        </div>
+        <div class="tool-actions">
+          <button class="btn-download" onclick="alert('🌸 Kawaii resources coming soon! (◕‿◕)♡')">
+            <i class="fas fa-heart"></i>
+            Coming Soon
+          </button>
         </div>
       </div>
     </div>
   </div>
-  <div class="clock-wrap">
-    <span class="clock-icon"><i class="fa-regular fa-clock"></i></span>
-    <span id="live-clock"></span>
-    <span id="vn-date"></span>
-    <span id="lunar-date"></span>
-  </div>
-  <script>
-  // Galaxy background
-  const galaxy = document.getElementById('galaxy-bg');
-  for (let i = 0; i < 50; ++i) {
-    const s = document.createElement('div');
-    s.className = 'star';
-    s.style.left = (Math.random() * 100) + 'vw';
-    s.style.top = (-Math.random() * 100) + 'vh';
-    s.style.opacity = Math.random() * 0.7 + 0.3;
-    s.style.width = s.style.height = (Math.random() * 1.6 + 1.2) + 'px';
-    s.style.animationDuration = (18 + Math.random()*7) + 's';
-    galaxy.appendChild(s);
-  }
-  // Force desktop viewport on Android
-  if (/android/i.test(navigator.userAgent)) {
-    document.querySelector('meta[name=viewport]').setAttribute('content','width=430, initial-scale=1.0, maximum-scale=1.0, user-scalable=no');
-  }
-  // Live clock + Vietnam time + lunar
-  function getLunarVN(date){
-    // Simple lunar date for Vietnam (placeholder, not 100% accurate, for real use, use library like https://github.com/vanng822/lunarjs)
-    function INT(d){return Math.floor(d);}
-    let day = date.getDate(), month = date.getMonth()+1, year = date.getFullYear();
-    let off = date.valueOf() - new Date(1900,0,31).valueOf();
-    let k = Math.floor(off/86400000/29.530588853);
-    let lunarNewYear = new Date(1900,0,31+k*29.530588853*86400000);
-    let lday = Math.floor((date-lunarNewYear)/86400000)+1;
-    let lmonth = month, lyear = year;
-    if(lday<=0){
-      k--;
-      lunarNewYear = new Date(1900,0,31+k*29.530588853*86400000);
-      lday = Math.floor((date-lunarNewYear)/86400000)+1;
-    }
-    // This logic is a placeholder and may not be accurate across years.
-    // A proper implementation would need a full lunar calendar algorithm.
-    let current_lmonth = lunarNewYear.getMonth() + 1;
-    return `Âm: ${lday}/${current_lmonth}`;
-  }
-  function updateClock(){
-    const now = new Date();
-    // Vietnam time
-    const vnNow = new Date(now.toLocaleString("en-US", {timeZone: "Asia/Ho_Chi_Minh"}));
-    const pad = n=>n.toString().padStart(2,'0');
-    const time = `${pad(vnNow.getHours())}:${pad(vnNow.getMinutes())}:${pad(vnNow.getSeconds())}`;
-    const date = `${pad(vnNow.getDate())}/${pad(vnNow.getMonth()+1)}/${vnNow.getFullYear()}`;
-    document.getElementById('live-clock').textContent = `${time}`;
-    document.getElementById('vn-date').textContent = `- ${date}`;
-    document.getElementById('lunar-date').textContent = `- ${getLunarVN(vnNow)}`;
-  }
-  updateClock(); setInterval(updateClock, 1000);
 
-  // Android executors lấy động từ JSON
-  const DATA_URL = "./data/executor-card.json";
-  function normalizeName(name) {return (name||"").toLowerCase().replace(/[^a-z0-9]/g, "");}
-  function fillCard(card, ex) {
-    if(!ex) {
-      card.querySelector('.info-version').textContent = "";
-      card.querySelector('.info-vng').textContent = "";
-      card.querySelector('.info-status').textContent = "No data";
-      card.querySelector('.info-download').href = "#";
-      card.querySelector('.info-vng-link').href = "#";
-      const dot = card.querySelector('.status-dot');
-      if(dot) dot.className = "status-dot";
-      return;
+  <script>
+    const DATA_URL = "https://raw.githubusercontent.com/htuananh1/hoanganh.github.io/refs/heads/main/data/executor-card.json";
+    
+    function normalizeName(name) {
+      return name.toLowerCase().replace(/[^a-z0-9]/g, '');
     }
-    card.querySelector('.info-version').textContent = ex.version || "";
-    card.querySelector('.info-vng').textContent = ex.vngVersion || "";
-    card.querySelector('.info-status').textContent = ex.status || "";
-    card.querySelector('.info-download').href = ex.download || "#";
-    card.querySelector('.info-vng-link').href = ex.vng || "#";
-    const dot = card.querySelector('.status-dot');
-    if(dot) dot.className = "status-dot " + (ex.status && ex.status.toLowerCase() === "online" ? "online":"offline");
-  }
-  fetch(DATA_URL).then(r=>r.json()).then(data=>{
-    const list = Array.isArray(data) ? data : (data ? [data] : []);
-    document.querySelectorAll('.executor-card').forEach(card=>{
-      const keyword = card.getAttribute('data-keyword').toLowerCase();
-      const ex = list.find(e => e && e.name && normalizeName(e.name).includes(keyword));
-      fillCard(card, ex);
-    });
-  }).catch(()=>{
-    document.querySelectorAll('.executor-card').forEach(card=>{
-      if(card.querySelector('.info-status')) card.querySelector('.info-status').textContent = "Không tải được dữ liệu!";
-    });
-  });
-  // Popup sửa card (ẩn link, có nút show link cũ)
-  function showEditPopup(card) {
-    const version = card.querySelector('.info-version').textContent.trim();
-    const vngVersion = card.querySelector('.info-vng').textContent.trim();
-    const status = card.querySelector('.info-status').textContent.trim();
-    const download = card.querySelector('.info-download').href;
-    const vng = card.querySelector('.info-vng-link').href;
-    const popup = document.createElement('div');
-    popup.className = "popup-bg";
-    popup.innerHTML = `
-      <div class="popup-card">
-        <h3 style="font-size:1.1em;margin-bottom:.6em;font-weight:600;color:var(--light);">Sửa thông tin Executor</h3>
-        <label>Version:</label>
-        <input type="text" class="edit-version" value="${version}" autocomplete="off"/>
-        <label>VNG Version:</label>
-        <input type="text" class="edit-vng-version" value="${vngVersion}" autocomplete="off"/>
-        <label>Status:</label>
-        <select class="edit-status">
-          <option value="Online"${status==="Online"?" selected":""}>Online</option>
-          <option value="Offline"${status==="Offline"?" selected":""}>Offline</option>
-        </select>
-        <label>
-          Link Download:
-          <button type="button" class="show-old-link">Hiện link cũ</button>
-        </label>
-        <input type="text" class="edit-download" placeholder="Để trống nếu không đổi" autocomplete="off"/>
-        <div class="popup-oldlink">${download}</div>
-        <label>
-          Link VNG:
-          <button type="button" class="show-old-link-vng">Hiện link cũ</button>
-        </label>
-        <input type="text" class="edit-vng" placeholder="Để trống nếu không đổi" autocomplete="off"/>
-        <div class="popup-oldlink popup-oldlink-vng">${vng}</div>
-        <label>Token Github (base64):</label>
-        <input type="password" class="edit-token" placeholder="Nhập token base64 để gửi..." autocomplete="off"/>
-        <div class="popup-actions">
-          <button class="btn-cancel">Hủy</button>
-          <button class="btn-save">Lưu & Gửi Github</button>
+
+    function fillCard(card, data) {
+      const nameEl = card.querySelector('.executor-name');
+      const infoEl = card.querySelector('.executor-info');
+      const statusEl = card.querySelector('.executor-status');
+      const downloadBtn = card.querySelector('.btn-download');
+      const vngBtn = card.querySelector('.btn-vng');
+      
+      if (nameEl) nameEl.textContent = data.name || 'Unknown Executor';
+      if (infoEl) infoEl.innerHTML = `📱 Version: ${data.version || 'N/A'}<br>🎮 VNG: ${data.vngVersion || 'N/A'}`;
+      
+      if (statusEl) {
+        const dot = statusEl.querySelector('.status-dot');
+        const text = statusEl.querySelector('span');
+        if (data.status === 'online') {
+          dot.className = 'status-dot online';
+          text.textContent = '✨ Online';
+        } else {
+          dot.className = 'status-dot offline';
+          text.textContent = '💤 Offline';
+        }
+      }
+      
+      if (downloadBtn && data.download) {
+        downloadBtn.href = data.download;
+        downloadBtn.style.display = 'inline-flex';
+      }
+      
+      if (vngBtn && data.vng) {
+        vngBtn.href = data.vng;
+        vngBtn.style.display = 'inline-flex';
+      }
+      
+      card.setAttribute('data-keyword', normalizeName(data.name || ''));
+    }
+
+    function createExecutorCard(data) {
+      const card = document.createElement('div');
+      card.className = 'executor-card';
+      card.innerHTML = `
+        <div class="executor-header">
+          <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%23ff6b9d'/%3E%3Ctext x='50' y='60' text-anchor='middle' fill='white' font-size='25' font-weight='bold'%3E🎮%3C/text%3E%3C/svg%3E" alt="${data.name}" class="executor-logo">
+          <div>
+            <div class="executor-name">${data.name || 'Unknown'}</div>
+          </div>
         </div>
-      </div>
-    `;
-    document.body.appendChild(popup);
-    popup.querySelector('.show-old-link').onclick = function(){
-      const old = popup.querySelector('.popup-oldlink:not(.popup-oldlink-vng)');
-      old.style.display = old.style.display==="none"?"block":"none";
-    };
-    popup.querySelector('.show-old-link-vng').onclick = function(){
-      const old = popup.querySelector('.popup-oldlink-vng');
-      old.style.display = old.style.display==="none"?"block":"none";
-    };
-    const closePopup = () => {
-        popup.style.animation = 'fadeOut .2s forwards';
-        setTimeout(() => popup.remove(), 200);
-    };
-    popup.addEventListener('click', (e) => { if(e.target === popup) closePopup(); });
-    popup.querySelector('.btn-cancel').onclick = closePopup;
-    popup.querySelector('.btn-save').onclick = async ()=>{
-      const newData = {
-        name: card.querySelector('.executor-name').textContent.trim(),
-        version: popup.querySelector('.edit-version').value.trim(),
-        vngVersion: popup.querySelector('.edit-vng-version').value.trim(),
-        status: popup.querySelector('.edit-status').value.trim(),
-        download: popup.querySelector('.edit-download').value.trim() || download,
-        vng: popup.querySelector('.edit-vng').value.trim() || vng
-      };
-      const token = popup.querySelector('.edit-token').value.trim();
-      if (!token) { alert("Bạn phải nhập token base64!"); return; }
-      let executorList;
+        <div class="executor-info">Loading...</div>
+        <div class="executor-status">
+          <div class="status-dot offline"></div>
+          <span>💤 Checking...</span>
+        </div>
+        <div class="executor-actions">
+          <div class="main-row-actions">
+            <a href="#" class="btn-download" style="display: none;">
+              <i class="fas fa-download"></i>
+              Download
+            </a>
+            <a href="#" class="btn-vng" style="display: none;">
+              <i class="fas fa-gamepad"></i>
+              VNG
+            </a>
+          </div>
+          <button class="edit-btn">
+            <i class="fas fa-edit"></i>
+            ✨ Edit Kawaii Style
+          </button>
+        </div>
+      `;
+      
+      fillCard(card, data);
+      return card;
+    }
+
+    async function loadExecutors() {
       try {
-        const response = await fetch(`${DATA_URL}?t=${new Date().getTime()}`); // cache busting
-        executorList = await response.json();
-        if (!Array.isArray(executorList)) executorList = [executorList];
-      } catch(e) { alert("Không tải được dữ liệu executor gốc!"); return; }
-      let found = false;
-      const keyword = card.getAttribute('data-keyword').toLowerCase();
-      executorList = executorList.map(e=>{
-        if (e && e.name && normalizeName(e.name).includes(keyword)) {
+        const response = await fetch(`${DATA_URL}?t=${new Date().getTime()}`);
+        let executorList = await response.json();
+        
+        if (!Array.isArray(executorList)) {
+          executorList = [executorList];
+        }
+        
+        const grid = document.getElementById('executor-grid');
+        grid.innerHTML = '';
+        
+        if (executorList.length === 0) {
+          grid.innerHTML = `
+            <div class="loading">
+              <i class="fas fa-exclamation-triangle"></i>
+              <p>🌸 No executors found! Come back later! ✨</p>
+            </div>
+          `;
+          return;
+        }
+        
+        executorList.forEach(data => {
+          if (data && data.name) {
+            const card = createExecutorCard(data);
+            grid.appendChild(card);
+          }
+        });
+        
+        // Add event listeners for edit buttons
+        document.querySelectorAll('.executor-card .edit-btn').forEach(btn => {
+          btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            const card = btn.closest('.executor-card');
+            showEditPopup(card);
+          });
+        });
+        
+      } catch (error) {
+        console.error('Error loading executors:', error);
+        const grid = document.getElementById('executor-grid');
+        grid.innerHTML = `
+          <div class="loading">
+            <i class="fas fa-exclamation-triangle"></i>
+            <p>🌸 Failed to load executors! Check your connection! 💔</p>
+          </div>
+        `;
+      }
+    }
+
+    function showEditPopup(card) {
+      const nameEl = card.querySelector('.executor-name');
+      const downloadBtn = card.querySelector('.btn-download');
+      const vngBtn = card.querySelector('.btn-vng');
+      
+      const name = nameEl ? nameEl.textContent.trim() : '';
+      const download = downloadBtn ? downloadBtn.href : '';
+      const vng = vngBtn ? vngBtn.href : '';
+      
+      const popup = document.createElement('div');
+      popup.className = 'popup-overlay';
+      popup.innerHTML = `
+        <div class="popup-content">
+          <h3>🌸 Edit ${name} (Kawaii Style) ✨</h3>
+          <label>Version:</label>
+          <input type="text" class="edit-version" placeholder="Enter new version..." autocomplete="off"/>
+          <label>VNG Version:</label>
+          <input type="text" class="edit-vng-version" placeholder="Enter VNG version..." autocomplete="off"/>
+          <label>Status:</label>
+          <select class="edit-status">
+            <option value="online">✨ Online</option>
+            <option value="offline">💤 Offline</option>
+          </select>
+          <label>
+            Download Link:
+            <button type="button" class="show-old-link">Show old link</button>
+          </label>
+          <input type="text" class="edit-download" placeholder="Leave empty to keep current..." autocomplete="off"/>
+          <div class="popup-oldlink">${download}</div>
+          <label>
+            VNG Link:
+            <button type="button" class="show-old-link-vng">Show old link</button>
+          </label>
+          <input type="text" class="edit-vng" placeholder="Leave empty to keep current..." autocomplete="off"/>
+          <div class="popup-oldlink popup-oldlink-vng">${vng}</div>
+          <label>GitHub Token (base64):</label>
+          <input type="password" class="edit-token" placeholder="Enter base64 token to submit..." autocomplete="off"/>
+          <div class="popup-actions">
+            <button class="btn-cancel">🌸 Cancel</button>
+            <button class="btn-save">✨ Save & Submit</button>
+          </div>
+        </div>
+      `;
+      
+      document.body.appendChild(popup);
+      
+      // Event listeners
+      popup.querySelector('.show-old-link').onclick = function(){
+        const old = popup.querySelector('.popup-oldlink:not(.popup-oldlink-vng)');
+        old.style.display = old.style.display === "none" ? "block" : "none";
+      };
+      
+      popup.querySelector('.show-old-link-vng').onclick = function(){
+        const old = popup.querySelector('.popup-oldlink-vng');
+        old.style.display = old.style.display === "none" ? "block" : "none";
+      };
+      
+      const closePopup = () => {
+        popup.style.animation = 'fadeOut 0.2s forwards';
+        setTimeout(() => popup.remove(), 200);
+      };
+      
+      popup.addEventListener('click', (e) => { 
+        if(e.target === popup) closePopup(); 
+      });
+      
+      popup.querySelector('.btn-cancel').onclick = closePopup;
+      
+      popup.querySelector('.btn-save').onclick = async () => {
+        const newData = {
+          name: name,
+          version: popup.querySelector('.edit-version').value.trim(),
+          vngVersion: popup.querySelector('.edit-vng-version').value.trim(),
+          status: popup.querySelector('.edit-status').value.trim(),
+          download: popup.querySelector('.edit-download').value.trim() || download,
+          vng: popup.querySelector('.edit-vng').value.trim() || vng
+        };
+        
+        const token = popup.querySelector('.edit-token').value.trim();
+        if (!token) { 
+          alert("🌸 You must enter a base64 token! ✨"); 
+          return; 
+        }
+        
+        let executorList;
+        try {
+          const response = await fetch(`${DATA_URL}?t=${new Date().getTime()}`);
+          executorList = await response.json();
+          if (!Array.isArray(executorList)) executorList = [executorList];
+        } catch(e) { 
+          alert("🌸 Cannot load original executor data! 💔"); 
+          return; 
+        }
+        
+        let found = false;
+        const keyword = card.getAttribute('data-keyword').toLowerCase();
+        executorList = executorList.map(e => {
+          if (e && e.name && normalizeName(e.name).includes(keyword)) {
             found = true;
             return newData;
+          }
+          return e;
+        });
+        
+        if (!found) executorList.push(newData);
+        
+        const ok = await pushToGitHub(token, "htuananh1/hoanganh.github.io", "data/executor-card.json", JSON.stringify(executorList, null, 2));
+        if (ok) {
+          fillCard(card, newData);
+          closePopup();
         }
-        return e;
-      });
-      if (!found) executorList.push(newData);
-      const ok = await pushToGitHub(token, "htuananh1/hoanganh.github.io", "data/executor-card.json", JSON.stringify(executorList, null, 2));
-      if (ok) {
-        fillCard(card, newData);
-        closePopup();
-      }
-    };
-    // Add fadeOut animation style
-    const styleSheet = document.createElement("style");
-    styleSheet.type = "text/css";
-    styleSheet.innerText = "@keyframes fadeOut { 0% { opacity: 1; } 100% { opacity: 0; } }";
-    document.head.appendChild(styleSheet);
-  }
-  document.querySelectorAll('.executor-card .edit-btn').forEach(btn => {
-    btn.addEventListener('click', function(e) {
-      e.preventDefault();
-      e.stopPropagation();
-      const card = btn.closest('.executor-card');
-      showEditPopup(card);
-    });
-  });
-  function decodeTokenBase64(tokenBase64) {
-    try { return atob(tokenBase64.trim()); }
-    catch(e) { return ""; }
-  }
-  async function pushToGitHub(tokenBase64, repo, path, content) {
-    const token = decodeTokenBase64(tokenBase64);
-    if (!token) {
-      alert("Token base64 không hợp lệ!");
-      return false;
+      };
     }
-    const apiUrl = `https://api.github.com/repos/${repo}/contents/${path}`;
-    let sha = null;
-    try {
-      const res = await fetch(apiUrl, {
-        headers: { Authorization: `token ${token}`, Accept: "application/vnd.github.v3+json" },
-        cache: 'no-cache' // Bỏ qua cache để luôn lấy SHA mới nhất
-      });
-      if (res.ok) {
-        const json = await res.json();
-        sha = json.sha;
+
+    function decodeTokenBase64(tokenBase64) {
+      try { 
+        return atob(tokenBase64.trim()); 
+      } catch(e) { 
+        return ""; 
       }
-    } catch (e) {
-      console.error("Could not fetch file SHA:", e);
     }
-    const payload = {
-      message: `Update data via web UI - ${new Date().toISOString()}`,
-      content: btoa(unescape(encodeURIComponent(content))), // Ensure correct UTF-8 to Base64 encoding
-      ...(sha && { sha }),
-    };
-    try {
+
+    async function pushToGitHub(tokenBase64, repo, path, content) {
+      const token = decodeTokenBase64(tokenBase64);
+      if (!token) {
+        alert("🌸 Invalid base64 token! 💔");
+        return false;
+      }
+      
+      const apiUrl = `https://api.github.com/repos/${repo}/contents/${path}`;
+      let sha = null;
+      
+      try {
+        const res = await fetch(apiUrl, {
+          headers: { 
+            Authorization: `token ${token}`, 
+            Accept: "application/vnd.github.v3+json" 
+          },
+          cache: 'no-cache'
+        });
+        
+        if (res.ok) {
+          const json = await res.json();
+          sha = json.sha;
+        }
+      } catch (e) {
+        console.error("Could not fetch file SHA:", e);
+      }
+      
+      const payload = {
+        message: `✨ Update data via kawaii web UI - ${new Date().toISOString()}`,
+        content: btoa(unescape(encodeURIComponent(content))),
+        ...(sha && { sha }),
+      };
+      
+      try {
         const response = await fetch(apiUrl, {
           method: "PUT",
           headers: {
@@ -711,26 +976,32 @@
           },
           body: JSON.stringify(payload),
         });
+        
         if (response.ok) {
-          alert("Đã cập nhật dữ liệu lên GitHub thành công!");
+          alert("🌸 Successfully updated data to GitHub! ✨");
           return true;
         } else {
           const errorData = await response.json();
-          alert("Lỗi gửi lên GitHub: " + (errorData.message || response.statusText));
+          alert("🌸 GitHub upload error: " + (errorData.message || response.statusText) + " 💔");
           return false;
         }
-    } catch(e) {
-        alert("Lỗi mạng hoặc không thể kết nối tới GitHub API.");
+      } catch(e) {
+        alert("🌸 Network error or cannot connect to GitHub API! 💔");
         return false;
+      }
     }
-  }
-  document.getElementById('tool-bypass').addEventListener('click', function(e){
-    if(e.target.closest('a')) {
-      e.stopPropagation();
-      return;
-    }
-    window.open("https://raw.githubusercontent.com/bypass-vip/userscript/refs/heads/main/bypass-vip.user.js", "_blank");
-  });
+
+    // Special tool card click handler
+    document.getElementById('tool-bypass').addEventListener('click', function(e){
+      if(e.target.closest('a')) {
+        e.stopPropagation();
+        return;
+      }
+      window.open("https://raw.githubusercontent.com/bypass-vip/userscript/refs/heads/main/bypass-vip.user.js", "_blank");
+    });
+
+    // Load executors on page load
+    loadExecutors();
   </script>
 </body>
 </html>
