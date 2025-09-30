@@ -1,174 +1,169 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { LoadingSpinner } from './icons/LoadingSpinner';
+import React, { useEffect, useRef, useState } from 'react';
+import type { Interaction, Source } from '../types';
+import { SparklesIcon } from './icons/SparklesIcon';
 import { ClipboardIcon } from './icons/ClipboardIcon';
 import { CheckIcon } from './icons/CheckIcon';
-import type { Interaction } from '../types';
 
-interface SolutionDisplayProps {
-  history: Interaction[];
-}
+// UserIcon SVG component
+const UserIcon: React.FC<{ className?: string }> = ({ className }) => (
+    <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor" className={className}>
+        <path d="M12 12a5 5 0 1 1 0-10 5 5 0 0 1 0 10Zm0-2a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm0 4a7 7 0 0 0-7 7h14a7 7 0 0 0-7-7Z" />
+    </svg>
+);
 
-const SolutionDisplay: React.FC<SolutionDisplayProps> = ({ history }) => {
-  const [copiedStates, setCopiedStates] = useState<{ [key: number]: boolean }>({});
-  const messagesEndRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [history]);
-
-  const copyToClipboard = async (text: string, interactionId: number) => {
-    try {
-      await navigator.clipboard.writeText(text);
-      setCopiedStates(prev => ({ ...prev, [interactionId]: true }));
-      setTimeout(() => {
-        setCopiedStates(prev => ({ ...prev, [interactionId]: false }));
-      }, 2000);
-    } catch (err) {
-      console.error('Failed to copy text: ', err);
-    }
-  };
-
-  const formatAnswer = (answer: string) => {
-    // Split by double newlines to create paragraphs
-    const paragraphs = answer.split('\n\n');
-    return paragraphs.map((paragraph, index) => (
-      <p key={index} className="mb-3 last:mb-0">
-        {paragraph.split('\n').map((line, lineIndex) => (
-          <span key={lineIndex}>
-            {line}
-            {lineIndex < paragraph.split('\n').length - 1 && <br />}
-          </span>
-        ))}
-      </p>
-    ));
-  };
-
-  if (history.length === 0) {
+const FormattedAnswer: React.FC<{ text: string }> = React.memo(({ text }) => {
+    // This function can be expanded with more advanced sanitization if needed
+    const getSanitizedHtml = (markdownText: string) => {
+        if ((window as any).marked) {
+            return (window as any).marked.parse(markdownText);
+        }
+        return markdownText.replace(/\n/g, '<br />'); // Basic fallback
+    };
+    
     return (
-      <div className="container mx-auto max-w-4xl px-4 py-8">
-        <div className="text-center text-slate-500">
-          <div className="mb-4">
-            <svg className="mx-auto h-16 w-16 text-slate-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-            </svg>
-          </div>
-          <h3 className="text-lg font-medium mb-2">Chào mừng đến với Trợ lý học tập AI!</h3>
-          <p className="text-sm">
-            Hãy nhập đề bài hoặc tải lên hình ảnh để bắt đầu nhận được giải pháp chi tiết.
-          </p>
-        </div>
-      </div>
+        <div 
+            className="prose prose-slate max-w-none"
+            dangerouslySetInnerHTML={{ __html: getSanitizedHtml(text) }} 
+        />
     );
-  }
+});
 
-  return (
-    <div className="container mx-auto max-w-4xl px-4 py-6">
-      <div className="space-y-6">
-        {history.map((interaction) => (
-          <div key={interaction.id} className="space-y-4">
-            {/* User Query */}
-            <div className="flex justify-end">
-              <div className="max-w-[80%] bg-indigo-500 text-white rounded-2xl rounded-br-md px-4 py-3 shadow-lg">
-                <div className="whitespace-pre-wrap break-words">
-                  {interaction.userQuery.text}
-                </div>
-                {interaction.userQuery.image && (
-                  <div className="mt-3">
-                    <img 
-                      src={interaction.userQuery.image} 
-                      alt="Problem image" 
-                      className="max-w-full h-auto rounded-lg border border-white/20"
-                    />
-                  </div>
-                )}
-              </div>
-            </div>
+const SourceList: React.FC<{ sources: Source[] }> = ({ sources }) => {
+    if (!sources || sources.length === 0) return null;
 
-            {/* AI Response */}
-            <div className="flex justify-start">
-              <div className="max-w-[90%] bg-white rounded-2xl rounded-bl-md px-4 py-3 shadow-lg border border-slate-200">
-                {interaction.isLoading ? (
-                  <div className="flex items-center space-x-3">
-                    <LoadingSpinner className="w-5 h-5 text-indigo-500" />
-                    <span className="text-slate-600">Đang xử lý...</span>
-                  </div>
-                ) : interaction.error ? (
-                  <div className="text-red-600">
-                    <div className="font-medium mb-2">Có lỗi xảy ra:</div>
-                    <div className="text-sm">{interaction.error}</div>
-                  </div>
-                ) : (
-                  <div>
-                    {/* Subject */}
-                    {interaction.modelResponse.subject && (
-                      <div className="mb-3">
-                        <span className="inline-block bg-indigo-100 text-indigo-800 text-sm font-medium px-3 py-1 rounded-full">
-                          {interaction.modelResponse.subject}
-                        </span>
-                      </div>
-                    )}
-
-                    {/* Answer */}
-                    {interaction.modelResponse.answer && (
-                      <div className="prose prose-sm max-w-none">
-                        <div className="text-slate-800 leading-relaxed">
-                          {formatAnswer(interaction.modelResponse.answer)}
-                        </div>
-                      </div>
-                    )}
-
-                    {/* Sources */}
-                    {interaction.modelResponse.sources && interaction.modelResponse.sources.length > 0 && (
-                      <div className="mt-4 pt-3 border-t border-slate-200">
-                        <div className="text-xs text-slate-500 mb-2">Nguồn tham khảo:</div>
-                        <div className="space-y-1">
-                          {interaction.modelResponse.sources.map((source, index) => (
-                            <a
-                              key={index}
-                              href={source.uri}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="block text-xs text-blue-600 hover:text-blue-800 hover:underline truncate"
-                            >
-                              {source.title || source.uri}
-                            </a>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-
-                    {/* Copy Button */}
-                    {interaction.modelResponse.answer && (
-                      <div className="mt-3 flex justify-end">
-                        <button
-                          onClick={() => copyToClipboard(interaction.modelResponse.answer, interaction.id)}
-                          className="flex items-center space-x-1 px-2 py-1 text-xs text-slate-500 hover:text-slate-700 hover:bg-slate-100 rounded transition-colors"
-                          title="Sao chép câu trả lời"
+    return (
+        <div className="mt-6 pt-4 border-t border-slate-200">
+            <h4 className="text-sm font-semibold text-slate-600 mb-2">Nguồn tham khảo:</h4>
+            <ul className="list-decimal list-inside space-y-1">
+                {sources.map((source, index) => (
+                    <li key={index} className="text-sm">
+                        <a 
+                            href={source.uri} 
+                            target="_blank" 
+                            rel="noopener noreferrer" 
+                            className="text-blue-600 hover:underline break-words"
+                            title={source.title}
                         >
-                          {copiedStates[interaction.id] ? (
-                            <>
-                              <CheckIcon className="w-3 h-3 text-green-500" />
-                              <span className="text-green-500">Đã sao chép!</span>
-                            </>
-                          ) : (
-                            <>
-                              <ClipboardIcon className="w-3 h-3" />
-                              <span>Sao chép</span>
-                            </>
-                          )}
-                        </button>
-                      </div>
-                    )}
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
-      <div ref={messagesEndRef} />
-    </div>
-  );
+                            {source.title || source.uri}
+                        </a>
+                    </li>
+                ))}
+            </ul>
+        </div>
+    );
+};
+
+
+const SolutionDisplay: React.FC<{ history: Interaction[] }> = ({ history }) => {
+    const endOfMessagesRef = useRef<HTMLDivElement>(null);
+    const [copiedId, setCopiedId] = useState<number | null>(null);
+
+    useEffect(() => {
+        endOfMessagesRef.current?.scrollIntoView({ behavior: "smooth" });
+    }, [history]);
+    
+    const handleCopy = (textToCopy: string, id: number) => {
+        if (!textToCopy) return;
+        navigator.clipboard.writeText(textToCopy).then(() => {
+            setCopiedId(id);
+            setTimeout(() => {
+                setCopiedId(null);
+            }, 2000); // Reset after 2 seconds
+        }).catch(err => {
+            console.error('Failed to copy text: ', err);
+            alert('Không thể sao chép vào clipboard.');
+        });
+    };
+    
+    const renderInitialState = () => (
+        <div className="flex flex-col items-center justify-center text-center p-8 text-white/80 h-full fade-in">
+            <SparklesIcon className="w-16 h-16 text-white/70 mb-4"/>
+            <h2 className="text-2xl font-bold mb-2 text-white">Sẵn sàng giải đáp</h2>
+            <p>Nhập đề bài của bạn vào ô phía dưới để bắt đầu.</p>
+        </div>
+    );
+
+    if (history.length === 0) {
+        return renderInitialState();
+    }
+  
+    return (
+        <div className="container mx-auto max-w-4xl p-4 sm:p-6 space-y-8">
+            {history.map(interaction => (
+                <div key={interaction.id} className="glass-effect p-4 sm:p-6 rounded-2xl shadow-lg message-bubble">
+                    {/* User Query */}
+                    <div className="flex items-start gap-4">
+                        <div className="flex-shrink-0 w-8 h-8 rounded-full bg-slate-200 grid place-content-center">
+                            <UserIcon className="w-6 h-6 text-slate-600" />
+                        </div>
+                        <div className="flex-1">
+                            <p className="font-semibold text-slate-800 mb-2">Bạn</p>
+                            <div className="text-slate-700 space-y-3">
+                                {interaction.userQuery.image && (
+                                    <img src={interaction.userQuery.image} alt="Problem" className="max-w-xs h-auto rounded-md border" />
+                                )}
+                                {interaction.userQuery.text && (
+                                    <p className="whitespace-pre-wrap">{interaction.userQuery.text}</p>
+                                )}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    {/* Model Response */}
+                    <div className="flex items-start gap-4 mt-4">
+                         <div className="flex-shrink-0 w-8 h-8 rounded-full btn-primary grid place-content-center">
+                            <SparklesIcon className="w-5 h-5 text-white" />
+                        </div>
+                        <div className="flex-1 min-w-0 relative group">
+                             <p className="font-semibold text-slate-800 mb-2">Trợ lý AI</p>
+                             
+                             {interaction.isLoading && !interaction.modelResponse?.answer && (
+                                <div className="flex items-center gap-3 text-slate-600">
+                                    <div className="loading-dots">
+                                        <span></span>
+                                        <span></span>
+                                        <span></span>
+                                    </div>
+                                    <span>AI đang suy nghĩ...</span>
+                                </div>
+                             )}
+                             
+                             {interaction.error && (
+                                 <div className="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 rounded-md" role="alert">
+                                    <p className="font-bold">Đã xảy ra lỗi</p>
+                                    <p>{interaction.error}</p>
+                                </div>
+                             )}
+
+                             {interaction.modelResponse?.answer && (
+                                <>
+                                    <button
+                                        onClick={() => handleCopy(interaction.modelResponse.answer, interaction.id)}
+                                        className="absolute top-0 right-0 z-10 p-1.5 rounded-lg text-slate-600 opacity-0 group-hover:opacity-100 focus:opacity-100 transition-opacity duration-200 hover:bg-slate-200/80"
+                                        aria-label="Sao chép lời giải"
+                                        title="Sao chép lời giải"
+                                    >
+                                        {copiedId === interaction.id 
+                                            ? <CheckIcon className="w-5 h-5 text-green-600" /> 
+                                            : <ClipboardIcon className="w-5 h-5" />
+                                        }
+                                    </button>
+                                    <div className="space-y-4">
+                                        {interaction.modelResponse.subject && (
+                                            <p className="text-sm font-bold text-indigo-700 bg-indigo-100 inline-block px-3 py-1 rounded-full">{interaction.modelResponse.subject}</p>
+                                        )}
+                                        <FormattedAnswer text={interaction.modelResponse.answer} />
+                                        <SourceList sources={interaction.modelResponse.sources} />
+                                    </div>
+                                </>
+                             )}
+                        </div>
+                    </div>
+                </div>
+            ))}
+            <div ref={endOfMessagesRef} />
+        </div>
+    );
 };
 
 export default SolutionDisplay;
