@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { UploadIcon } from './icons/UploadIcon';
+import { LoadingSpinner } from './icons/LoadingSpinner';
 import { fileToBase64 } from '../utils/fileUtils';
 
 // SendIcon SVG component
@@ -9,7 +10,6 @@ const SendIcon: React.FC<{ className?: string }> = ({ className }) => (
     </svg>
 );
 
-
 interface InputAreaProps {
   onSubmit: (text: string, image: { data: string; mimeType: string } | null) => void;
   isLoading: boolean;
@@ -18,8 +18,10 @@ interface InputAreaProps {
 const InputArea: React.FC<InputAreaProps> = ({ onSubmit, isLoading }) => {
   const [text, setText] = useState<string>('');
   const [image, setImage] = useState<{ file: File; preview: string } | null>(null);
+  const [isDragging, setIsDragging] = useState<boolean>(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const dragCounter = useRef(0);
 
   useEffect(() => {
     const textarea = textareaRef.current;
@@ -33,15 +35,23 @@ const InputArea: React.FC<InputAreaProps> = ({ onSubmit, isLoading }) => {
     }
   }, [text]);
 
-  const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+  const processFile = (file: File) => {
+    if (!file.type.startsWith('image/')) {
+        alert("Please select an image file.");
+        return;
+    }
+    if (file.size > 4 * 1024 * 1024) { // 4MB limit
+      alert("Image size should be less than 4MB.");
+      return;
+    }
+    const preview = URL.createObjectURL(file);
+    setImage({ file, preview });
+  };
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
-      if (file.size > 4 * 1024 * 1024) { // 4MB limit
-        alert("Image size should be less than 4MB.");
-        return;
-      }
-      const preview = URL.createObjectURL(file);
-      setImage({ file, preview });
+      processFile(file);
     }
   };
 
@@ -75,6 +85,10 @@ const InputArea: React.FC<InputAreaProps> = ({ onSubmit, isLoading }) => {
     if (image && showAlert && !window.confirm("Are you sure you want to remove the image?")) {
         return;
     }
+    // Revoke the object URL to free up memory
+    if (image) {
+      URL.revokeObjectURL(image.preview);
+    }
     setImage(null);
     if (fileInputRef.current) {
         fileInputRef.current.value = "";
@@ -86,10 +100,59 @@ const InputArea: React.FC<InputAreaProps> = ({ onSubmit, isLoading }) => {
         event.preventDefault();
         handleSubmit(event);
     }
-  }
+  };
+
+  const handleDragEnter = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    dragCounter.current++;
+    if (e.dataTransfer.items && e.dataTransfer.items.length > 0) {
+      setIsDragging(true);
+    }
+  };
+
+  const handleDragLeave = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    dragCounter.current--;
+    if (dragCounter.current === 0) {
+      setIsDragging(false);
+    }
+  };
+
+  const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+  };
+
+  const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(false);
+    dragCounter.current = 0;
+    
+    if (isLoading) return;
+
+    const files = e.dataTransfer.files;
+    if (files && files.length > 0) {
+      processFile(files[0]);
+      e.dataTransfer.clearData();
+    }
+  };
 
   return (
-    <div className="glass-effect p-3 rounded-2xl shadow-xl w-full flex flex-col gap-2">
+    <div 
+      onDragEnter={handleDragEnter}
+      onDragLeave={handleDragLeave}
+      onDragOver={handleDragOver}
+      onDrop={handleDrop}
+      className="glass-effect p-3 rounded-2xl shadow-xl w-full flex flex-col gap-2 relative transition-all duration-200"
+    >
+      {isDragging && (
+        <div className="absolute inset-0 bg-indigo-100/80 backdrop-blur-sm border-2 border-dashed border-indigo-400 rounded-2xl flex items-center justify-center pointer-events-none z-10">
+          <p className="text-indigo-600 font-bold text-lg">Thả ảnh vào đây</p>
+        </div>
+      )}
       {image && (
           <div className="relative group w-24 h-24 self-start">
               <img src={image.preview} alt="Problem preview" className="w-full h-full object-cover rounded-md border border-slate-300" />
@@ -128,7 +191,7 @@ const InputArea: React.FC<InputAreaProps> = ({ onSubmit, isLoading }) => {
           value={text}
           onChange={(e) => setText(e.target.value)}
           onKeyDown={handleKeyDown}
-          placeholder="Nhập đề bài ở đây..."
+          placeholder="Nhập đề bài hoặc thả ảnh vào đây..."
           className="w-full max-h-40 p-2.5 bg-white/60 border border-slate-300/50 rounded-lg focus:ring-2 focus:ring-blue-500 focus:bg-white transition duration-200 resize-none leading-6"
           rows={1}
           disabled={isLoading}
@@ -140,7 +203,7 @@ const InputArea: React.FC<InputAreaProps> = ({ onSubmit, isLoading }) => {
           className="flex-shrink-0 w-10 h-10 rounded-full grid place-content-center btn-primary text-white font-bold focus:outline-none transition duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
           aria-label="Submit problem"
         >
-          <SendIcon className="w-5 h-5"/>
+          {isLoading ? <LoadingSpinner className="w-6 h-6"/> : <SendIcon className="w-5 h-5"/>}
         </button>
       </form>
     </div>
