@@ -1,26 +1,18 @@
 import React from 'react';
 
-interface CheckIconProps {
-  className?: string;
-}
-
-const CheckIcon: React.FC<CheckIconProps> = ({ className = '' }) => {
-  return (
-    <svg
-      className={className}
-      fill="none"
-      stroke="currentColor"
-      viewBox="0 0 24 24"
-      xmlns="http://www.w3.org/2000/svg"
+export const CheckIcon: React.FC<{ className?: string }> = ({ className }) => (
+    <svg 
+        xmlns="http://www.w3.org/2000/svg" 
+        width="24" 
+        height="24" 
+        viewBox="0 0 24 24" 
+        fill="none" 
+        stroke="currentColor" 
+        strokeWidth="3" 
+        strokeLinecap="round" 
+        strokeLinejoin="round" 
+        className={className}
     >
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth={2}
-        d="M5 13l4 4L19 7"
-      />
+        <polyline points="20 6 9 17 4 12" />
     </svg>
-  );
-};
-
-export { CheckIcon };
+);
