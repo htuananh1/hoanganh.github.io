@@ -1,0 +1,5 @@
+{
+  "name": "AI Homework Helper",
+  "description": "An AI-powered assistant to help solve exercises and problems across all academic subjects. Users can input problems via text or by uploading an image, and the AI will identify the subject and provide a detailed, step-by-step solution.",
+  "requestFramePermissions": []
+}
