@@ -1,379 +1,238 @@
 <!DOCTYPE html>
-<html lang="vi" class="scroll-smooth">
+<html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Terminal Việt AI (với Chatbot Gemini)</title>
+    <title>Trắc Nghiệm Pháp Luật</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <style>
         body {
             font-family: 'Inter', sans-serif;
         }
-        .command-card {
-            background-color: #1e293b;
-            border: 1px solid #334155;
-            border-radius: 0.75rem;
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
+        .quiz-card {
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
-        pre {
-            background-color: #0f172a;
-            color: #e2e8f0;
-            padding: 1rem;
-            border-radius: 0.5rem;
-            overflow-x: auto;
-            position: relative;
+        .option-btn {
+            transition: all 0.2s ease-in-out;
         }
-        code {
-            font-family: 'SF Mono', 'Courier New', Courier, monospace;
+        .option-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
-        .copy-btn {
-            position: absolute;
-            top: 0.5rem;
-            right: 0.5rem;
-            background-color: #334155;
-            color: #94a3b8;
-            border: none;
-            padding: 0.25rem 0.5rem;
-            border-radius: 0.25rem;
-            cursor: pointer;
-            font-size: 0.75rem;
-            opacity: 0;
-            transition: opacity 0.2s;
+        .selected {
+            background-color: #3b82f6 !important; /* blue-500 */
+            color: white !important;
+            border-color: #2563eb !important; /* blue-600 */
         }
-        pre:hover .copy-btn {
-            opacity: 1;
+        .btn-primary {
+            background: linear-gradient(to right, #3b82f6, #60a5fa);
+            transition: all 0.3s ease;
         }
-        /* Chat bubble styles */
-        #chat-bubble {
-            position: fixed;
-            bottom: 2rem;
-            right: 2rem;
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, #10b981, #34d399);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
-            transition: transform 0.2s ease-in-out;
-            z-index: 1000;
-        }
-        #chat-bubble:hover {
-            transform: scale(1.1);
-        }
-        /* Chat window styles */
-        #chat-window {
-            position: fixed;
-            bottom: 6.5rem;
-            right: 2rem;
-            width: 90vw;
-            max-width: 400px;
-            height: 70vh;
-            max-height: 600px;
-            background-color: #1e293b;
-            border: 1px solid #334155;
-            border-radius: 1rem;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-            transform-origin: bottom right;
-            transition: transform 0.3s ease-out, opacity 0.3s ease-out;
-            z-index: 999;
-        }
-        #chat-window.hidden {
-            transform: scale(0);
-            opacity: 0;
-        }
-        .chat-message {
-            padding: 0.75rem 1rem;
-            margin-bottom: 0.5rem;
-            border-radius: 0.75rem;
-            max-width: 85%;
-            word-wrap: break-word;
-        }
-        .user-message {
-            background-color: #10b981;
-            color: white;
-            align-self: flex-end;
-            margin-left: auto;
-        }
-        .ai-message {
-            background-color: #334155;
-            color: #e2e8f0;
-            align-self: flex-start;
-        }
-        .ai-message pre {
-            white-space: pre-wrap;
-            word-wrap: break-word;
-        }
-        .ai-message p { margin-bottom: 0.5rem; }
-        .ai-message ul, .ai-message ol { margin-left: 1.5rem; margin-bottom: 0.5rem; }
-        .ai-message li { margin-bottom: 0.25rem; }
-        .typing-indicator {
-            display: flex;
-            align-items: center;
-            padding: 0.75rem 1rem;
-        }
-        .typing-indicator span {
-            height: 8px;
-            width: 8px;
-            margin: 0 2px;
-            background-color: #64748b;
-            border-radius: 50%;
-            display: inline-block;
-            animation: bounce 1.4s infinite ease-in-out both;
-        }
-        .typing-indicator span:nth-child(1) { animation-delay: -0.32s; }
-        .typing-indicator span:nth-child(2) { animation-delay: -0.16s; }
-        @keyframes bounce {
-            0%, 80%, 100% { transform: scale(0); }
-            40% { transform: scale(1.0); }
+        .btn-primary:hover {
+            box-shadow: 0 6px 15px rgba(59, 130, 246, 0.4);
+            transform: translateY(-2px);
         }
     </style>
 </head>
-<body class="bg-slate-900 text-slate-300">
+<body class="bg-slate-100 flex items-center justify-center min-h-screen p-4 bg-gradient-to-br from-indigo-50 via-white to-cyan-50">
 
-    <!-- Header -->
-    <header class="bg-slate-800/70 backdrop-blur-lg shadow-lg sticky top-0 z-50">
-        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <a href="#" class="text-2xl font-bold text-white">Terminal<span class="text-emerald-400">Việt</span></a>
-            <ul class="hidden md:flex space-x-6 items-center">
-                <li><a href="#gioi-thieu" class="hover:text-emerald-400 transition-colors">Giới Thiệu</a></li>
-                <li><a href="#lenh-co-ban" class="hover:text-emerald-400 transition-colors">Lệnh Cơ Bản</a></li>
-                <li><a href="#lien-ket-lenh" class="hover:text-emerald-400 transition-colors">Liên Kết Lệnh</a></li>
-            </ul>
-        </nav>
-    </header>
-
-    <!-- Main Content -->
-    <main class="container mx-auto px-6 py-12">
-        <!-- Hero Section -->
-        <section class="text-center mb-16">
-            <h1 class="text-4xl md:text-6xl font-extrabold text-white mb-4">Làm Chủ Dòng Lệnh Linux</h1>
-            <p class="text-lg md:text-xl text-slate-400 max-w-3xl mx-auto">Một hướng dẫn toàn diện bằng tiếng Việt, từ cơ bản đến nâng cao. Sử dụng trợ lý AI ở góc phải để được giải đáp mọi thắc mắc!</p>
-        </section>
-        
-        <!-- Các phần hướng dẫn lệnh (giữ nguyên) -->
-        <section id="gioi-thieu" class="mb-16">
-            <h2 class="text-3xl font-bold text-white border-l-4 border-emerald-400 pl-4 mb-8">1. Giới Thiệu Terminal</h2>
-            <div class="command-card">
-                <h3 class="text-xl font-semibold text-emerald-400 mb-2">Terminal là gì?</h3>
-                <p>Terminal là một giao diện văn bản cho phép bạn giao tiếp trực tiếp với hệ điều hành. Thay vì nhấp chuột, bạn sẽ gõ lệnh để yêu cầu máy tính thực hiện tác vụ. Đây là công cụ mạnh mẽ, linh hoạt và là kỹ năng cốt lõi của bất kỳ người dùng Linux nào.</p>
-            </div>
-        </section>
-
-        <section id="lenh-co-ban" class="mb-16">
-            <h2 class="text-3xl font-bold text-white border-l-4 border-emerald-400 pl-4 mb-8">2. Các Lệnh Cơ Bản</h2>
-             <div class="command-card">
-                 <h3 class="text-2xl font-semibold text-emerald-400 mb-4">Điều Hướng & Quản Lý File</h3>
-                 <div class="grid md:grid-cols-2 gap-4">
-                     <div><p><strong>pwd</strong>: In thư mục hiện tại.</p><pre><code>$ pwd</code></pre></div>
-                     <div><p><strong>ls -la</strong>: Liệt kê file/thư mục.</p><pre><code>$ ls -la</code></pre></div>
-                     <div><p><strong>cd [thư-mục]</strong>: Chuyển thư mục.</p><pre><code>$ cd /var/log</code></pre></div>
-                     <div><p><strong>cp [nguồn] [đích]</strong>: Sao chép.</p><pre><code>$ cp file.txt backup/</code></pre></div>
-                 </div>
-            </div>
-        </section>
-
-        <section id="lien-ket-lenh" class="mb-16">
-             <h2 class="text-3xl font-bold text-white border-l-4 border-emerald-400 pl-4 mb-8">3. Sức Mạnh Thực Sự: Liên Kết Lệnh</h2>
-             <div class="command-card">
-                <h3 class="text-2xl font-semibold text-emerald-400 mb-4">Đường ống (Piping) `|`</h3>
-                <p>Toán tử `|` lấy **đầu ra** của lệnh bên trái và dùng nó làm **đầu vào** cho lệnh bên phải.</p>
-                <pre><code>$ ps aux | grep "chrome" | wc -l</code></pre>
-                <p class="text-sm mt-1 text-slate-400">Đếm số tiến trình chrome đang chạy.</p>
-            </div>
-        </section>
-
-    </main>
-
-    <!-- Chat Bubble -->
-    <div id="chat-bubble">
-        <svg xmlns="http://www.w.org/2000/svg" width="32" height="32" fill="white" viewBox="0 0 256 256"><path d="M148,16.08a112.1,112.1,0,0,0-104,124A111.41,111.41,0,0,0,57.51,192.53L29.83,220.2a8,8,0,0,0,11.31,11.31l27.68-27.68A112,112,0,1,0,148,16.08Zm0,208a96,96,0,1,1,96-96A96.11,96.11,0,0,1,148,224.08Z"></path></svg>
+    <!-- Start Screen -->
+    <div id="start-container" class="w-full max-w-lg text-center bg-white/70 quiz-card rounded-xl shadow-2xl p-8 md:p-12">
+        <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">Bài Trắc Nghiệm Pháp Luật</h1>
+        <p class="text-gray-600 mb-8">Nhấn nút bên dưới để bắt đầu làm bài. Chúc bạn may mắn!</p>
+        <button onclick="startQuiz()" class="btn-primary text-white font-bold py-3 px-8 rounded-lg text-lg shadow-lg">Bắt đầu</button>
     </div>
 
-    <!-- Chat Window -->
-    <div id="chat-window" class="hidden">
+    <!-- Quiz Container (Initially Hidden) -->
+    <div id="quiz-container" class="w-full max-w-2xl bg-white/70 quiz-card rounded-xl shadow-2xl p-6 md:p-8 hidden">
         <!-- Header -->
-        <div class="flex-shrink-0 bg-slate-800 p-4 flex justify-between items-center border-b border-slate-700">
-            <h3 class="text-lg font-bold text-white">Trợ lý AI Gemini</h3>
-            <button id="close-chat" class="text-slate-400 hover:text-white">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 256 256"><path d="M208.49,191.51a12,12,0,0,1-17,17L128,145,64.49,208.49a12,12,0,0,1-17-17L111,128,47.51,64.49a12,12,0,0,1,17-17L128,111l63.51-63.52a12,12,0,0,1,17,17L145,128Z"></path></svg>
-            </button>
+        <div class="mb-4 text-center">
+            <h1 id="quiz-header" class="text-2xl md:text-3xl font-bold text-gray-800">Trắc Nghiệm Pháp Luật</h1>
+            <p id="quiz-subject" class="text-gray-500 mt-2 font-medium"></p>
         </div>
 
-        <!-- Messages -->
-        <div id="chat-messages" class="flex-grow p-4 overflow-y-auto flex flex-col">
-             <!-- AI Greeting -->
-            <div class="chat-message ai-message">
-                <p>Xin chào! Tôi có thể giúp gì cho bạn về dòng lệnh Linux hoặc bất cứ điều gì khác?</p>
+        <!-- Progress Bar -->
+        <div class="w-full bg-gray-200 rounded-full h-2.5 mb-6">
+            <div id="progress-bar" class="bg-blue-500 h-2.5 rounded-full transition-all duration-300 ease-in-out"></div>
+        </div>
+
+        <!-- Quiz Content -->
+        <div id="quiz-content">
+            <div class="flex justify-between items-center mb-4">
+                <p id="question-counter" class="text-sm font-semibold text-blue-600 bg-blue-100 py-1 px-3 rounded-full"></p>
+                <div id="timer" class="text-lg font-bold text-gray-700">15:00</div>
+            </div>
+            <p id="question-text" class="text-lg text-gray-800 font-semibold mb-6 min-h-[60px]"></p>
+            <div id="options-container" class="space-y-3">
+                <!-- Options will be dynamically inserted here -->
             </div>
         </div>
 
-        <!-- Input Form -->
-        <div class="flex-shrink-0 p-4 border-t border-slate-700 bg-slate-800">
-            <form id="chat-form" class="flex items-center gap-2">
-                <input type="text" id="chat-input" placeholder="Nhập câu hỏi của bạn..." class="flex-grow bg-slate-700 border border-slate-600 rounded-full px-4 py-2 text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition">
-                <button type="submit" class="bg-emerald-600 hover:bg-emerald-700 text-white rounded-full w-10 h-10 flex items-center justify-center flex-shrink-0">
-                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 256 256"><path d="M221.66,133.66l-40,40a8,8,0,0,1-11.32-11.32L192,140H40a8,8,0,0,1,0-16H192l-21.66-21.66a8,8,0,0,1,11.32-11.32l40,40A8,8,0,0,1,221.66,133.66Z"></path></svg>
-                </button>
-            </form>
+        <!-- Results Screen -->
+        <div id="results-container" class="hidden text-center">
+            <h2 class="text-3xl font-bold text-gray-800 mb-4">Hoàn Thành!</h2>
+            <p id="score" class="text-xl text-gray-600 mb-6">Cảm ơn bạn đã hoàn thành bài trắc nghiệm.</p>
+            <div id="summary" class="mb-6 text-left space-y-2 max-h-[40vh] overflow-y-auto pr-2"></div>
+            <button onclick="restartQuiz()" class="btn-primary text-white font-bold py-3 px-6 rounded-lg w-full md:w-auto">Làm lại</button>
+        </div>
+
+        <!-- Navigation -->
+        <div id="navigation-container" class="mt-8 flex justify-between items-center">
+            <button id="prev-btn" onclick="prevQuestion()" class="bg-gray-200 text-gray-700 font-bold py-2 px-6 rounded-lg hover:bg-gray-300 transition-colors">Trước</button>
+            <button id="next-btn" onclick="nextQuestion()" class="btn-primary text-white font-bold py-2 px-6 rounded-lg">Tiếp</button>
+            <button id="submit-btn" onclick="showResults()" class="hidden bg-green-500 text-white font-bold py-2 px-6 rounded-lg hover:bg-green-600 transition-colors">Nộp bài</button>
         </div>
     </div>
-    
+
+    <script src="questions.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // --- Phần 1: Chatbot Logic ---
-            const chatBubble = document.getElementById('chat-bubble');
-            const chatWindow = document.getElementById('chat-window');
-            const closeChatBtn = document.getElementById('close-chat');
-            const chatForm = document.getElementById('chat-form');
-            const chatInput = document.getElementById('chat-input');
-            const chatMessages = document.getElementById('chat-messages');
+        let currentQuestionIndex = 0;
+        let userAnswers = [];
+        let quizData = [];
+        let timerInterval;
 
-            // Mảng để lưu lịch sử cuộc trò chuyện
-            let chatHistory = []; 
+        function startQuiz() {
+            document.getElementById('start-container').classList.add('hidden');
+            document.getElementById('quiz-container').classList.remove('hidden');
+            
+            quizData = questions.sort(() => Math.random() - 0.5);
+            userAnswers = new Array(quizData.length).fill(null);
+            displayQuestion();
+            startTimer();
+        }
 
-            // Toggle chat window
-            chatBubble.addEventListener('click', () => {
-                chatWindow.classList.toggle('hidden');
+        function startTimer() {
+            let timeLeft = 15 * 60; // 15 minutes
+            const timerEl = document.getElementById('timer');
+            updateTimerDisplay(timeLeft);
+
+            clearInterval(timerInterval); // Clear any existing timer
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                updateTimerDisplay(timeLeft);
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    showResults();
+                }
+            }, 1000);
+        }
+
+        function updateTimerDisplay(seconds) {
+            const minutes = Math.floor(seconds / 60);
+            const remainingSeconds = seconds % 60;
+            document.getElementById('timer').textContent = 
+                `${String(minutes).padStart(2, '0')}:${String(remainingSeconds).padStart(2, '0')}`;
+        }
+        
+        function updateProgressBar() {
+            const progress = ((currentQuestionIndex + 1) / quizData.length) * 100;
+            document.getElementById('progress-bar').style.width = `${progress}%`;
+        }
+
+        function displayQuestion() {
+            const question = quizData[currentQuestionIndex];
+            if (!question) return;
+
+            updateProgressBar();
+            document.getElementById('question-counter').textContent = `Câu ${currentQuestionIndex + 1} / ${quizData.length}`;
+            document.getElementById('question-text').textContent = question.question;
+            document.getElementById('quiz-subject').textContent = question.subject;
+
+            const optionsContainer = document.getElementById('options-container');
+            optionsContainer.innerHTML = '';
+            
+            const optionLetters = ['A', 'B', 'C', 'D'];
+
+            question.options.forEach((option, index) => {
+                const button = document.createElement('button');
+                button.className = 'option-btn w-full text-left p-4 border-2 border-gray-200 rounded-lg bg-white/50 hover:bg-blue-100 hover:border-blue-300';
+                button.innerHTML = `<span class="font-bold mr-2">${optionLetters[index]}.</span> ${option}`;
+                button.onclick = () => selectAnswer(index);
+
+                if (userAnswers[currentQuestionIndex] === index) {
+                    button.classList.add('selected');
+                }
+                optionsContainer.appendChild(button);
             });
-            closeChatBtn.addEventListener('click', () => {
-                chatWindow.classList.add('hidden');
+
+            updateNavigationButtons();
+        }
+
+        function selectAnswer(index) {
+            userAnswers[currentQuestionIndex] = index;
+            displayQuestion();
+        }
+
+        function updateNavigationButtons() {
+            document.getElementById('prev-btn').disabled = currentQuestionIndex === 0;
+            document.getElementById('prev-btn').classList.toggle('opacity-50', currentQuestionIndex === 0);
+            
+            if (currentQuestionIndex === quizData.length - 1) {
+                document.getElementById('next-btn').classList.add('hidden');
+                document.getElementById('submit-btn').classList.remove('hidden');
+            } else {
+                document.getElementById('next-btn').classList.remove('hidden');
+                document.getElementById('submit-btn').classList.add('hidden');
+            }
+        }
+        
+        function nextQuestion() {
+            if (currentQuestionIndex < quizData.length - 1) {
+                currentQuestionIndex++;
+                displayQuestion();
+            }
+        }
+
+        function prevQuestion() {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                displayQuestion();
+            }
+        }
+
+        function showResults() {
+            clearInterval(timerInterval);
+            
+            document.getElementById('quiz-content').classList.add('hidden');
+            document.getElementById('navigation-container').classList.add('hidden');
+            document.getElementById('results-container').classList.remove('hidden');
+            document.getElementById('quiz-header').textContent = "Kết Quả Trắc Nghiệm";
+            document.getElementById('quiz-subject').textContent = "";
+
+            const summaryContainer = document.getElementById('summary');
+            summaryContainer.innerHTML = '<h3 class="text-xl font-bold mb-3 text-gray-700">Xem lại lựa chọn của bạn:</h3>';
+            quizData.forEach((q, i) => {
+                const resultDiv = document.createElement('div');
+                resultDiv.className = 'p-3 rounded-lg mb-2 bg-slate-100 border border-slate-200';
+                const userAnswerIndex = userAnswers[i];
+
+                let userAnswerText = 'Bạn chưa trả lời.';
+                if (userAnswerIndex !== null) {
+                    userAnswerText = `Lựa chọn của bạn: <strong>${String.fromCharCode(65 + userAnswerIndex)}.</strong> ${q.options[userAnswerIndex]}`;
+                }
+
+                resultDiv.innerHTML = `
+                    <p class="font-semibold text-gray-800 mb-1">Câu ${i + 1}: ${q.question}</p>
+                    <p class="text-blue-700">${userAnswerText}</p>
+                `;
+                summaryContainer.appendChild(resultDiv);
             });
+        }
 
-            // Handle chat submission
-            chatForm.addEventListener('submit', (e) => {
-                e.preventDefault();
-                const userMessage = chatInput.value.trim();
-                if (!userMessage) return;
-
-                appendMessage(userMessage, 'user');
-                chatInput.value = '';
-                
-                // Thêm tin nhắn của người dùng vào lịch sử
-                chatHistory.push({ role: "user", parts: [{ text: userMessage }] });
-
-                getGeminiResponse();
-            });
-
-            function appendMessage(content, type) {
-                const messageDiv = document.createElement('div');
-                messageDiv.className = `chat-message ${type}-message`;
-                
-                if (type === 'ai') {
-                    // Chuyển đổi Markdown sang HTML cho tin nhắn của AI
-                    messageDiv.innerHTML = marked.parse(content);
-                } else {
-                    messageDiv.textContent = content;
-                }
-                
-                chatMessages.appendChild(messageDiv);
-                chatMessages.scrollTop = chatMessages.scrollHeight;
-            }
-
-            function showTypingIndicator() {
-                const typingDiv = document.createElement('div');
-                typingDiv.id = 'typing-indicator';
-                typingDiv.className = 'chat-message ai-message typing-indicator';
-                typingDiv.innerHTML = `<span></span><span></span><span></span>`;
-                chatMessages.appendChild(typingDiv);
-                chatMessages.scrollTop = chatMessages.scrollHeight;
-            }
-
-            function removeTypingIndicator() {
-                const typingDiv = document.getElementById('typing-indicator');
-                if (typingDiv) {
-                    typingDiv.remove();
-                }
-            }
-
-            async function getGeminiResponse() {
-                showTypingIndicator();
-
-                // ==========================================================
-                // == QUAN TRỌNG: HÃY THÊM API KEY CỦA BẠN VÀO ĐÂY ==
-                // ==========================================================
-                const apiKey = "AIzaSyDmHaoxOuqqJH3a_17qaitwK-0LQKyj-tE"; // <--- DÁN API KEY CỦA BẠN VÀO TRONG DẤU NGOẶC KÉP NÀY
-                // ==========================================================
-
-                if (!apiKey) {
-                    removeTypingIndicator();
-                    appendMessage("Lỗi: Vui lòng thêm API key của bạn vào file HTML để sử dụng Trợ lý AI.", 'ai');
-                    // Xóa tin nhắn cuối của user khỏi history để không bị lặp lại
-                    chatHistory.pop(); 
-                    return;
-                }
-                
-                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
-
-                try {
-                    const response = await fetch(apiUrl, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ contents: chatHistory })
-                    });
-                    
-                    if (!response.ok) {
-                        const errorData = await response.json();
-                        throw new Error(errorData.error.message || "Request to Gemini API failed");
-                    }
-
-                    const result = await response.json();
-                    
-                    removeTypingIndicator();
-                    
-                    if (result.candidates && result.candidates.length > 0) {
-                        const aiResponse = result.candidates[0].content.parts[0].text;
-                        appendMessage(aiResponse, 'ai');
-                        // Thêm phản hồi của AI vào lịch sử
-                        chatHistory.push({ role: "model", parts: [{ text: aiResponse }] });
-                    } else {
-                        appendMessage("Xin lỗi, tôi không thể tạo phản hồi lúc này.", 'ai');
-                    }
-
-                } catch (error) {
-                    console.error("Error fetching Gemini response:", error);
-                    removeTypingIndicator();
-                    appendMessage(`Đã có lỗi xảy ra: ${error.message}`, 'ai');
-                }
-            }
-
-            // --- Phần 2: Chức năng Copy cho các khối lệnh tĩnh ---
-            document.querySelectorAll('pre').forEach(pre => {
-                const code = pre.querySelector('code');
-                if (code) {
-                    const copyButton = document.createElement('button');
-                    copyButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-clipboard" viewBox="0 0 16 16"><path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/><path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/></svg>`;
-                    copyButton.className = 'copy-btn';
-                    
-                    copyButton.addEventListener('click', () => {
-                        const textarea = document.createElement('textarea');
-                        textarea.value = code.textContent;
-                        document.body.appendChild(textarea);
-                        textarea.select();
-                        document.execCommand('copy');
-                        document.body.removeChild(textarea);
-
-                        const originalText = copyButton.innerHTML;
-                        copyButton.innerHTML = 'Copied!';
-                        setTimeout(() => { copyButton.innerHTML = originalText; }, 2000);
-                    });
-
-                    pre.appendChild(copyButton);
-                }
-            });
-        });
+        function restartQuiz() {
+            currentQuestionIndex = 0;
+            
+            document.getElementById('results-container').classList.add('hidden');
+            document.getElementById('start-container').classList.remove('hidden');
+            document.getElementById('quiz-header').textContent = "Trắc Nghiệm Pháp Luật";
+        }
     </script>
-
 </body>
 </html>
+
 
