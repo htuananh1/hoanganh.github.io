@@ -1,0 +1,17 @@
+{
+  "manifest_version": 3,
+  "name": "Chess.com ChessHub Assistant",
+  "description": "Highlights recommended moves on Chess.com using ChessHub analysis.",
+  "version": "1.0.0",
+  "host_permissions": [
+    "https://www.chesshub.com/*"
+  ],
+  "content_scripts": [
+    {
+      "matches": ["https://www.chess.com/*"],
+      "js": ["content.js"],
+      "css": ["styles.css"],
+      "run_at": "document_idle"
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+#chesshub-overlay {
+  pointer-events: none;
+}
+
+.chesshub-highlight {
+  position: absolute;
+  border-radius: 4px;
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.chesshub-highlight-from {
+  background: radial-gradient(circle at center, rgba(255, 165, 0, 0.8), rgba(255, 140, 0, 0.2));
+}
+
+.chesshub-highlight-to {
+  background: radial-gradient(circle at center, rgba(30, 144, 255, 0.8), rgba(30, 144, 255, 0.2));
+}
