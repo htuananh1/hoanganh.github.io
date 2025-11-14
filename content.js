@@ -7,6 +7,8 @@ let overlay = null;
 let overlayHost = null;
 let pollTimer = null;
 let pendingFen = null;
+let bestMoveToast = null;
+let toastTimeout = null;
 
 const logger = {
   info: (...args) => console.info('[ChessHub]', ...args),
@@ -15,7 +17,6 @@ const logger = {
 };
 
 function getOverlayHost(boardElement) {
-  // Ưu tiên bọc overlay vào container gần nhất
   const preferred = boardElement.closest?.(
     '.board-layout-board, .board-area, .board-container, .board'
   );
@@ -55,6 +56,7 @@ function ensureOverlay(boardElement) {
 function clearOverlay() {
   if (!overlay) return;
   overlay.replaceChildren();
+  bestMoveToast = null;
 }
 
 function algebraicToIndices(square, orientation) {
@@ -70,6 +72,35 @@ function algebraicToIndices(square, orientation) {
   }
 
   return { x: file, y: 7 - rank };
+}
+
+function showBestMoveToast(boardElement, text) {
+  if (!text) return;
+
+  const layer = ensureOverlay(boardElement);
+
+  if (!bestMoveToast || !bestMoveToast.isConnected || bestMoveToast.parentElement !== layer) {
+    bestMoveToast = document.createElement('div');
+    bestMoveToast.id = 'chesshub-best-move-toast';
+    bestMoveToast.className = 'chesshub-best-move-toast';
+    layer.appendChild(bestMoveToast);
+  }
+
+  bestMoveToast.textContent = `Best move: ${text}`;
+
+  if (toastTimeout) {
+    clearTimeout(toastTimeout);
+    toastTimeout = null;
+  }
+
+  // Tự ẩn sau 4s
+  toastTimeout = setTimeout(() => {
+    if (bestMoveToast && bestMoveToast.isConnected) {
+      bestMoveToast.remove();
+    }
+    bestMoveToast = null;
+    toastTimeout = null;
+  }, 4000);
 }
 
 function highlightMove(boardElement, move) {
@@ -111,6 +142,17 @@ function highlightMove(boardElement, move) {
 
     layer.appendChild(highlight);
   });
+
+  // Tạo text kiểu "e2e4" như ảnh
+  const moveLabel =
+    move.uci ||
+    (move.from && move.to ? `${move.from}${move.to}` : '') ||
+    move.san ||
+    '';
+
+  if (moveLabel) {
+    showBestMoveToast(boardElement, moveLabel);
+  }
 }
 
 function readFen(boardElement) {
@@ -133,7 +175,7 @@ function readFen(boardElement) {
     }
   }
 
-  // Không cố build FEN từ quân cờ nữa – chỉ dùng dữ liệu sẵn có
+  // Không tự build FEN nữa – chỉ dùng dữ liệu sẵn
   return null;
 }
 
@@ -165,7 +207,6 @@ function startPolling(boardElement) {
   }
 
   pollTimer = setInterval(async () => {
-    // Nếu board biến mất (chuyển trang, reload, …) thì dừng
     if (!boardElement.isConnected) {
       stopPolling();
       waitForBoard();
@@ -211,13 +252,22 @@ function stopPolling() {
     overlayHost = null;
   }
 
+  if (bestMoveToast && bestMoveToast.isConnected) {
+    bestMoveToast.remove();
+  }
+  bestMoveToast = null;
+
+  if (toastTimeout) {
+    clearTimeout(toastTimeout);
+    toastTimeout = null;
+  }
+
   lastFen = null;
   lastMoveKey = null;
   pendingFen = null;
 }
 
 function waitForBoard() {
-  // Chỉ tập trung vào board chính của chess.com
   const boardElement = document.querySelector('chess-board');
   if (boardElement) {
     logger.info('Board detected, initializing');
