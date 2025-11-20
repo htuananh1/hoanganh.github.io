@@ -1,4 +1,5 @@
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'
+// Use relative URLs for Vercel deployment (API routes)
+const API_URL = process.env.NEXT_PUBLIC_API_URL || ''
 
 class ApiClient {
   private baseUrl: string
@@ -8,7 +9,8 @@ class ApiClient {
   }
 
   private async request(endpoint: string, options: RequestInit = {}) {
-    const url = `${this.baseUrl}${endpoint}`
+    // Use relative URL for API routes in Next.js
+    const url = this.baseUrl ? `${this.baseUrl}${endpoint}` : endpoint
     const response = await fetch(url, {
       ...options,
       headers: {
