@@ -6,13 +6,13 @@ import { v4 as uuidv4 } from 'uuid'
 // Simple game state (in production, use proper game logic)
 function createGameState() {
   return {
-    players: [],
+    players: [] as string[],
     game_started: false,
     game_over: false,
     current_player: 0,
-    last_play: null,
-    player_hands: {},
-    player_hand_counts: {}
+    last_play: null as any,
+    player_hands: {} as Record<string, any>,
+    player_hand_counts: {} as Record<string, number>
   }
 }
 

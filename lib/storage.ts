@@ -21,7 +21,15 @@ export interface GameSession {
   bet_amount: number
   max_players: number
   status: 'waiting' | 'playing' | 'finished'
-  game_state: any
+  game_state: {
+    players: string[]
+    game_started: boolean
+    game_over: boolean
+    current_player: number
+    last_play: any
+    player_hands: Record<string, any>
+    player_hand_counts: Record<string, number>
+  } | string
   created_at: string
 }
 
