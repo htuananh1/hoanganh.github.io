@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thêm Sản Phẩm Mới - Kênh Người Bán</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="js/main.js" defer></script>
+</head>
+<body class="bg-gray-100 text-gray-800 font-sans flex flex-col min-h-screen">
+
+    <!-- Header Placeholder -->
+    <div id="header-placeholder"></div>
+
+    <div class="flex flex-grow max-w-7xl mx-auto w-full">
+        <!-- Sidebar Navigation -->
+        <aside class="w-64 bg-white shadow-sm border-r border-gray-200 hidden md:block">
+            <div class="p-6 border-b border-gray-200">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 font-bold text-xl">
+                        S
+                    </div>
+                    <div>
+                        <h2 class="font-bold text-gray-900 truncate">Shop Của Tôi</h2>
+                        <span class="text-xs text-gray-500">Kênh Người Bán</span>
+                    </div>
+                </div>
+            </div>
+            <nav class="p-4 space-y-1">
+                <a href="seller-dashboard.html" class="flex items-center px-4 py-3 text-gray-600 hover:bg-gray-50 hover:text-gray-900 rounded-md font-medium transition-colors">
+                    <i class="fas fa-chart-pie w-6"></i> Tổng Quan
+                </a>
+                <a href="#" class="flex items-center px-4 py-3 text-gray-600 hover:bg-gray-50 hover:text-gray-900 rounded-md font-medium transition-colors">
+                    <i class="fas fa-box w-6"></i> Quản Lý Đơn Hàng
+                </a>
+                <a href="#" class="flex items-center px-4 py-3 text-gray-600 hover:bg-gray-50 hover:text-gray-900 rounded-md font-medium transition-colors">
+                    <i class="fas fa-tag w-6"></i> Sản Phẩm Của Tôi
+                </a>
+                <a href="seller-add-product.html" class="flex items-center px-4 py-3 bg-indigo-50 text-indigo-600 rounded-md font-medium transition-colors">
+                    <i class="fas fa-plus-circle w-6"></i> Thêm Sản Phẩm Mới
+                </a>
+                <a href="#" class="flex items-center px-4 py-3 text-gray-600 hover:bg-gray-50 hover:text-gray-900 rounded-md font-medium transition-colors">
+                    <i class="fas fa-wallet w-6"></i> Tài Chính
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 p-8">
+            <div class="mb-8">
+                <h1 class="text-2xl font-bold text-gray-900 mb-2">Thêm 1 Sản Phẩm Mới</h1>
+                <p class="text-gray-600">Điền thông tin chi tiết về sản phẩm của bạn. Đảm bảo cung cấp đầy đủ thông tin để tăng tỉ lệ chuyển đổi.</p>
+            </div>
+
+            <form action="seller-dashboard.html" method="GET" class="space-y-8">
+                <!-- Basic Info -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+                    <div class="px-6 py-4 border-b border-gray-200">
+                        <h3 class="font-bold text-gray-900 text-lg">Thông tin cơ bản</h3>
+                    </div>
+                    <div class="p-6 space-y-6">
+                        <!-- Product Name -->
+                        <div>
+                            <label for="product-name" class="block text-sm font-medium text-gray-700 mb-2">Tên sản phẩm <span class="text-red-500">*</span></label>
+                            <input type="text" id="product-name" name="product-name" required class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500" placeholder="Nhập tên sản phẩm (10-120 ký tự)...">
+                        </div>
+
+                        <!-- Category -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label for="category" class="block text-sm font-medium text-gray-700 mb-2">Danh mục chính <span class="text-red-500">*</span></label>
+                                <select id="category" name="category" required class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500 bg-white">
+                                    <option value="" disabled selected>Chọn danh mục</option>
+                                    <option value="fashion">Thời trang</option>
+                                    <option value="tech">Công nghệ & Điện tử</option>
+                                    <option value="furniture">Nội thất & Nhà cửa</option>
+                                    <option value="beauty">Làm đẹp & Sức khỏe</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label for="brand" class="block text-sm font-medium text-gray-700 mb-2">Thương hiệu</label>
+                                <input type="text" id="brand" name="brand" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500" placeholder="Nhập thương hiệu hoặc No Brand">
+                            </div>
+                        </div>
+
+                        <!-- Description -->
+                        <div>
+                            <label for="description" class="block text-sm font-medium text-gray-700 mb-2">Mô tả sản phẩm <span class="text-red-500">*</span></label>
+                            <div class="border border-gray-300 rounded-md overflow-hidden">
+                                <div class="bg-gray-50 border-b border-gray-300 px-4 py-2 flex space-x-2">
+                                    <button type="button" class="text-gray-600 hover:text-indigo-600 px-2"><i class="fas fa-bold"></i></button>
+                                    <button type="button" class="text-gray-600 hover:text-indigo-600 px-2"><i class="fas fa-italic"></i></button>
+                                    <button type="button" class="text-gray-600 hover:text-indigo-600 px-2"><i class="fas fa-list-ul"></i></button>
+                                    <button type="button" class="text-gray-600 hover:text-indigo-600 px-2"><i class="fas fa-link"></i></button>
+                                </div>
+                                <textarea id="description" name="description" rows="6" required class="w-full p-4 border-0 focus:ring-0 resize-y" placeholder="Nhập mô tả chi tiết về sản phẩm, thành phần, kích thước, công dụng..."></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sales Info -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+                    <div class="px-6 py-4 border-b border-gray-200">
+                        <h3 class="font-bold text-gray-900 text-lg">Thông tin bán hàng</h3>
+                    </div>
+                    <div class="p-6 space-y-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <!-- Price -->
+                            <div>
+                                <label for="price" class="block text-sm font-medium text-gray-700 mb-2">Giá bán (VNĐ) <span class="text-red-500">*</span></label>
+                                <div class="relative">
+                                    <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-500">đ</span>
+                                    <input type="number" id="price" name="price" required min="1000" class="w-full pl-8 pr-4 py-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500" placeholder="0">
+                                </div>
+                            </div>
+                            <!-- Stock -->
+                            <div>
+                                <label for="stock" class="block text-sm font-medium text-gray-700 mb-2">Kho hàng <span class="text-red-500">*</span></label>
+                                <input type="number" id="stock" name="stock" required min="1" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500" placeholder="0">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Images -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+                    <div class="px-6 py-4 border-b border-gray-200">
+                        <h3 class="font-bold text-gray-900 text-lg">Quản lý hình ảnh</h3>
+                        <p class="text-xs text-gray-500 mt-1">Đăng tải tối đa 9 hình ảnh. Ảnh đầu tiên sẽ là ảnh đại diện.</p>
+                    </div>
+                    <div class="p-6">
+                        <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
+                            <!-- Image Upload Box -->
+                            <div class="col-span-1">
+                                <label class="w-full h-32 border-2 border-dashed border-indigo-300 rounded-lg flex flex-col items-center justify-center cursor-pointer hover:bg-indigo-50 hover:border-indigo-500 transition-colors bg-white relative">
+                                    <i class="fas fa-camera text-2xl text-indigo-400 mb-2"></i>
+                                    <span class="text-xs font-medium text-indigo-600 text-center px-2">Thêm ảnh (0/9)</span>
+                                    <input type="file" class="hidden" accept="image/*" multiple>
+                                </label>
+                            </div>
+
+                            <!-- Placeholder for uploaded image -->
+                            <div class="col-span-1 relative group rounded-lg overflow-hidden border border-gray-200 bg-gray-50 h-32 hidden">
+                                <img src="" alt="Preview" class="w-full h-full object-cover">
+                                <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                                    <button type="button" class="text-white hover:text-red-500 p-2"><i class="fas fa-trash-alt"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Submit Buttons -->
+                <div class="flex justify-end space-x-4 pt-4">
+                    <a href="seller-dashboard.html" class="px-6 py-3 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors">
+                        Hủy
+                    </a>
+                    <button type="button" class="px-6 py-3 border border-indigo-200 rounded-md shadow-sm text-sm font-medium text-indigo-700 bg-indigo-50 hover:bg-indigo-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors">
+                        Lưu nháp
+                    </button>
+                    <button type="submit" class="px-8 py-3 border border-transparent rounded-md shadow-md text-sm font-bold text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors">
+                        Lưu & Hiển thị
+                    </button>
+                </div>
+            </form>
+        </main>
+    </div>
+
+    <!-- Footer Placeholder -->
+    <div id="footer-placeholder"></div>
+
+</body>
+</html>

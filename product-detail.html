@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chi Tiết Sản Phẩm - ShopNow</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="js/main.js" defer></script>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans flex flex-col min-h-screen">
+
+    <!-- Header Placeholder -->
+    <div id="header-placeholder"></div>
+
+    <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
+        <!-- Breadcrumb -->
+        <nav class="flex text-sm text-gray-500 mb-8" aria-label="Breadcrumb">
+            <ol class="inline-flex items-center space-x-1 md:space-x-3">
+                <li class="inline-flex items-center">
+                    <a href="index.html" class="hover:text-indigo-600 transition-colors">
+                        <i class="fas fa-home mr-2"></i>Trang chủ
+                    </a>
+                </li>
+                <li>
+                    <div class="flex items-center">
+                        <i class="fas fa-chevron-right text-xs mx-2"></i>
+                        <a href="products.html" class="hover:text-indigo-600 transition-colors font-medium">Sản phẩm</a>
+                    </div>
+                </li>
+                <li>
+                    <div class="flex items-center">
+                        <i class="fas fa-chevron-right text-xs mx-2"></i>
+                        <span class="text-gray-900 font-medium">Đồng hồ thông minh Series 7</span>
+                    </div>
+                </li>
+            </ol>
+        </nav>
+
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+            <div class="md:flex">
+                <!-- Product Images -->
+                <div class="md:w-1/2 p-6 md:p-8">
+                    <div class="relative h-96 rounded-xl overflow-hidden mb-4 bg-gray-100">
+                        <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Đồng hồ thông minh Series 7" class="w-full h-full object-cover" id="main-image">
+                        <span class="absolute top-4 left-4 bg-red-500 text-white text-sm font-bold px-3 py-1 rounded">-20%</span>
+                    </div>
+                    <!-- Thumbnails -->
+                    <div class="flex space-x-4">
+                        <button class="w-20 h-20 rounded-lg overflow-hidden border-2 border-indigo-600 focus:outline-none">
+                            <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" alt="Thumbnail 1" class="w-full h-full object-cover">
+                        </button>
+                        <button class="w-20 h-20 rounded-lg overflow-hidden border border-gray-200 hover:border-indigo-400 focus:outline-none">
+                            <img src="https://images.unsplash.com/photo-1579586337278-3befd40fd17a?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" alt="Thumbnail 2" class="w-full h-full object-cover">
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Product Details -->
+                <div class="md:w-1/2 p-6 md:p-8 md:pl-0 flex flex-col justify-center">
+                    <div class="text-sm text-indigo-600 font-medium mb-2 uppercase tracking-wide">Công Nghệ</div>
+                    <h1 class="text-3xl font-extrabold text-gray-900 mb-2">Đồng hồ thông minh Series 7</h1>
+
+                    <!-- Rating -->
+                    <div class="flex items-center mb-6">
+                        <div class="flex text-yellow-400 text-sm">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                        </div>
+                        <span class="text-sm text-gray-500 ml-2">(124 đánh giá)</span>
+                    </div>
+
+                    <!-- Price -->
+                    <div class="mb-6 flex items-baseline">
+                        <span class="text-3xl font-bold text-indigo-600">4.990.000đ</span>
+                        <span class="text-lg text-gray-400 line-through ml-3">6.290.000đ</span>
+                    </div>
+
+                    <p class="text-gray-600 mb-8 leading-relaxed">
+                        Thiết kế sang trọng, màn hình sắc nét, tích hợp đầy đủ các tính năng theo dõi sức khỏe và thể thao. Pin dung lượng cao cho phép sử dụng lên đến 7 ngày. Chống nước tiêu chuẩn 5ATM.
+                    </p>
+
+                    <!-- Color Selection -->
+                    <div class="mb-6">
+                        <h3 class="text-sm font-medium text-gray-900 mb-3">Màu sắc</h3>
+                        <div class="flex space-x-3">
+                            <button class="w-8 h-8 rounded-full bg-black border-2 border-white ring-2 ring-gray-300 hover:ring-indigo-500 focus:ring-indigo-600 focus:outline-none" title="Đen"></button>
+                            <button class="w-8 h-8 rounded-full bg-gray-300 border-2 border-white ring-2 ring-gray-300 hover:ring-indigo-500 focus:ring-indigo-600 focus:outline-none" title="Bạc"></button>
+                            <button class="w-8 h-8 rounded-full bg-blue-900 border-2 border-white ring-2 ring-gray-300 hover:ring-indigo-500 focus:ring-indigo-600 focus:outline-none" title="Xanh dương"></button>
+                        </div>
+                    </div>
+
+                    <!-- Actions -->
+                    <div class="flex items-center space-x-4 mb-8">
+                        <!-- Quantity -->
+                        <div class="flex items-center border border-gray-300 rounded-md">
+                            <button class="px-3 py-2 text-gray-600 hover:bg-gray-100 hover:text-indigo-600 transition-colors rounded-l-md focus:outline-none">
+                                <i class="fas fa-minus text-xs"></i>
+                            </button>
+                            <input type="number" value="1" min="1" class="w-12 text-center text-gray-900 font-medium py-2 border-0 focus:ring-0" readonly>
+                            <button class="px-3 py-2 text-gray-600 hover:bg-gray-100 hover:text-indigo-600 transition-colors rounded-r-md focus:outline-none">
+                                <i class="fas fa-plus text-xs"></i>
+                            </button>
+                        </div>
+
+                        <!-- Add to Cart -->
+                        <button onclick="addToCart()" class="flex-1 bg-indigo-600 text-white font-bold py-3 px-6 rounded-md hover:bg-indigo-700 transition-colors flex items-center justify-center shadow-md">
+                            <i class="fas fa-shopping-cart mr-2"></i> Thêm Vào Giỏ
+                        </button>
+
+                        <!-- Wishlist -->
+                        <button class="w-12 h-12 flex items-center justify-center rounded-md border border-gray-300 text-gray-600 hover:text-red-500 hover:border-red-500 transition-colors focus:outline-none">
+                            <i class="far fa-heart text-xl"></i>
+                        </button>
+                    </div>
+
+                    <!-- Meta Information -->
+                    <div class="border-t border-gray-100 pt-6 space-y-2 text-sm">
+                        <div class="flex">
+                            <span class="text-gray-500 w-24">Giao hàng:</span>
+                            <span class="text-gray-900 font-medium">Miễn phí vận chuyển toàn quốc</span>
+                        </div>
+                        <div class="flex">
+                            <span class="text-gray-500 w-24">Đổi trả:</span>
+                            <span class="text-gray-900 font-medium">7 ngày đổi trả miễn phí</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer Placeholder -->
+    <div id="footer-placeholder"></div>
+
+</body>
+</html>

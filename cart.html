@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Giỏ Hàng - ShopNow</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="js/main.js" defer></script>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans flex flex-col min-h-screen">
+
+    <!-- Header Placeholder -->
+    <div id="header-placeholder"></div>
+
+    <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full">
+        <h1 class="text-3xl font-extrabold text-gray-900 mb-8 border-b pb-4">Giỏ Hàng Của Bạn</h1>
+
+        <div class="flex flex-col lg:flex-row gap-8">
+            <!-- Cart Items -->
+            <div class="lg:w-2/3 bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+                <!-- Header -->
+                <div class="hidden md:grid grid-cols-12 gap-4 pb-4 border-b border-gray-200 text-sm font-semibold text-gray-500 uppercase">
+                    <div class="col-span-6">Sản phẩm</div>
+                    <div class="col-span-2 text-center">Giá</div>
+                    <div class="col-span-2 text-center">Số lượng</div>
+                    <div class="col-span-2 text-right">Tổng</div>
+                </div>
+
+                <!-- Item 1 -->
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-4 items-center py-6 border-b border-gray-100 last:border-0 relative">
+                    <button class="absolute top-6 right-0 md:static text-gray-400 hover:text-red-500 transition-colors" title="Xóa">
+                        <i class="fas fa-trash-alt"></i>
+                    </button>
+                    <!-- Product Info -->
+                    <div class="col-span-12 md:col-span-5 flex items-center space-x-4">
+                        <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?ixlib=rb-4.0.3&w=100&q=80" alt="Đồng hồ thông minh" class="w-20 h-20 object-cover rounded-md bg-gray-100">
+                        <div>
+                            <a href="product-detail.html" class="font-bold text-gray-900 hover:text-indigo-600 truncate block">Đồng hồ thông minh Series 7</a>
+                            <span class="text-sm text-gray-500">Màu: Đen</span>
+                        </div>
+                    </div>
+                    <!-- Price -->
+                    <div class="col-span-12 md:col-span-2 text-center font-medium text-gray-700 hidden md:block">
+                        4.990.000đ
+                    </div>
+                    <!-- Quantity -->
+                    <div class="col-span-6 md:col-span-2 flex justify-center mt-4 md:mt-0">
+                        <div class="flex items-center border border-gray-300 rounded-md overflow-hidden">
+                            <button class="px-2 py-1 bg-gray-50 text-gray-600 hover:bg-gray-100 transition-colors focus:outline-none">
+                                <i class="fas fa-minus text-xs"></i>
+                            </button>
+                            <input type="number" value="1" min="1" class="w-10 text-center text-gray-900 font-medium py-1 border-0 focus:ring-0 text-sm" readonly>
+                            <button class="px-2 py-1 bg-gray-50 text-gray-600 hover:bg-gray-100 transition-colors focus:outline-none">
+                                <i class="fas fa-plus text-xs"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <!-- Total -->
+                    <div class="col-span-6 md:col-span-2 text-right font-bold text-indigo-600 mt-4 md:mt-0">
+                        4.990.000đ
+                    </div>
+                </div>
+
+                <!-- Item 2 -->
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-4 items-center py-6 border-b border-gray-100 last:border-0 relative">
+                    <button class="absolute top-6 right-0 md:static text-gray-400 hover:text-red-500 transition-colors" title="Xóa">
+                        <i class="fas fa-trash-alt"></i>
+                    </button>
+                    <!-- Product Info -->
+                    <div class="col-span-12 md:col-span-5 flex items-center space-x-4">
+                        <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?ixlib=rb-4.0.3&w=100&q=80" alt="Tai nghe" class="w-20 h-20 object-cover rounded-md bg-gray-100">
+                        <div>
+                            <a href="#" class="font-bold text-gray-900 hover:text-indigo-600 truncate block">Tai nghe chống ồn Pro</a>
+                            <span class="text-sm text-gray-500">Màu: Trắng</span>
+                        </div>
+                    </div>
+                    <!-- Price -->
+                    <div class="col-span-12 md:col-span-2 text-center font-medium text-gray-700 hidden md:block">
+                        2.890.000đ
+                    </div>
+                    <!-- Quantity -->
+                    <div class="col-span-6 md:col-span-2 flex justify-center mt-4 md:mt-0">
+                        <div class="flex items-center border border-gray-300 rounded-md overflow-hidden">
+                            <button class="px-2 py-1 bg-gray-50 text-gray-600 hover:bg-gray-100 transition-colors focus:outline-none">
+                                <i class="fas fa-minus text-xs"></i>
+                            </button>
+                            <input type="number" value="2" min="1" class="w-10 text-center text-gray-900 font-medium py-1 border-0 focus:ring-0 text-sm" readonly>
+                            <button class="px-2 py-1 bg-gray-50 text-gray-600 hover:bg-gray-100 transition-colors focus:outline-none">
+                                <i class="fas fa-plus text-xs"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <!-- Total -->
+                    <div class="col-span-6 md:col-span-2 text-right font-bold text-indigo-600 mt-4 md:mt-0">
+                        5.780.000đ
+                    </div>
+                </div>
+
+                <div class="mt-6 flex justify-between items-center pt-6 border-t border-gray-100">
+                    <a href="products.html" class="text-indigo-600 hover:text-indigo-800 font-medium flex items-center transition-colors">
+                        <i class="fas fa-arrow-left mr-2 text-sm"></i> Tiếp tục mua sắm
+                    </a>
+                    <button class="text-sm font-medium text-gray-500 hover:text-red-500 transition-colors">
+                        Xóa toàn bộ
+                    </button>
+                </div>
+            </div>
+
+            <!-- Order Summary -->
+            <div class="lg:w-1/3">
+                <div class="bg-gray-100 p-6 rounded-xl border border-gray-200">
+                    <h3 class="text-lg font-bold text-gray-900 mb-6">Tóm Tắt Đơn Hàng</h3>
+
+                    <div class="space-y-4 text-sm mb-6 pb-6 border-b border-gray-300">
+                        <div class="flex justify-between text-gray-600">
+                            <span>Tạm tính (3 sản phẩm)</span>
+                            <span class="font-medium text-gray-900">10.770.000đ</span>
+                        </div>
+                        <div class="flex justify-between text-gray-600">
+                            <span>Phí vận chuyển</span>
+                            <span class="font-medium text-green-600">Miễn phí</span>
+                        </div>
+                        <div class="flex justify-between text-gray-600">
+                            <span>Mã giảm giá</span>
+                            <span class="font-medium text-red-500">- 500.000đ</span>
+                        </div>
+                    </div>
+
+                    <div class="flex justify-between items-end mb-8">
+                        <span class="text-gray-900 font-bold uppercase">Tổng Cộng</span>
+                        <div class="text-right">
+                            <span class="text-2xl font-extrabold text-indigo-600 block leading-none">10.270.000đ</span>
+                            <span class="text-xs text-gray-500">(Đã bao gồm VAT)</span>
+                        </div>
+                    </div>
+
+                    <!-- Promo Code -->
+                    <div class="mb-6 relative">
+                        <input type="text" placeholder="Nhập mã giảm giá" class="w-full border-gray-300 rounded-md py-2 px-3 focus:ring-indigo-500 focus:border-indigo-500 text-sm bg-white">
+                        <button class="absolute right-0 top-0 h-full px-4 text-indigo-600 font-medium text-sm hover:text-indigo-800 focus:outline-none">Áp dụng</button>
+                    </div>
+
+                    <button class="w-full bg-indigo-600 text-white font-bold py-3 px-4 rounded-md hover:bg-indigo-700 transition-colors shadow-md">
+                        Tiến Hành Thanh Toán
+                    </button>
+
+                    <div class="mt-4 flex justify-center space-x-2 text-gray-400">
+                        <i class="fab fa-cc-visa text-xl"></i>
+                        <i class="fab fa-cc-mastercard text-xl"></i>
+                        <i class="fab fa-cc-paypal text-xl"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer Placeholder -->
+    <div id="footer-placeholder"></div>
+
+</body>
+</html>

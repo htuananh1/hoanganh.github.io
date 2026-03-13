@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng Ký Trở Thành Người Bán - ShopNow</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="js/main.js" defer></script>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans flex flex-col min-h-screen">
+
+    <!-- Header Placeholder -->
+    <div id="header-placeholder"></div>
+
+    <main class="flex-grow flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-[url('https://images.unsplash.com/photo-1441986300917-64674bd600d8?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80')] bg-cover bg-center relative">
+        <!-- Overlay -->
+        <div class="absolute inset-0 bg-indigo-900 bg-opacity-70"></div>
+
+        <div class="max-w-3xl w-full space-y-8 bg-white p-10 rounded-2xl shadow-2xl relative z-10 my-8">
+            <div class="text-center">
+                <h2 class="mt-2 text-3xl font-extrabold text-gray-900 tracking-tight">
+                    Mở Gian Hàng Trên ShopNow
+                </h2>
+                <p class="mt-4 text-lg text-gray-600">
+                    Bắt đầu kinh doanh và tiếp cận hàng triệu khách hàng tiềm năng ngay hôm nay.
+                </p>
+            </div>
+
+            <!-- Features -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 my-8 pt-8 border-t border-gray-100">
+                <div class="text-center p-4">
+                    <div class="w-12 h-12 mx-auto bg-indigo-100 text-indigo-600 rounded-full flex items-center justify-center mb-4">
+                        <i class="fas fa-users text-xl"></i>
+                    </div>
+                    <h3 class="font-bold text-gray-900 mb-2">Lượng khách hàng lớn</h3>
+                    <p class="text-sm text-gray-500">Tiếp cận 10+ triệu khách truy cập mỗi tháng.</p>
+                </div>
+                <div class="text-center p-4">
+                    <div class="w-12 h-12 mx-auto bg-indigo-100 text-indigo-600 rounded-full flex items-center justify-center mb-4">
+                        <i class="fas fa-chart-line text-xl"></i>
+                    </div>
+                    <h3 class="font-bold text-gray-900 mb-2">Tăng doanh thu</h3>
+                    <p class="text-sm text-gray-500">Các công cụ hỗ trợ bán hàng hiệu quả.</p>
+                </div>
+                <div class="text-center p-4">
+                    <div class="w-12 h-12 mx-auto bg-indigo-100 text-indigo-600 rounded-full flex items-center justify-center mb-4">
+                        <i class="fas fa-headset text-xl"></i>
+                    </div>
+                    <h3 class="font-bold text-gray-900 mb-2">Hỗ trợ 24/7</h3>
+                    <p class="text-sm text-gray-500">Đội ngũ chuyên viên luôn sẵn sàng giải đáp.</p>
+                </div>
+            </div>
+
+            <form class="mt-8 space-y-6 border-t border-gray-100 pt-8" action="seller-dashboard.html" method="GET">
+                <div class="rounded-md shadow-sm space-y-4">
+                    <!-- Shop Name -->
+                    <div>
+                        <label for="shop-name" class="block text-sm font-medium text-gray-700">Tên Gian Hàng</label>
+                        <input id="shop-name" name="shop-name" type="text" required class="mt-1 appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="Ví dụ: Shop Thời Trang A">
+                    </div>
+
+                    <!-- Email & Phone -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label for="email-address" class="block text-sm font-medium text-gray-700">Email Kinh Doanh</label>
+                            <input id="email-address" name="email" type="email" autocomplete="email" required class="mt-1 appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="shop@example.com">
+                        </div>
+                        <div>
+                            <label for="phone-number" class="block text-sm font-medium text-gray-700">Số Điện Thoại</label>
+                            <input id="phone-number" name="phone" type="tel" required class="mt-1 appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="09xx xxx xxx">
+                        </div>
+                    </div>
+
+                    <!-- Category -->
+                    <div>
+                        <label for="category" class="block text-sm font-medium text-gray-700">Ngành hàng chính</label>
+                        <select id="category" name="category" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
+                            <option>Thời trang & Phụ kiện</option>
+                            <option>Thiết bị điện tử</option>
+                            <option>Nhà cửa & Đời sống</option>
+                            <option>Mẹ & Bé</option>
+                            <option>Sắc đẹp & Sức khỏe</option>
+                        </select>
+                    </div>
+
+                    <!-- Address -->
+                    <div>
+                        <label for="address" class="block text-sm font-medium text-gray-700">Địa Chỉ Kho Hàng</label>
+                        <textarea id="address" name="address" rows="3" required class="mt-1 appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="Nhập địa chỉ đầy đủ để đơn vị vận chuyển lấy hàng"></textarea>
+                    </div>
+                </div>
+
+                <div class="flex items-center">
+                    <input id="terms" name="terms" type="checkbox" required class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
+                    <label for="terms" class="ml-2 block text-sm text-gray-900">
+                        Tôi đồng ý với <a href="#" class="text-indigo-600 hover:text-indigo-500">Điều khoản & Chính sách</a> của ShopNow dành cho Người Bán.
+                    </label>
+                </div>
+
+                <div>
+                    <button type="submit" class="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-bold rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors shadow-lg">
+                        <span class="absolute left-0 inset-y-0 flex items-center pl-3">
+                            <i class="fas fa-store text-indigo-500 group-hover:text-indigo-400 transition-colors"></i>
+                        </span>
+                        Hoàn Tất Đăng Ký
+                    </button>
+                </div>
+                <div class="text-center text-sm text-gray-500 mt-4">
+                    Đã có gian hàng? <a href="seller-dashboard.html" class="font-medium text-indigo-600 hover:text-indigo-500">Đăng nhập tại đây</a>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <!-- Footer Placeholder -->
+    <div id="footer-placeholder"></div>
+
+</body>
+</html>

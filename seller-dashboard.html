@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản Lý Gian Hàng - Kênh Người Bán</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="js/main.js" defer></script>
+</head>
+<body class="bg-gray-100 text-gray-800 font-sans flex flex-col min-h-screen">
+
+    <!-- Header Placeholder -->
+    <div id="header-placeholder"></div>
+
+    <div class="flex flex-grow max-w-7xl mx-auto w-full">
+        <!-- Sidebar Navigation -->
+        <aside class="w-64 bg-white shadow-sm border-r border-gray-200 hidden md:block">
+            <div class="p-6 border-b border-gray-200">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 font-bold text-xl">
+                        S
+                    </div>
+                    <div>
+                        <h2 class="font-bold text-gray-900 truncate">Shop Của Tôi</h2>
+                        <span class="text-xs text-gray-500">Kênh Người Bán</span>
+                    </div>
+                </div>
+            </div>
+            <nav class="p-4 space-y-1">
+                <a href="seller-dashboard.html" class="flex items-center px-4 py-3 bg-indigo-50 text-indigo-600 rounded-md font-medium transition-colors">
+                    <i class="fas fa-chart-pie w-6"></i> Tổng Quan
+                </a>
+                <a href="#" class="flex items-center px-4 py-3 text-gray-600 hover:bg-gray-50 hover:text-gray-900 rounded-md font-medium transition-colors">
+                    <i class="fas fa-box w-6"></i> Quản Lý Đơn Hàng
+                </a>
+                <a href="seller-add-product.html" class="flex items-center px-4 py-3 text-gray-600 hover:bg-gray-50 hover:text-gray-900 rounded-md font-medium transition-colors">
+                    <i class="fas fa-tag w-6"></i> Sản Phẩm Của Tôi
+                </a>
+                <a href="seller-add-product.html" class="flex items-center px-4 py-3 text-gray-600 hover:bg-gray-50 hover:text-gray-900 rounded-md font-medium transition-colors">
+                    <i class="fas fa-plus-circle w-6"></i> Thêm Sản Phẩm Mới
+                </a>
+                <a href="#" class="flex items-center px-4 py-3 text-gray-600 hover:bg-gray-50 hover:text-gray-900 rounded-md font-medium transition-colors">
+                    <i class="fas fa-wallet w-6"></i> Tài Chính
+                </a>
+                <a href="#" class="flex items-center px-4 py-3 text-gray-600 hover:bg-gray-50 hover:text-gray-900 rounded-md font-medium transition-colors">
+                    <i class="fas fa-cog w-6"></i> Thiết Lập Shop
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 p-8">
+            <div class="flex justify-between items-center mb-8">
+                <h1 class="text-2xl font-bold text-gray-900">Tổng Quan Hôm Nay</h1>
+                <div class="text-sm text-gray-500 bg-white px-4 py-2 rounded-md shadow-sm border border-gray-200">
+                    <i class="far fa-calendar-alt mr-2"></i> Cập nhật lúc: 10:30 AM
+                </div>
+            </div>
+
+            <!-- Stats Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                <!-- Chờ xác nhận -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 flex flex-col items-center justify-center hover:shadow-md transition-shadow cursor-pointer group">
+                    <div class="text-3xl font-bold text-indigo-600 mb-2 group-hover:scale-110 transition-transform">12</div>
+                    <div class="text-sm font-medium text-gray-600 text-center">Đơn Chờ Xác Nhận</div>
+                </div>
+                <!-- Chờ lấy hàng -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 flex flex-col items-center justify-center hover:shadow-md transition-shadow cursor-pointer group">
+                    <div class="text-3xl font-bold text-yellow-500 mb-2 group-hover:scale-110 transition-transform">5</div>
+                    <div class="text-sm font-medium text-gray-600 text-center">Chờ Lấy Hàng</div>
+                </div>
+                <!-- Đã giao -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 flex flex-col items-center justify-center hover:shadow-md transition-shadow cursor-pointer group">
+                    <div class="text-3xl font-bold text-green-500 mb-2 group-hover:scale-110 transition-transform">28</div>
+                    <div class="text-sm font-medium text-gray-600 text-center">Đã Giao Hôm Nay</div>
+                </div>
+                <!-- Doanh thu -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 flex flex-col items-center justify-center hover:shadow-md transition-shadow cursor-pointer group">
+                    <div class="text-2xl font-bold text-gray-900 mb-2 group-hover:scale-110 transition-transform">15.5M đ</div>
+                    <div class="text-sm font-medium text-gray-600 text-center">Doanh Thu Tạm Tính</div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- Recent Orders Table -->
+                <div class="lg:col-span-2 bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+                    <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
+                        <h3 class="font-bold text-gray-900">Đơn Hàng Gần Đây</h3>
+                        <a href="#" class="text-sm text-indigo-600 hover:text-indigo-800 font-medium">Xem tất cả</a>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="bg-gray-50 text-gray-500 text-xs uppercase font-semibold">
+                                    <th class="px-6 py-3 border-b border-gray-200">Mã Đơn</th>
+                                    <th class="px-6 py-3 border-b border-gray-200">Sản Phẩm</th>
+                                    <th class="px-6 py-3 border-b border-gray-200">Tổng Tiền</th>
+                                    <th class="px-6 py-3 border-b border-gray-200">Trạng Thái</th>
+                                    <th class="px-6 py-3 border-b border-gray-200">Thao Tác</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-sm">
+                                <tr class="border-b border-gray-100 hover:bg-gray-50 transition-colors">
+                                    <td class="px-6 py-4 font-medium text-gray-900">#ORD-001</td>
+                                    <td class="px-6 py-4 text-gray-600 truncate max-w-xs">Áo thun trắng cơ bản x2</td>
+                                    <td class="px-6 py-4 font-medium text-gray-900">398.000đ</td>
+                                    <td class="px-6 py-4">
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                                            Chờ xác nhận
+                                        </span>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <button class="text-indigo-600 hover:text-indigo-900 font-medium bg-indigo-50 px-3 py-1 rounded">Chuẩn bị hàng</button>
+                                    </td>
+                                </tr>
+                                <tr class="border-b border-gray-100 hover:bg-gray-50 transition-colors">
+                                    <td class="px-6 py-4 font-medium text-gray-900">#ORD-002</td>
+                                    <td class="px-6 py-4 text-gray-600 truncate max-w-xs">Đồng hồ thông minh Series 7</td>
+                                    <td class="px-6 py-4 font-medium text-gray-900">4.990.000đ</td>
+                                    <td class="px-6 py-4">
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                                            Chờ lấy hàng
+                                        </span>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <button class="text-gray-400 hover:text-gray-600 font-medium">In vận đơn</button>
+                                    </td>
+                                </tr>
+                                <tr class="border-b border-gray-100 hover:bg-gray-50 transition-colors">
+                                    <td class="px-6 py-4 font-medium text-gray-900">#ORD-003</td>
+                                    <td class="px-6 py-4 text-gray-600 truncate max-w-xs">Tai nghe chống ồn Pro</td>
+                                    <td class="px-6 py-4 font-medium text-gray-900">2.890.000đ</td>
+                                    <td class="px-6 py-4">
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                            Đang giao
+                                        </span>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <button class="text-gray-400 hover:text-gray-600 font-medium">Chi tiết</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Notifications/To-do -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+                    <div class="px-6 py-4 border-b border-gray-200">
+                        <h3 class="font-bold text-gray-900">Việc Cần Làm</h3>
+                    </div>
+                    <div class="p-6">
+                        <ul class="space-y-4">
+                            <li class="flex items-start">
+                                <div class="flex-shrink-0 h-8 w-8 rounded-full bg-red-100 flex items-center justify-center">
+                                    <i class="fas fa-exclamation text-red-600 text-xs"></i>
+                                </div>
+                                <div class="ml-3">
+                                    <p class="text-sm font-medium text-gray-900">3 sản phẩm sắp hết hàng</p>
+                                    <p class="text-xs text-gray-500 mt-1">Cập nhật số lượng kho để tiếp tục bán.</p>
+                                    <a href="#" class="text-xs font-medium text-indigo-600 mt-1 inline-block">Cập nhật ngay</a>
+                                </div>
+                            </li>
+                            <li class="flex items-start">
+                                <div class="flex-shrink-0 h-8 w-8 rounded-full bg-blue-100 flex items-center justify-center">
+                                    <i class="fas fa-comment-dots text-blue-600 text-xs"></i>
+                                </div>
+                                <div class="ml-3">
+                                    <p class="text-sm font-medium text-gray-900">5 tin nhắn chưa đọc</p>
+                                    <p class="text-xs text-gray-500 mt-1">Phản hồi khách hàng để duy trì tỉ lệ phản hồi tốt.</p>
+                                    <a href="#" class="text-xs font-medium text-indigo-600 mt-1 inline-block">Xem tin nhắn</a>
+                                </div>
+                            </li>
+                            <li class="flex items-start">
+                                <div class="flex-shrink-0 h-8 w-8 rounded-full bg-green-100 flex items-center justify-center">
+                                    <i class="fas fa-star text-green-600 text-xs"></i>
+                                </div>
+                                <div class="ml-3">
+                                    <p class="text-sm font-medium text-gray-900">2 đánh giá mới</p>
+                                    <p class="text-xs text-gray-500 mt-1">Khách hàng vừa để lại đánh giá cho sản phẩm của bạn.</p>
+                                    <a href="#" class="text-xs font-medium text-indigo-600 mt-1 inline-block">Xem đánh giá</a>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="bg-gray-50 px-6 py-4 border-t border-gray-200">
+                        <a href="seller-add-product.html" class="w-full bg-indigo-600 text-white font-medium py-2 px-4 rounded hover:bg-indigo-700 transition-colors flex items-center justify-center">
+                            <i class="fas fa-plus mr-2"></i> Đăng Sản Phẩm Mới
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Footer Placeholder -->
+    <div id="footer-placeholder"></div>
+
+</body>
+</html>
